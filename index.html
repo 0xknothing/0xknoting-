@@ -1,66 +1,65 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>0xKNOTHING Pre-Sale</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0xKNOTHING</title>
   <style>
-    html, body {
+    body {
       background-color: #0a0a0a;
-      color: #aaa;
-      font-family: monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
+      color: #cccccc;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding: 50px;
+      background-image: url('https://raw.githubusercontent.com/0xknoting/0xknothing/main/knothing_logo.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: top center;
     }
-    h1 { font-size: 2.5em; }
-    .countdown { font-size: 2em; margin: 20px 0; }
-    .message { font-size: 1.2em; opacity: 0.6; }
+    h1 {
+      font-size: 3rem;
+      margin-top: 60vh;
+      text-shadow: 0 0 10px #f00;
+    }
+    #countdown {
+      font-size: 1.5rem;
+      margin: 20px 0;
+    }
+    #randomText {
+      font-size: 1.2rem;
+      font-style: italic;
+      opacity: 0.7;
+    }
   </style>
 </head>
 <body>
-  <h1>PRE-SALE IS NOTHING</h1>
-  <div class="countdown" id="countdown">00:00:00</div>
-  <div class="message" id="message">Loading...</div>
-
-  <script>
-    const target = new Date();
-    target.setHours(target.getHours() + 2); // นับถอยหลัง 2 ชม.
-
+  <h1>0xKNOTHING</h1>
+  <div id="countdown"></div>
+  <div id="randomText"></div>  <script>
     function updateCountdown() {
-      const now = new Date();
-      const diff = target - now;
-      if (diff <= 0) {
-        document.getElementById("countdown").textContent = "00:00:00";
-        return;
-      }
-      const hrs = String(Math.floor(diff / 3600000)).padStart(2, '0');
-      const mins = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-      const secs = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-      document.getElementById("countdown").textContent = `${hrs}:${mins}:${secs}`;
+      const now = new Date().getTime();
+      const future = now + 1000 * 60 * 60; // 1 hour from now
+      const distance = future - now;
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById("countdown").innerHTML = `⏳ Countdown to... absolutely KNOTHING: ${minutes}m ${seconds}s`;
     }
-
-    const messages = [
-      "Nothing is coming...",
-      "Still nothing.",
-      "Hold tight. Or don’t.",
-      "There’s no utility here.",
-      "You found the void.",
-      "Nothing matters. But you’re here.",
-      "This could be big. Or not."
-    ];
-
-    function updateMessage() {
-      const rand = Math.floor(Math.random() * messages.length);
-      document.getElementById("message").textContent = messages[rand];
-    }
-
-    updateCountdown();
-    updateMessage();
     setInterval(updateCountdown, 1000);
-    setInterval(updateMessage, 60000); // เปลี่ยนข้อความทุก 1 นาที
-  </script>
-</body>
+    updateCountdown();
+
+    const phrases = [
+      "It’s not a meme. It’s not a rug. It’s not a thing.",
+      "We didn’t even spell it right.",
+      "You’re not early. You’re not late. You’re lost.",
+      "This is performance art, not crypto.",
+      "Nothing to see. Nothing to hold.",
+      "Why are you still here?",
+      "0xKNOTHING: The anti-idea."
+    ];
+    function showRandomPhrase() {
+      const random = phrases[Math.floor(Math.random() * phrases.length)];
+      document.getElementById("randomText").innerText = random;
+    }
+    setInterval(showRandomPhrase, 10000);
+    showRandomPhrase();
+  </script></body>
 </html>
