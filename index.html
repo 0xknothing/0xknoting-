@@ -350,6 +350,111 @@
       100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
     }
 
+    .chart-section {
+      margin: 50px 0;
+      padding: 30px;
+      background: rgba(17, 17, 17, 0.9);
+      border-radius: 15px;
+      border: 1px solid #333;
+    }
+
+    .chart-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid #444;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .chart-title {
+      color: #e63946;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .chart-price {
+      text-align: right;
+    }
+
+    #chartPrice {
+      color: #00ff88;
+      font-size: 1.4rem;
+      font-weight: bold;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .price-change {
+      color: #00ff88;
+      font-size: 0.9rem;
+      margin-left: 10px;
+      background: rgba(0, 255, 136, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .chart-canvas {
+      position: relative;
+      margin: 20px 0;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background: linear-gradient(135deg, #0a0a0a, #111);
+    }
+
+    #priceChart {
+      width: 100%;
+      height: 300px;
+      display: block;
+    }
+
+    .chart-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .timeframe-btn {
+      padding: 8px 16px;
+      background: rgba(34, 34, 34, 0.8);
+      border: 1px solid #555;
+      color: #888;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .timeframe-btn:hover {
+      background: rgba(51, 51, 51, 0.8);
+      border-color: #777;
+      color: #ccc;
+    }
+
+    .timeframe-btn.active {
+      background: rgba(230, 57, 70, 0.2);
+      border-color: #e63946;
+      color: #e63946;
+    }
+
+    .chart-disclaimer {
+      text-align: center;
+      color: #666;
+      font-size: 0.75rem;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
     @media (max-width: 768px) {
       .glitch {
         font-size: 2.5rem;
@@ -362,6 +467,21 @@
       
       .stats-grid {
         grid-template-columns: 1fr;
+      }
+
+      .chart-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+
+      #priceChart {
+        height: 200px;
+      }
+
+      .timeframe-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -404,6 +524,33 @@
         <div class="stat-value">Nobody + You</div>
       </div>
     </div>
+
+    <section class="chart-section">
+      <h2>Price Chart (Totally Real & Not Fake)</h2>
+      <div class="chart-container">
+        <div class="chart-header">
+          <div class="chart-title">$KNOT/USDT</div>
+          <div class="chart-price">
+            <span id="chartPrice">$0.00000000</span>
+            <span class="price-change" id="priceChange">+♾️%</span>
+          </div>
+        </div>
+        <div class="chart-canvas">
+          <canvas id="priceChart" width="600" height="300"></canvas>
+        </div>
+        <div class="chart-controls">
+          <button class="timeframe-btn active" data-timeframe="1m">1M</button>
+          <button class="timeframe-btn" data-timeframe="5m">5M</button>
+          <button class="timeframe-btn" data-timeframe="15m">15M</button>
+          <button class="timeframe-btn" data-timeframe="1h">1H</button>
+          <button class="timeframe-btn" data-timeframe="4h">4H</button>
+          <button class="timeframe-btn" data-timeframe="1d">1D</button>
+        </div>
+        <div class="chart-disclaimer">
+          * Chart shows the price of our hopes and dreams, not actual trading data
+        </div>
+      </div>
+    </section>
 
     <section class="message-box">
       <h2>Infinite Thoughts of Nothing</h2>
@@ -554,6 +701,156 @@
         "Not your keys, not your coins, not our problem.",
         "Web3 innovation: Making nothing from nothing."
       ];
+
+      // Price Chart Implementation
+      function initPriceChart() {
+        const canvas = document.getElementById('priceChart');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 300;
+        
+        let priceData = [];
+        let animationFrame = 0;
+        
+        // Generate fake bullish price data
+        function generatePriceData(points = 50) {
+          const data = [];
+          let price = 0.00000001; // Starting price
+          
+          for (let i = 0; i < points; i++) {
+            // Create mostly bullish movement with occasional dips
+            const volatility = Math.random() * 0.3; // 30% volatility
+            const trend = Math.random() > 0.25 ? 1.1 : 0.9; // 75% chance bullish
+            
+            price = price * trend * (1 + volatility);
+            data.push({
+              x: (canvas.width / (points - 1)) * i,
+              y: canvas.height - ((price / 0.000001) * (canvas.height - 50)) - 50
+            });
+          }
+          return data;
+        }
+        
+        priceData = generatePriceData();
+        
+        function drawChart() {
+          // Clear canvas
+          ctx.fillStyle = 'rgba(10, 10, 10, 0.1)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          // Draw grid
+          ctx.strokeStyle = 'rgba(68, 68, 68, 0.3)';
+          ctx.lineWidth = 1;
+          
+          // Vertical grid lines
+          for (let i = 0; i < 10; i++) {
+            const x = (canvas.width / 10) * i;
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+          }
+          
+          // Horizontal grid lines
+          for (let i = 0; i < 6; i++) {
+            const y = (canvas.height / 6) * i;
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+          }
+          
+          // Draw price line
+          if (priceData.length > 1) {
+            // Create gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, 'rgba(0, 255, 136, 0.8)');
+            gradient.addColorStop(1, 'rgba(0, 255, 136, 0.1)');
+            
+            // Fill area under curve
+            ctx.beginPath();
+            ctx.moveTo(priceData[0].x, canvas.height);
+            priceData.forEach((point, index) => {
+              if (index === 0) {
+                ctx.lineTo(point.x, point.y);
+              } else {
+                ctx.lineTo(point.x, point.y);
+              }
+            });
+            ctx.lineTo(priceData[priceData.length - 1].x, canvas.height);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Draw price line
+            ctx.beginPath();
+            ctx.moveTo(priceData[0].x, priceData[0].y);
+            priceData.forEach((point, index) => {
+              if (index > 0) {
+                ctx.lineTo(point.x, point.y);
+              }
+            });
+            ctx.strokeStyle = '#00ff88';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Add glow effect
+            ctx.shadowColor = '#00ff88';
+            ctx.shadowBlur = 10;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+          }
+          
+          // Animate by slightly updating prices
+          if (animationFrame % 60 === 0) { // Update every 60 frames
+            // Shift data left and add new point
+            priceData.shift();
+            const lastPrice = priceData[priceData.length - 1];
+            const newPrice = Math.max(0, lastPrice.y + (Math.random() - 0.3) * 20);
+            
+            priceData.push({
+              x: canvas.width,
+              y: Math.min(canvas.height - 50, Math.max(50, newPrice))
+            });
+            
+            // Recalculate x positions
+            priceData.forEach((point, index) => {
+              point.x = (canvas.width / (priceData.length - 1)) * index;
+            });
+            
+            // Update price display
+            const currentPrice = (0.000001 * (canvas.height - lastPrice.y - 50) / (canvas.height - 100));
+            document.getElementById('chartPrice').textContent = 
+              '$' + currentPrice.toFixed(8);
+          }
+          
+          animationFrame++;
+          requestAnimationFrame(drawChart);
+        }
+        
+        drawChart();
+      }
+      
+      // Initialize chart after DOM is loaded
+      setTimeout(initPriceChart, 1000);
+      
+      // Timeframe button functionality
+      document.querySelectorAll('.timeframe-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.timeframe-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Regenerate chart data based on timeframe
+          setTimeout(() => {
+            const canvas = document.getElementById('priceChart');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            initPriceChart();
+          }, 100);
+        });
+      });
 
       function appendRandomMessage() {
         const container = document.getElementById("messageScroll");
