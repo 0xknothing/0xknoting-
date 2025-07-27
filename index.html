@@ -4,33 +4,120 @@
   <meta charset="UTF-8" />
   <title>0xKNOTHING</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- โหลดฟอนต์ดิจิทัล -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      background-color: #000;
+      color: #ccc;
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .glitch {
+      font-size: 3rem;
+      color: #e63946;
+    }
+
+    .subtitle {
+      color: #888;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    .cta button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: none;
+      border: 1px dashed #555;
+      color: #888;
+      font-size: 1rem;
+      cursor: not-allowed;
+    }
+
+    #countdownDisplay {
+      font-family: 'Orbitron', monospace;
+      font-size: 4rem;
+      letter-spacing: 4px;
+      color: #999;
+      margin: 20px 0;
+    }
+
+    .scroll-box {
+      width: 100%;
+      max-width: 600px;
+      height: 140px;
+      margin: 0 auto;
+      background-color: #111;
+      border: 1px dashed #444;
+      overflow-y: auto;
+      font-size: 0.9rem;
+      line-height: 1.4rem;
+      color: #aaa;
+      text-align: left;
+      padding: 10px;
+    }
+
+    .message-line {
+      margin-bottom: 6px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .token-table {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      background: #111;
+      margin-top: 10px;
+    }
+
+    .roadmap ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .roadmap li {
+      margin: 8px 0;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <!-- HERO -->
     <h1 class="glitch">0xKNOTHING</h1>
     <p class="subtitle">You are early for nothing.</p>
 
-    <!-- COUNTDOWN -->
     <div class="countdown-section">
       <div id="countdownDisplay">23:59:59</div>
     </div>
 
-    <!-- CTA (disabled) -->
     <div class="cta">
       <button disabled>Buy Nothing</button>
     </div>
 
-    <!-- MESSAGE FEED -->
     <section class="message-box">
       <h2>Infinite Thoughts of Nothing</h2>
       <div id="messageScroll" class="scroll-box"></div>
     </section>
 
-    <!-- TOKENOMICS -->
     <section class="tokenomics">
       <h2>Tokenomics?</h2>
       <div class="token-table">
@@ -40,7 +127,6 @@
       </div>
     </section>
 
-    <!-- ROADMAP -->
     <section class="roadmap">
       <h2>The Eternal Roadmap</h2>
       <ul>
@@ -50,13 +136,60 @@
       </ul>
     </section>
 
-    <!-- FOOTER -->
     <footer>
       <p>Not a coin. Not a project. Not even trying.</p>
       <p>© 2025 0xKNOTHING — All rights revoked.</p>
     </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Countdown logic
+      let countdownTime = 86400;
+
+      function infiniteCountdown() {
+        let hours = Math.floor(countdownTime / 3600);
+        let minutes = Math.floor((countdownTime % 3600) / 60);
+        let seconds = countdownTime % 60;
+
+        document.getElementById("countdownDisplay").textContent =
+          `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
+
+        countdownTime--;
+        if (countdownTime <= 0) countdownTime = 86400;
+      }
+
+      setInterval(infiniteCountdown, 1000);
+      infiniteCountdown();
+
+      // Message logic
+      const messages = [
+        "There is no plan. There never was.",
+        "You're waiting for something that will never come.",
+        "No utility. No purpose. Just vibes.",
+        "Even this message means nothing.",
+        "Stay unready.",
+        "You came here for meaning? LOL.",
+        "The real value is in the emptiness.",
+        "We KNOT. That's all.",
+        "Imagine a meme. Now delete it. That’s us.",
+        "0xKNOTHING: not even trying.",
+        "This isn’t a launch. It’s a loop.",
+        "Not a rug. Not a moon. Not a thing."
+      ];
+
+      function appendRandomMessage() {
+        const container = document.getElementById("messageScroll");
+        const msg = document.createElement("div");
+        msg.className = "message-line";
+        msg.textContent = messages[Math.floor(Math.random() * messages.length)];
+        container.appendChild(msg);
+        container.scrollTop = container.scrollHeight;
+      }
+
+      setInterval(appendRandomMessage, 3000);
+      appendRandomMessage();
+    });
+  </script>
 </body>
 </html>
