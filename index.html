@@ -1,72 +1,37 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>0xKNOTHING</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #000;
-      color: #aaa;
-      font-family: monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
-    img {
-      max-width: 200px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      color: #f33;
-      font-size: 2rem;
-    }
-    .countdown {
-      font-size: 1.5rem;
-      color: #fff;
-      margin: 10px 0;
-    }
-    .message {
-      font-style: italic;
-      opacity: 0.6;
-      max-width: 300px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <img src="knothing_logo.jpg" alt="KNOTHING logo">
-  <h1>0xKNOTHING</h1>
-  <div class="countdown">Loading...</div>
-  <div class="message">We tied your expectations in a knot.</div>  <script>
-    const messages = [
-      "Minted by mistake.",
-      "Not a meme. Not a rug. Not a mistake. Just... KNOTHING.",
-      "We didn’t ask you to be here.",
-      "No utility. No plan. No point.",
-      "Spelled wrong. Built worse.",
-      "You’re exactly where no one should be.",
-      "This token should not exist."
-    ];
+  <div class="container">
+    <h1 class="glitch" data-text="0xKNOTHING">0xKNOTHING</h1>
+    <p class="tagline">The token that isn’t. Not even spelled right.</p>
 
-    function updateCountdown() {
-      let time = Math.floor(Math.random() * 300) + 30; // 30–330 seconds
-      const countdownEl = document.querySelector('.countdown');
-      const messageEl = document.querySelector('.message');
+    <div class="cta">
+      <button disabled>Maybe Buy</button>
+      <button disabled>Probably X</button>
+      <button disabled>Telegram?</button>
+    </div>
 
-      const interval = setInterval(() => {
-        countdownEl.textContent = `Nothing will happen in ${time} seconds.`;
-        time--;
-        if (time <= 0) {
-          clearInterval(interval);
-          messageEl.textContent = messages[Math.floor(Math.random() * messages.length)];
-          updateCountdown();
-        }
-      }, 1000);
-    }
+    <section class="suum-box">
+      <h2>Infinite Thoughts of Nothing</h2>
+      <div id="suumScroll" class="scroll-box"></div>
+    </section>
 
-    updateCountdown();
-  </script></body>
+    <section class="countdown">
+      <h2>Countdown to... something?</h2>
+      <div id="countdownDisplay">∞</div>
+    </section>
+
+    <footer>
+      <p>© 2025 0xKNOTHING — All rights revoked. Don’t even try.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
