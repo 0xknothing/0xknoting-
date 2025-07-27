@@ -41,3 +41,51 @@ body {
   color: #999;
   margin: 20px 0;
 }
+
+.scroll-box {
+  width: 100%;
+  max-width: 600px;
+  height: 140px;
+  margin: 0 auto;
+  background-color: #111;
+  border: 1px dashed #444;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  color: #aaa;
+  text-align: left;
+  padding: 10px;
+}
+
+.message-line {
+  margin-bottom: 6px;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.token-table {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background: #111;
+  margin-top: 10px;
+}
+
+.roadmap ul {
+  list-style: none;
+  padding: 0;
+}
+
+.roadmap li {
+  margin: 8px 0;
+}
+
+footer {
+  margin-top: 60px;
+  font-size: 0.8rem;
+  color: #555;
+}
