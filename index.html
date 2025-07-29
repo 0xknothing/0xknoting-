@@ -1782,19 +1782,22 @@
                 userAddress = localStorage.getItem('0xknothing_userAddress') || "0x" + [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
                 localStorage.setItem('0xknothing_userAddress', userAddress);
 
-                if (currentEthBalance === -1) {
-                    currentEthBalance = 0.5 + (Math.random() * 0.1 - 0.05); // ~0.5 ETH
-                    currentUsdtBalance = 900 + Math.random() * 200; // ~1000 USDT
-                    currentCardBalance = 900 + Math.random() * 200; // ~1000 CARD
-                }
+                // ==================================================================
+                // ส่วนที่แก้ไข: สุ่มยอด Balance ใหม่ทุกครั้งที่เชื่อมต่อ
+                // ==================================================================
+                // ลบเงื่อนไข if เดิมออกไปเพื่อให้โค้ดส่วนนี้ทำงานทุกครั้งที่ connect
+                currentEthBalance = Math.random() * 2.0 + 0.05;      // สุ่ม ETH ระหว่าง 0.05 - 2.05
+                currentUsdtBalance = Math.random() * 5000 + 100;     // สุ่ม USDT ระหว่าง 100 - 5100
+                currentCardBalance = Math.random() * 10000 + 500;    // สุ่ม CARD ระหว่าง 500 - 10500
+                // ==================================================================
                 
                 approvedCurrencies = getStoredObject('0xknothing_approvedCurrencies', {});
                 txHistory = getStoredObject('0xknothing_txHistory', []);
 
                 updateWalletUI();
-                renderTxHistory(); // NEW
+                renderTxHistory();
                 
-                updateLpActionButton(); // NEW
+                updateLpActionButton();
                 
                 enableLPButtons();
                 if (!isSilent) showToast("Wallet connected to the void.", 'success');
@@ -1804,7 +1807,7 @@
                 
                 appendRandomMessage();
 
-            }, isSilent ? 0 : 2500);
+            }, isSilent ? 0 : 1500); // ลดเวลาเชื่อมต่อลงเล็กน้อย
         }
         
         // NEW: Disconnect Wallet
@@ -1818,7 +1821,6 @@
             localStorage.removeItem('0xknothing_userAddress');
             localStorage.removeItem('0xknothing_approvedCurrencies');
             localStorage.removeItem('0xknothing_txHistory');
-            // We keep balances to simulate user coming back
             
             const connectBtn = document.getElementById('connectWalletBtn');
             connectBtn.style.display = 'inline-block';
@@ -1857,6 +1859,7 @@
             
             document.getElementById("walletInfo").style.display = "block";
             
+            // บันทึกค่าที่สุ่มได้ลง LocalStorage เพื่อให้ดูเหมือนจริงเมื่อรีเฟรชหน้า
             localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
             localStorage.setItem('0xknothing_ethBalance_v2', currentEthBalance);
             localStorage.setItem('0xknothing_usdtBalance_v2', currentUsdtBalance);
@@ -1970,7 +1973,7 @@
                 const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 if (Math.random() < 0.15) { 
                     showToast("Minting failed. The void is not impressed.", 'error');
-                    addTxLog('mint', { name: "Failed Mint Attempt", success: false, txHash });
+                    addTxLog('mint', { name: "Failed Mint Attempt", cost: gasFee, success: false, txHash });
                     setPendingState(false);
                     return;
                 }
