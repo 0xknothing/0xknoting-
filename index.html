@@ -221,6 +221,32 @@
             font-size: 0.95rem;
             color: #aaa;
         }
+        
+        /* NEW: Void Oracle Feed */
+        .oracle-feed {
+            text-align: center;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(17, 17, 17, 0.8);
+            border: 1px solid var(--secondary-color);
+            border-radius: 15px;
+            max-width: 700px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+        .oracle-feed h3 {
+            color: var(--secondary-color);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .oracle-feed #oracleMessage {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--light-text);
+            font-style: italic;
+            min-height: 30px; /* Prevent layout shift */
+        }
+
 
         /* New Buy/Sell Interface (inspired by LILPEPE) */
         .buy-sell-container {
@@ -378,7 +404,7 @@
             font-weight: bold;
         }
 
-        .lp-connect-button {
+        .lp-action-button {
             width: 100%;
             background: linear-gradient(135deg, var(--primary-color), #ff6b7a);
             border: none;
@@ -393,17 +419,13 @@
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
             margin-bottom: 20px;
         }
-        .lp-connect-button:hover:not(:disabled) {
+        .lp-action-button:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
         }
-        .lp-connect-button.connected {
-            background: linear-gradient(135deg, #007bff, #0056b3); /* Blue for connected state */
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-        }
-        .lp-connect-button.connected:hover:not(:disabled) {
-            transform: none;
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        .lp-action-button.approve-btn {
+            background: linear-gradient(135deg, var(--secondary-color), #6a9ec1);
+            box-shadow: 0 4px 15px rgba(69, 123, 157, 0.3);
         }
 
 
@@ -511,6 +533,66 @@
             position: relative;
             z-index: 1;
         }
+        
+        /* NEW: Transaction History Section */
+        .tx-history-section {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid var(--secondary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 800px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+        .tx-history-section h3 {
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            color: var(--secondary-color);
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+        .tx-log {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+            border: 1px dashed #444;
+            border-radius: 10px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+        }
+        .tx-log::-webkit-scrollbar { width: 8px; }
+        .tx-log::-webkit-scrollbar-track { background: #333; border-radius: 10px; }
+        .tx-log::-webkit-scrollbar-thumb { background: var(--secondary-color); border-radius: 10px; }
+        .tx-log-entry {
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .tx-log-entry .details { color: #ccc; }
+        .tx-log-entry .details .tx-type-buy { color: var(--accent-green); }
+        .tx-log-entry .details .tx-type-burn { color: var(--primary-color); }
+        .tx-log-entry .details .tx-type-mint { color: #ffc107; }
+        .tx-log-entry .explorer-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: 1px solid var(--secondary-color);
+            padding: 3px 8px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+        }
+        .tx-log-entry .explorer-link:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
 
         /* Stats Section */
         .stats-section {
@@ -1031,6 +1113,29 @@
         .trophy-card p { font-size: 0.8rem; color: #aaa; margin: 0; }
         .progress-bar { width: 100%; background: #555; height: 5px; border-radius: 5px; margin-top: 5px; }
         .progress-fill { background: #ffc107; height: 100%; border-radius: 5px; }
+        
+        /* NEW: 0xKNOTHINGSCAN Popup */
+        #explorerPopup .popup-content {
+            max-width: 600px;
+            text-align: left;
+        }
+        #explorerPopup h3 {
+            text-align: center;
+            color: var(--secondary-color);
+        }
+        .explorer-details p {
+            background: #111;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        .explorer-details p strong {
+            color: var(--accent-green);
+            min-width: 80px;
+            display: inline-block;
+        }
+
 
         @media (max-width: 768px) {
             header h1 {
@@ -1058,7 +1163,7 @@
             .lp-input-row input, .lp-input-row .currency-select, .lp-input-row .max-btn, .lp-input-row .token-display {
                 font-size: 0.9rem;
             }
-            .lp-connect-button {
+            .lp-action-button {
                 font-size: 1rem;
                 padding: 12px 20px;
             }
@@ -1069,6 +1174,7 @@
             .lp-footer-buttons button {
                 font-size: 0.85rem;
             }
+            .price-chart-header { flex-direction: column; gap: 10px; }
             .price-chart-header h3 {
                 font-size: 1.4rem;
             }
@@ -1116,6 +1222,11 @@
                 top: 10px;
                 width: calc(100% - 20px);
             }
+            .tx-log-entry {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1132,7 +1243,7 @@
     <div class="container">
         <section class="web3-section">
             <button id="connectWalletBtn" class="web3-btn" onclick="connectWallet()">CONNECT WALLET</button>
-            <!-- FIXED: Changed balance display structure -->
+            <button id="disconnectWalletBtn" class="web3-btn" onclick="disconnectWallet()" style="display: none; background-color: #555;">DISCONNECT</button>
             <div id="walletInfo" class="web3-status" style="display: none;">
                 Wallet: <span id="walletAddress">Not Connected</span><br>
                 Balance: <span id="ethBalanceDisplay">0.0000 ETH</span><br>
@@ -1147,6 +1258,11 @@
             <h3>Time Until Meaningless Reset</h3>
             <div class="countdown-timer" id="countdownDisplay">00:00:00</div>
             <p>Every day, the void reshapes itself. Don't expect anything different.</p>
+        </section>
+        
+        <section class="oracle-feed">
+            <h3>Void Oracle Says:</h3>
+            <div id="oracleMessage">"Tomorrow’s gains are today’s lies."</div>
         </section>
 
         <section class="buy-sell-container">
@@ -1191,7 +1307,7 @@
                 </div>
             </div>
 
-            <button class="lp-connect-button" id="lpConnectWalletBtn" onclick="connectWallet()">CONNECT WALLET</button>
+            <button class="lp-action-button" id="lpActionBtn" onclick="handleLpAction()">CONNECT WALLET</button>
 
             <div class="lp-footer-buttons">
                 <button id="howToBuyBtn">HOW TO BUY NOTHING</button>
@@ -1208,8 +1324,8 @@
                     You'll need some ETH (or USDT/CARD if supported by the exchange). You can get ETH from exchanges like Binance, Coinbase, or any other platform that deals in actual value. Transfer it to your MetaMask wallet.</li>
                 <li><strong>Step 3: Connect to the Abyss (Our DApp)</strong><br>
                     On this very page, click the "CONNECT WALLET" button. Your MetaMask (or other wallet) will prompt you to connect. Approve the connection. Now your wallet is ready to participate in our glorious non-economy.</li>
-                <li><strong>Step 4: Swap for Nothingness (The Transaction)</strong><br>
-                    In the "Buy/Sell" section, enter the amount of ETH (or other currency) you wish to exchange. The system will calculate how much 0xKNOTHING (which is infinite, but you'll get a specific number to make it look real) you'll receive. Click the big button (which will say "BUY NOTHING" once connected) to initiate the transaction.</li>
+                <li><strong>Step 4: Approve & Swap for Nothingness (The Transaction)</strong><br>
+                    In the "Buy/Sell" section, select a currency like USDT or CARD. You'll need to click "APPROVE" first. This is a mock transaction that gives our (non-existent) contract permission to use your funds. After approval, the button will change to "BUY NOTHING". Enter the amount you wish to exchange and click it to initiate the transaction.</li>
                 <li><strong>Step 5: Confirm Transaction (And Your Regret)</strong><br>
                     Your wallet will pop up asking you to confirm the transaction and gas fees. Review the details. If you're truly committed to embracing nothingness, confirm the transaction. The tokens will appear in your wallet shortly.</li>
                 <li><strong>Step 6: Add 0xKNOTHING to Your Wallet (If You Must)</strong><br>
@@ -1219,7 +1335,10 @@
             <p style="text-align: center; font-style: italic;">Congratulations! You've successfully acquired nothing. We told you so.</p>
         </section>
         
-        <button id="burnToVoidBtn" title="Burn all your 0xKNOTHING tokens to achieve ultimate nothingness. This action is irreversible." class="web3-btn" style="display: block; margin: 30px auto; background-color: #333; border: 1px solid #555;" disabled>BURN TO VOID</button>
+        <div style="display: flex; justify-content: center; gap: 20px; margin: 30px auto;">
+            <button id="burnToVoidBtn" title="Burn your 0xKNOTHING tokens to achieve ultimate nothingness. This action is irreversible." class="web3-btn" style="background-color: #333; border: 1px solid #555;" disabled>BURN TO VOID</button>
+            <button id="spreadFudBtn" title="Spread Fear, Uncertainty, and Doubt for no reason at all." class="web3-btn" style="background-color: #333; border: 1px solid #555;" onclick="spreadFud()">SPREAD FUD</button>
+        </div>
         
 
         <section class="message-scroll-box" id="messageScroll">
@@ -1239,6 +1358,14 @@
             <p class="chart-notes">
                 * Chart shows the price of our hopes and dreams, not actual trading data.
             </p>
+        </section>
+        
+        <section class="tx-history-section">
+            <h3>Transaction History (for Nothing)</h3>
+            <div class="tx-log" id="txLogContainer">
+                <!-- Dynamically populated by JS -->
+                <p style="text-align:center; color: #777;">Connect wallet to see your history of questionable decisions.</p>
+            </div>
         </section>
 
         <section class="stats-section">
@@ -1335,12 +1462,14 @@
         </div>
     </footer>
 
+    <!-- Main Action Popup -->
     <div id="actionPopup" class="popup-overlay">
         <div class="popup-content" id="popupContent">
             <!-- Content is dynamically generated by JS -->
         </div>
     </div>
     
+    <!-- Trophy Room Popup -->
     <div id="trophyRoomPopup" class="popup-overlay" style="align-items: flex-start; padding-top: 5vh; display: none;">
         <div class="popup-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
             <h3>🏆 Achievement</h3>
@@ -1348,6 +1477,17 @@
             <div id="trophyGrid" class="trophy-grid-container">
                 </div>
             <button class="web3-btn" style="margin-top: 20px;" onclick="hideTrophyRoom()">Close</button>
+        </div>
+    </div>
+    
+    <!-- NEW: Explorer Popup -->
+    <div id="explorerPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h3>0xKNOTHINGSCAN</h3>
+            <div id="explorerDetails" class="explorer-details">
+                <!-- Explorer details populated by JS -->
+            </div>
+            <button class="web3-btn" style="margin-top: 20px;" onclick="hideExplorerPopup()">Close</button>
         </div>
     </div>
 
@@ -1374,7 +1514,32 @@
             'voting_for_nonsense': { name: 'Voting for Nonsense', description: "You voted 'This means NOTHING' on any meme.", points: 4 },
             'hall_of_futility': { name: 'Hall of Futility', description: "You opened the Hall of Nothingness to view your pointless rewards.", points: 5 },
             'void_whisperer': { name: 'Void Whisperer', description: "Scrolled to the bottom of the message scroll box.", points: 3 },
+            'fud_initiator': { name: 'FUD Initiator', description: "You clicked the 'Spread FUD' button. Welcome to the dark side.", points: 10 },
+            'devtools_detective': { name: 'DevTools Detective', description: "You tried to look under the hood. There's nothing here either.", points: 15 }
         };
+        
+        // NEW: Oracle Messages
+        const oracleMessages = [
+            "Tomorrow’s gains are today’s lies.",
+            "Liquidity is imaginary. So is your future.",
+            "FOMO is a feature, not a bug.",
+            "The chart is just a random line we drew.",
+            "We are all exit liquidity in the grand scheme of things.",
+            "Breaking: Price does something. Or maybe nothing.",
+            "The only thing going to the moon is your disappointment.",
+            "Buy the dip. And the dip after that. And the one after that.",
+            "Our roadmap leads directly to your parents' basement."
+        ];
+        
+        // NEW: FUD Messages
+        const fudMessages = [
+            "Rug confirmed. Just vibes.",
+            "Liquidity gone. Marketing never existed.",
+            "Dev sold his bags. Oh wait, there were no bags.",
+            "This is a social experiment to see who clicks buttons.",
+            "I heard the contract is just a 'hello world' script.",
+            "The team is one guy and his cat. The cat is the CEO."
+        ];
 
         // Function to show toast notifications for better user feedback
         function showToast(message, type = 'info', duration = 5000) { // types: info, success, error
@@ -1405,6 +1570,8 @@
         let provider, signer, userAddress;
         let isWalletConnected = false;
         let isTransactionPending = false; 
+        let approvedCurrencies = {}; // NEW: For tracking token approvals
+        let txHistory = []; // NEW: For transaction log
 
         // Helper to get numbers from localStorage safely
         function getStoredNumber(key, defaultValue) {
@@ -1415,7 +1582,16 @@
             return defaultValue;
         }
         
-        // --- FIXED: Independent balance variables ---
+        function getStoredObject(key, defaultValue) {
+            const storedValue = localStorage.getItem(key);
+            try {
+                if (storedValue) return JSON.parse(storedValue);
+            } catch (e) {
+                console.error("Failed to parse stored object:", e);
+            }
+            return defaultValue;
+        }
+        
         let currentKnotBalance = getStoredNumber('0xknothing_knotBalance', 0); 
         let currentEthBalance = getStoredNumber('0xknothing_ethBalance_v2', -1);
         let currentUsdtBalance = getStoredNumber('0xknothing_usdtBalance_v2', -1);
@@ -1437,6 +1613,13 @@
                 if (!playerData || typeof playerData.pof === 'undefined') { 
                     throw new Error("Invalid player data");
                 }
+                // Ensure new achievements exist
+                for (const id in allAchievements) {
+                    if (!playerData.achievements[id]) {
+                         playerData.achievements[id] = { unlocked: false, progress: 0 };
+                    }
+                }
+
             } catch (e) {
                 playerData = {
                     pof: 0, // Points of Futility
@@ -1468,10 +1651,11 @@
         // --- Achievements System: DevTools Check ---
         const devtools = /./;
         devtools.toString = function() {
-            // This is a clever trick; this function is only called when devtools are opened.
-            // We can place achievement logic here.
+            unlockAchievement('devtools_detective');
             return ' ';
         }
+        console.log('%cSTOP!', "color:red; font-size:20px; font-weight: bold;");
+        console.log("You’re staring into the void of the console. You found... nothing, as promised.");
         console.log('%c', devtools);
 
 
@@ -1513,7 +1697,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            userPlayerData = initializePlayerData(); // Load player data
+            userPlayerData = initializePlayerData();
             
             createParticles();
             setInterval(updateRealtimeCountdown, 1000);
@@ -1521,6 +1705,9 @@
 
             for (let i = 0; i < 3; i++) { setTimeout(appendRandomMessage, i * 1000); }
             setInterval(appendRandomMessage, 4000);
+            
+            setInterval(updateOracleFeed, 20000);
+            updateOracleFeed();
 
             setInterval(updateStats, 10000);
             updateStats();
@@ -1532,7 +1719,10 @@
             updateLPInterface();
 
             document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
-            document.getElementById('buyCurrencySelect').addEventListener('change', calculateReceiveAmount);
+            document.getElementById('buyCurrencySelect').addEventListener('change', () => {
+                calculateReceiveAmount();
+                updateLpActionButton(); // NEW: Update button on currency change
+            });
             document.getElementById('maxAmountBtn').addEventListener('click', setMaxBuyAmount);
 
             document.getElementById('howToBuyBtn').addEventListener('click', () => {
@@ -1592,29 +1782,67 @@
                 userAddress = localStorage.getItem('0xknothing_userAddress') || "0x" + [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
                 localStorage.setItem('0xknothing_userAddress', userAddress);
 
-                // FIXED: Set independent initial balances if they don't exist
                 if (currentEthBalance === -1) {
                     currentEthBalance = 0.5 + (Math.random() * 0.1 - 0.05); // ~0.5 ETH
                     currentUsdtBalance = 900 + Math.random() * 200; // ~1000 USDT
                     currentCardBalance = 900 + Math.random() * 200; // ~1000 CARD
                 }
                 
-                updateWalletUI();
-                
-                const lpConnectBtn = document.getElementById('lpConnectWalletBtn');
-                lpConnectBtn.textContent = "BUY NOTHING";
-                lpConnectBtn.disabled = false;
-                lpConnectBtn.classList.add('connected');
-                lpConnectBtn.onclick = () => showPopup('lpBuy');
+                approvedCurrencies = getStoredObject('0xknothing_approvedCurrencies', {});
+                txHistory = getStoredObject('0xknothing_txHistory', []);
 
+                updateWalletUI();
+                renderTxHistory(); // NEW
+                
+                updateLpActionButton(); // NEW
+                
                 enableLPButtons();
                 if (!isSilent) showToast("Wallet connected to the void.", 'success');
                 
-                connectBtn.textContent = 'CONNECTED';
+                connectBtn.style.display = 'none';
+                document.getElementById('disconnectWalletBtn').style.display = 'inline-block';
                 
                 appendRandomMessage();
 
             }, isSilent ? 0 : 2500);
+        }
+        
+        // NEW: Disconnect Wallet
+        function disconnectWallet() {
+            isWalletConnected = false;
+            userAddress = undefined;
+            approvedCurrencies = {};
+            txHistory = [];
+            
+            localStorage.removeItem('0xknothing_isConnected');
+            localStorage.removeItem('0xknothing_userAddress');
+            localStorage.removeItem('0xknothing_approvedCurrencies');
+            localStorage.removeItem('0xknothing_txHistory');
+            // We keep balances to simulate user coming back
+            
+            const connectBtn = document.getElementById('connectWalletBtn');
+            connectBtn.style.display = 'inline-block';
+            connectBtn.disabled = false;
+            connectBtn.textContent = 'CONNECT WALLET';
+            document.getElementById('disconnectWalletBtn').style.display = 'none';
+            
+            document.getElementById('walletInfo').style.display = 'none';
+            
+            const lpActionBtn = document.getElementById('lpActionBtn');
+            lpActionBtn.textContent = 'CONNECT WALLET';
+            lpActionBtn.onclick = connectWallet;
+            lpActionBtn.classList.remove('approve-btn');
+            
+            document.getElementById('buyInputAmount').disabled = true;
+            document.getElementById('buyCurrencySelect').disabled = true;
+            document.getElementById('maxAmountBtn').disabled = true;
+            document.getElementById('receiveTokenAmount').disabled = true;
+            document.getElementById('mintNftBtn').disabled = true;
+            document.getElementById('burnToVoidBtn').disabled = true;
+            
+            document.getElementById('txLogContainer').innerHTML = '<p style="text-align:center; color: #777;">Connect wallet to see your history of questionable decisions.</p>';
+            
+            showToast("Wallet disconnected. The void awaits your return.", 'info');
         }
         
         function updateWalletUI() {
@@ -1622,7 +1850,6 @@
 
             document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
             
-            // FIXED: Update separate balance displays
             document.getElementById("ethBalanceDisplay").textContent = `${currentEthBalance.toFixed(4)} ETH`;
             document.getElementById("usdtBalanceDisplay").textContent = `${currentUsdtBalance.toFixed(2)} USDT`;
             document.getElementById("cardBalanceDisplay").textContent = `${currentCardBalance.toFixed(2)} CARD`;
@@ -1630,7 +1857,6 @@
             
             document.getElementById("walletInfo").style.display = "block";
             
-            // FIXED: Save all balances to localStorage
             localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
             localStorage.setItem('0xknothing_ethBalance_v2', currentEthBalance);
             localStorage.setItem('0xknothing_usdtBalance_v2', currentUsdtBalance);
@@ -1688,7 +1914,6 @@
             const selectedCurrency = document.getElementById('buyCurrencySelect').value;
             let maxAmount = 0;
             
-            // FIXED: Use the correct independent balance for each currency
             switch (selectedCurrency) {
                 case 'ETH': 
                     maxAmount = currentEthBalance > 0.005 ? currentEthBalance - 0.005 : 0; // Leave a bit for gas
@@ -1709,7 +1934,7 @@
             isTransactionPending = isPending;
             const buttons = document.querySelectorAll('button');
             buttons.forEach(btn => {
-                if (btn.id !== 'popupCancelBtn' && !btn.onclick?.toString().includes('hideTrophyRoom')) {
+                if (btn.id !== 'popupCancelBtn' && !btn.onclick?.toString().includes('hideTrophyRoom') && !btn.onclick?.toString().includes('hideExplorerPopup')) {
                     btn.disabled = isPending;
                 }
             });
@@ -1718,8 +1943,8 @@
 
             if (!isPending && isWalletConnected) {
                 enableLPButtons();
-                document.getElementById('lpConnectWalletBtn').disabled = false;
-                document.getElementById('connectWalletBtn').disabled = true;
+                document.getElementById('lpActionBtn').disabled = false;
+                document.getElementById('disconnectWalletBtn').disabled = false;
                 if (currentKnotBalance > 0) document.getElementById('burnToVoidBtn').disabled = false;
             } else if (!isPending && !isWalletConnected) {
                 document.getElementById('connectWalletBtn').disabled = false;
@@ -1742,14 +1967,15 @@
             showToast("Submitting mint transaction to the void...", 'info', 10000);
             
             setTimeout(() => {
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 if (Math.random() < 0.15) { 
                     showToast("Minting failed. The void is not impressed.", 'error');
+                    addTxLog('mint', { name: "Failed Mint Attempt", success: false, txHash });
                     setPendingState(false);
                     return;
                 }
 
                 currentEthBalance -= gasFee;
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 const nftNames = ["Void Fragment", "Eternal Echo", "Quantum Blankness", "Unseen Horizon", "Zero Point Entity", "The Invisible Pixel"];
                 const randomNftName = nftNames[Math.floor(Math.random() * nftNames.length)];
                 document.getElementById('currentNftText').textContent = `Your NFT: "${randomNftName}"`;
@@ -1757,6 +1983,7 @@
                 
                 updateWalletUI();
                 showToast(`✔️ Nothing NFT minted! TX: ${txHash.slice(0, 10)}...`, 'success');
+                addTxLog('mint', { name: `"${randomNftName}"`, cost: gasFee, txHash, success: true });
                 setPendingState(false);
             }, 5000 + Math.random() * 5000);
         }
@@ -1867,7 +2094,6 @@
         function showPopup(actionType) {
             if (isTransactionPending) return;
             
-            // Logic for Popup Addict achievement
             const now = Date.now();
             popupOpenTimestamps.push(now);
             popupOpenTimestamps = popupOpenTimestamps.filter(ts => now - ts < 120000); // Keep last 2 mins
@@ -1887,18 +2113,11 @@
                 if (isNaN(inputAmount) || inputAmount <= 0) { showToast(`Please enter a valid amount to buy.`, 'error'); return; }
                 if (isNaN(receiveKnot) || receiveKnot <= 0) { showToast(`Cannot calculate 0xKNOTHING received. Price might be infinite.`, 'error'); return; }
                 
-                // FIXED: Check against the correct independent balance
                 let hasSufficientBalance = false;
                 switch(currency) {
-                    case 'ETH':
-                        hasSufficientBalance = currentEthBalance >= inputAmount;
-                        break;
-                    case 'USDT':
-                        hasSufficientBalance = currentUsdtBalance >= inputAmount;
-                        break;
-                    case 'CARD':
-                        hasSufficientBalance = currentCardBalance >= inputAmount;
-                        break;
+                    case 'ETH': hasSufficientBalance = currentEthBalance >= inputAmount; break;
+                    case 'USDT': hasSufficientBalance = currentUsdtBalance >= inputAmount; break;
+                    case 'CARD': hasSufficientBalance = currentCardBalance >= inputAmount; break;
                 }
 
                 if (!hasSufficientBalance) { showToast(`Insufficient ${currency} balance to perform this transaction.`, 'error'); return; }
@@ -1951,13 +2170,34 @@
         function hidePopup() { document.getElementById('actionPopup').style.display = 'none'; }
         
         function hideTrophyRoom() { document.getElementById('trophyRoomPopup').style.display = 'none'; }
+        
+        // NEW: Explorer Popup functions
+        function showExplorerPopup(txHash) {
+            const txData = txHistory.find(tx => tx.txHash === txHash);
+            if (!txData) return;
+            
+            const detailsEl = document.getElementById('explorerDetails');
+            const statusHtml = txData.success ? `<span style="color: var(--accent-green);">Success (we think)</span>` : `<span style="color: var(--primary-color);">Failed (as expected)</span>`;
 
-        // NEW: Function to set burn amount from percentage buttons
+            detailsEl.innerHTML = `
+                <p><strong>Status:</strong> ${statusHtml}</p>
+                <p><strong>TX Hash:</strong> ${txData.txHash}</p>
+                <p><strong>Block:</strong> ${txData.block}</p>
+                <p><strong>Timestamp:</strong> ${new Date(txData.timestamp).toLocaleString()}</p>
+                <p><strong>From:</strong> ${userAddress.slice(0, 12)}...</p>
+                <p><strong>To:</strong> ${txData.type === 'burn' ? '0x000...dEaD' : '0xKNOTHING Contract'}</p>
+            `;
+            
+            document.getElementById('explorerPopup').style.display = 'flex';
+        }
+        function hideExplorerPopup() { document.getElementById('explorerPopup').style.display = 'none'; }
+
+
         function setBurnAmount(percentage) {
             const burnInput = document.getElementById('burnAmountInput');
             if (burnInput) {
                 const amount = currentKnotBalance * percentage;
-                burnInput.value = amount.toFixed(0); // No decimals for the token
+                burnInput.value = amount.toFixed(0);
             }
         }
 
@@ -1994,23 +2234,18 @@
             showToast(`Submitting purchase to the void...`, 'info', 10000);
 
             setTimeout(() => {
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 if (Math.random() < 0.1) {
                     showToast("Purchase failed. The void rejected your funds.", 'error');
+                    addTxLog('buy', { currency: currencySpent, amount: amountSpent, received: 0, txHash, success: false });
                     setPendingState(false);
                     return;
                 }
 
-                // FIXED: Deduct from the correct independent balance
                 switch(currencySpent) {
-                    case 'ETH':
-                        currentEthBalance -= amountSpent;
-                        break;
-                    case 'USDT':
-                        currentUsdtBalance -= amountSpent;
-                        break;
-                    case 'CARD':
-                        currentCardBalance -= amountSpent;
-                        break;
+                    case 'ETH': currentEthBalance -= amountSpent; break;
+                    case 'USDT': currentUsdtBalance -= amountSpent; break;
+                    case 'CARD': currentCardBalance -= amountSpent; break;
                 }
 
                 currentKnotBalance += receivedKnot;
@@ -2023,29 +2258,30 @@
 
                 updateWalletUI();
                 updateLPInterface();
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 showToast(`✔️ Successfully bought ${receivedKnot.toLocaleString()} 0xKNOTHING!`, 'success');
+                addTxLog('buy', { currency: currencySpent, amount: amountSpent, received: receivedKnot, txHash, success: true });
 
                 setPendingState(false);
             }, 5000 + Math.random() * 5000);
         }
 
-        // MODIFIED: burnToVoid now accepts an amount
         async function burnToVoid(amountToBurn) {
             setPendingState(true);
             showToast(`Sending your tokens to the void...`, 'info', 10000);
             
             setTimeout(() => {
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 if (Math.random() < 0.1) {
                     showToast("Burn failed. The void refuses your sacrifice.", 'error');
+                    addTxLog('burn', { amount: amountToBurn, txHash, success: false });
                     setPendingState(false);
                     return;
                 }
 
                 currentKnotBalance -= amountToBurn;
                 updateWalletUI();
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 showToast(`✔️ Successfully burned ${amountToBurn.toLocaleString()} 0xKNOTHING!`, 'success');
+                addTxLog('burn', { amount: amountToBurn, txHash, success: true });
                 
                 setPendingState(false);
             }, 5000 + Math.random() * 5000);
@@ -2112,6 +2348,124 @@
                 }
             });
         }
+        
+        // --- NEW FUNCTIONS ---
+        
+        function updateOracleFeed() {
+            const oracleEl = document.getElementById('oracleMessage');
+            if (oracleEl) {
+                oracleEl.textContent = oracleMessages[Math.floor(Math.random() * oracleMessages.length)];
+            }
+        }
+        
+        function spreadFud() {
+            if (isTransactionPending) return;
+            unlockAchievement('fud_initiator');
+            showToast(`FUD: ${fudMessages[Math.floor(Math.random() * fudMessages.length)]}`, 'error', 6000);
+        }
+        
+        function handleLpAction() {
+            if (!isWalletConnected) {
+                connectWallet();
+                return;
+            }
+            const currency = document.getElementById('buyCurrencySelect').value;
+            if (currency !== 'ETH' && !approvedCurrencies[currency]) {
+                processApprove(currency);
+            } else {
+                showPopup('lpBuy');
+            }
+        }
+        
+        function updateLpActionButton() {
+            const lpActionBtn = document.getElementById('lpActionBtn');
+            if (!isWalletConnected) {
+                lpActionBtn.textContent = 'CONNECT WALLET';
+                lpActionBtn.classList.remove('approve-btn');
+                lpActionBtn.onclick = connectWallet;
+                return;
+            }
+            
+            const currency = document.getElementById('buyCurrencySelect').value;
+            if (currency !== 'ETH' && !approvedCurrencies[currency]) {
+                lpActionBtn.textContent = `APPROVE ${currency}`;
+                lpActionBtn.classList.add('approve-btn');
+            } else {
+                lpActionBtn.textContent = 'BUY NOTHING';
+                lpActionBtn.classList.remove('approve-btn');
+            }
+            lpActionBtn.onclick = handleLpAction;
+        }
+        
+        function processApprove(currency) {
+            if (isTransactionPending) return;
+            setPendingState(true);
+            showToast(`Requesting approval for ${currency}...`, 'info', 8000);
+            
+            setTimeout(() => {
+                setPendingState(false);
+                if (Math.random() < 0.1) {
+                    showToast(`Approval failed. The void doesn't want your ${currency}.`, 'error');
+                    return;
+                }
+                
+                approvedCurrencies[currency] = true;
+                localStorage.setItem('0xknothing_approvedCurrencies', JSON.stringify(approvedCurrencies));
+                showToast(`✔️ ${currency} approved for nothing. You may now proceed to buy.`, 'success');
+                updateLpActionButton();
+            }, 3000 + Math.random() * 2000);
+        }
+        
+        function addTxLog(type, details) {
+            const newTx = {
+                ...details,
+                type: type,
+                timestamp: Date.now(),
+                block: Math.floor(Math.random() * 1000000) + 18000000
+            };
+            txHistory.unshift(newTx);
+            if (txHistory.length > 50) txHistory.pop();
+            localStorage.setItem('0xknothing_txHistory', JSON.stringify(txHistory));
+            renderTxHistory();
+        }
+        
+        function renderTxHistory() {
+            const container = document.getElementById('txLogContainer');
+            if (!container || !isWalletConnected) return;
+
+            if (txHistory.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color: #777;">No history of nothingness yet.</p>';
+                return;
+            }
+
+            container.innerHTML = txHistory.map(tx => {
+                let detailsText = '';
+                let typeClass = '';
+                switch (tx.type) {
+                    case 'buy':
+                        typeClass = 'tx-type-buy';
+                        detailsText = `Bought ${tx.received.toLocaleString()} 0xKNOTHING — Cost ${tx.amount.toFixed(4)} ${tx.currency}`;
+                        break;
+                    case 'burn':
+                        typeClass = 'tx-type-burn';
+                        detailsText = `Burned ${tx.amount.toLocaleString()} 0xKNOTHING`;
+                        break;
+                    case 'mint':
+                        typeClass = 'tx-type-mint';
+                        detailsText = `Minted NFT ${tx.name} — Cost ${tx.cost.toFixed(4)} ETH`;
+                        break;
+                }
+                if (!tx.success) detailsText += ' (Failed)';
+                
+                return `
+                    <div class="tx-log-entry">
+                        <span class="details"><strong class="${typeClass}">${tx.type.toUpperCase()}:</strong> ${detailsText}</span>
+                        <a class="explorer-link" onclick="showExplorerPopup('${tx.txHash}')">TX: ${tx.txHash.slice(0,6)}...${tx.txHash.slice(-4)}</a>
+                    </div>
+                `;
+            }).join('');
+        }
+
     </script>
 </body>
 </html>
