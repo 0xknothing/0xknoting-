@@ -823,10 +823,22 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            display: none; /* Hidden by default */
+            display: flex; /* Always flex to allow for transitions */
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            /* New: Initial state for slide-down animation */
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: visibility 0s 0.5s, opacity 0.5s ease-out, transform 0.5s ease-out; /* Delay visibility change */
+        }
+
+        .popup-overlay.is-active {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0%);
+            transition: visibility 0s 0s, opacity 0.5s ease-out, transform 0.5s ease-out;
         }
 
         .popup-content {
@@ -1130,7 +1142,7 @@
 
             <div class="lp-price-info">
                 <p>Next Stage Price: <span class="highlight stage-price" id="nextStagePrice">$0.00000000</span></p>
-                <p>1 0xKNOTHING = <span class="highlight" id="knottingPrice">$0.00000000</span></p>
+                <p>1 0xKNOTHING = <span class="highlight" id="currentKnotPriceLP">$0.00000000</span></p>
             </div>
 
             <div class="lp-stats">
@@ -1180,7 +1192,7 @@
             <div class="price-chart-header">
                 <h3>0xKNOTHING Price Chart (Totally Real & Not Fake)</h3>
                 <div class="current-price-display">
-                    Current Price: <span id="currentKnotPrice">$0.00000068</span>
+                    Current Price: <span id="currentKnotPriceChart">$0.00000000</span>
                     <span id="priceChangePercent" class="price-change">+∞%</span>
                 </div>
             </div>
@@ -1215,7 +1227,7 @@
             </div>
             <div class="stat-card">
                 <h4>Current Price</h4>
-                <p id="currentPrice" class="value">$0.00000068</p>
+                <p id="currentPrice" class="value">$0.00000000</p>
             </div>
         </section>
 
@@ -1292,7 +1304,7 @@
             <p id="popupMessage">Are you sure you want to perform this action?</p>
             <div class="popup-buttons">
                 <button id="popupConfirmBtn">Confirm</button>
-                <button onclick="hidePopup()">Cancel</button>
+                <button onclick="hidePopup('actionPopup')">Cancel</button>
             </div>
         </div>
     </div>
@@ -1317,7 +1329,7 @@
             </ol>
             <p style="text-align: center; font-style: italic;">Congratulations! You've successfully acquired nothing. We told you so.</p>
             <button class="back-btn" onclick="window.location.reload()">Back to Nothing</button>
-            <button class="close-btn" onclick="hideHowToBuyPopup()">Close</button>
+            <button class="close-btn" onclick="hidePopup('howToBuyPopup')">Close</button>
         </div>
     </div>
 
@@ -1332,9 +1344,9 @@
             </div>
             <div class="popup-buttons">
                 <button onclick="confirmBurn()">BURN</button>
-                <button onclick="hideBurnPopup()">Cancel</button>
+                <button onclick="hidePopup('burnPopup')">Cancel</button>
             </div>
-            <button class="burn-info-btn" onclick="showBurnExplanation()">What is Burning?</button>
+            <button class="burn-info-btn" onclick="showPopup('burnExplainPopup')">What is Burning?</button>
         </div>
     </div>
 
@@ -1344,46 +1356,36 @@
             <p>Burning 0xKNOTHING is a profound act of embracing the void. When you burn tokens, you are essentially sending digital representations of nothingness back to the source of all nothing. It's a symbolic gesture, signifying the ultimate deflationary mechanism for a token with no value.</p>
             <p>Why burn? Perhaps to feel a fleeting sense of control over the uncontrollable. Maybe for the ironic satisfaction of destroying something that is already nothing. Or simply because... why not? In the grand scheme of 0xKNOTHING, burning is just another step in the journey to absolute zero.</p>
             <p style="text-align: center; font-style: italic;">Embrace the burn. Embrace the nothing.</p>
-            <button class="close-btn" onclick="hideBurnExplanation()">Close</button>
+            <button class="close-btn" onclick="hidePopup('burnExplainPopup')">Close</button>
         </div>
     </div>
 
 
     <script>
-        // Global Web3 variables
-        let provider, signer, userAddress;
+        // Global Web3 Simulation Variables
+        let userAddress = "0xDummyWalletAddressXXXXXXXXXXXXXXXX";
         let isWalletConnected = false;
-        let currentKnotBalance = parseFloat(localStorage.getItem('0xknothing_knotBalance')) || 0; // Load from localStorage
-        let initialEthBalance = parseFloat(localStorage.getItem('0xknothing_ethBalance')) || 1.2345; // Initial dummy balance
-        let lastEthBalanceUpdate = parseInt(localStorage.getItem('0xknothing_lastEthBalanceUpdate')) || Date.now(); // Last update timestamp
 
-        let totalUsdRaised = parseFloat(localStorage.getItem('0xknothing_usdRaised')) || 0;
-        let totalTokensSold = parseFloat(localStorage.getItem('0xknothing_tokensSold')) || 0;
+        // Simulated Balances - Loaded from localStorage
+        let simulatedEthBalance = parseFloat(localStorage.getItem('0xknothing_ethBalance')) || 1.2345;
+        let simulatedKnotBalance = parseFloat(localStorage.getItem('0xknothing_knotBalance')) || 1000000; // Start with a large initial amount of nothing
+        let lastEthBalanceUpdateTime = parseInt(localStorage.getItem('0xknothing_lastEthBalanceUpdate')) || Date.now();
 
-        let currentStage = parseInt(localStorage.getItem('0xknothing_currentStage')) || 1; // Start stage, load from localStorage
-        let knotPrice = calculateKnotPrice(currentStage); // Calculate price based on stage
+        // Simulated Market Data - Loaded from localStorage
+        let simulatedKnotPriceUsd = parseFloat(localStorage.getItem('0xknothing_simulatedKnotPriceUsd')) || 0.00000068;
+        let simulatedTotalUsdRaised = parseFloat(localStorage.getItem('0xknothing_usdRaised')) || 0;
+        let simulatedTotalTokensSold = parseFloat(localStorage.getItem('0xknothing_tokensSold')) || 0;
+        let simulatedHoldersCount = parseInt(localStorage.getItem('0xknothing_holdersCount')) || 1; // Start with 1 (the user)
 
-        // Function to calculate 0xKNOTHING price based on stage
-        function calculateKnotPrice(stage) {
-            // Stage 1: 0.00000001
-            // Stage 2: 0.00000002
-            // Stage 3: 0.00000004
-            // ... exponential increase, then slow down, then random large jumps
-            if (stage <= 10) {
-                return 0.00000001 * Math.pow(2, stage - 1);
-            } else if (stage <= 20) {
-                return 0.00000001 * Math.pow(2, 9) + (stage - 10) * 0.00000005; // Slower linear increase after stage 10
-            } else {
-                // After stage 20, prices become more erratic or symbolic
-                const basePrice = 0.00000001 * Math.pow(2, 9) + 10 * 0.00000005;
-                // Introduce random jumps and resets
-                const randomFactor = Math.random();
-                if (randomFactor < 0.3) return basePrice * (1 + Math.random() * 0.5); // Upward jump
-                if (randomFactor < 0.6) return basePrice * (0.5 + Math.random() * 0.5); // Downward swing
-                if (randomFactor < 0.8) return Math.random() * 0.00001; // Small random value
-                return Infinity; // Price to infinity sometimes
-            }
-        }
+        // Simulated 24h Volume (resets daily)
+        let simulated24hVolumeUsd = parseFloat(localStorage.getItem('0xknothing_24hVolumeUsd')) || 0;
+        let last24hVolumeReset = parseInt(localStorage.getItem('0xknothing_last24hVolumeReset')) || Date.now();
+
+        // Stage Management
+        let currentStage = parseInt(localStorage.getItem('0xknothing_currentStage')) || 1;
+
+        // Chart.js instance
+        let priceChart;
 
         // Meme data (for the new NFT look)
         const memes = [
@@ -1423,7 +1425,6 @@
                 img: 'images/nft_placeholder_question.png', // Placeholder image (create this file)
                 votes: 0
             },
-            // Add more NFTs in the same format
             {
                 id: 'lost_cause',
                 collection: 'Lost Cause Series',
@@ -1444,103 +1445,45 @@
             }
         ];
 
-        let priceChart; // Declare chart variable globally
-
         document.addEventListener("DOMContentLoaded", function () {
-            // Create floating particles
-            function createParticles() {
-                const container = document.getElementById("particles");
-                for (let i = 0; i < 50; i++) {
-                    const particle = document.createElement("div");
-                    particle.className = "particle";
-                    particle.style.left = Math.random() * 100 + "%";
-                    particle.style.animationDelay = Math.random() * 20 + "s";
-                    particle.style.animationDuration = (15 + Math.random() * 10) + "s";
-                    container.appendChild(particle);
-                }
-            }
             createParticles();
-
-            // Dynamic countdown logic (Real-time)
-            function updateRealtimeCountdown() {
-                const now = new Date();
-                const bangkokTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
-
-                const endOfDay = new Date(bangkokTime);
-                endOfDay.setHours(23, 59, 59, 999);
-
-                let timeLeft = endOfDay.getTime() - bangkokTime.getTime();
-
-                if (timeLeft <= 0) {
-                    // Reset for the next day immediately
-                    const nextDay = new Date(bangkokTime);
-                    nextDay.setDate(bangkokTime.getDate() + 1);
-                    nextDay.setHours(23, 59, 59, 999);
-                    timeLeft = nextDay.getTime() - bangkokTime.getTime();
-
-                    // Increment stage and update price
-                    currentStage++;
-                    localStorage.setItem('0xknothing_currentStage', currentStage); // Save to localStorage
-                    knotPrice = calculateKnotPrice(currentStage); // Recalculate price for new stage
-                    updateLPInterface(); // Update the LP section immediately
-
-                    updateLPStatus(`Stage transitioned to Stage ${currentStage}! Embrace the new level of nothingness.`);
-                    appendRandomMessage();
-                }
-
-                let hours = Math.floor(timeLeft / (1000 * 60 * 60));
-                let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                document.getElementById("countdownDisplay").textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }
-
-            setInterval(updateRealtimeCountdown, 1000);
+            initializeChart(); // Initialize chart when DOM is ready
             updateRealtimeCountdown();
+            updateAllSimulatedData(); // Initial update of all numbers
+            updateLPInterface(); // Initial update of LP specific interface
 
-            // Enhanced message system with Web3 integration
-            const messages = [
-                "There is no plan. There never was.", "You're waiting for something that will never come.",
-                "No utility. No purpose. Just vibes of emptiness.", "Even this message means nothing.",
-                "Stay unready. Stay unknowing.", "You came here for meaning? That's cute.",
-                "The real value is in the absolute void.", "We 0xKNOT what we're doing. Do you?",
-                "Imagine a meme. Now delete it. That's us.", "0xKNOTHING: not even trying since never.",
-                "This isn't a launch. It's a slow descent into madness.", "Not a rug. Not a moon. Not even a thing.",
-                "Spelled wrong. Built worse. Loved by none.", "The community asked for nothing. We delivered.",
-                "Tokenomics: Take your money, return confusion.", "Our marketing budget: $0.00. Our effort: Even less.",
-                "Join us in the eternal loop of disappointment.", "We're not early. We're not late. We're 0xKNOT.",
-                "The only guarantee: You'll question your choices.", "Built different. Built wrong. Built to confuse.",
-                "This is what happens when devs give up.", "No promises made. All promises broken anyway.",
-                "Your bags are empty. Your soul will be too.", "We tied your expectations in a knot. Get it?",
-                "The void stares back. It's also confused.", "Not your keys, not your coins, not our problem.",
-                "Web3 innovation: Making nothing from nothing.", "Gas fees higher than our token price.",
-                "Smart contract? More like confused contract.", "DEX listed us by mistake. We stayed.",
-                "Rug pull? We pulled the entire floor.", "Beware of the void, it's contagious.",
-                "You're still here? Why?", "Congratulations, you've achieved peak pointlessness."
-            ];
+            // Set up update intervals
+            setInterval(updateRealtimeCountdown, 1000);
+            setInterval(updateSimulatedPrice, 1000); // Update price for chart
+            setInterval(updateOverallMarketActivity, 5000); // Simulate external market activity
+            setInterval(updateEthBalanceRandomly, 10 * 60 * 1000); // Simulate ETH balance change every 10 mins
+            setInterval(updateStats, 10000); // Update stat cards every 10 seconds
+            setInterval(appendRandomMessage, 4000); // Append a random message every 4 seconds
+            setInterval(updateMostNonsensicalMeme, 30000); // Update top meme every 30 seconds
 
-            function appendRandomMessage() {
-                const container = document.getElementById("messageScroll");
-                const msg = document.createElement("div");
-                msg.className = "message-line";
-                msg.textContent = messages[Math.floor(Math.random() * messages.length)];
-                container.appendChild(msg);
-                while (container.children.length > 20) {
-                    container.removeChild(container.firstChild);
+
+            // Event Listeners for LP section
+            document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
+            document.getElementById('buyCurrencySelect').addEventListener('change', calculateReceiveAmount);
+            document.getElementById('maxAmountBtn').addEventListener('click', setMaxBuyAmount);
+
+            // Event Listeners for Footer buttons
+            document.getElementById('howToBuyBtn').addEventListener('click', () => {
+                showPopup('howToBuyPopup');
+            });
+            document.getElementById('burnToVoidBtn').addEventListener('click', () => {
+                if (!isWalletConnected) {
+                    updateLPStatus("Connect wallet first to burn your nothing!");
+                    return;
                 }
-                container.scrollTop = container.scrollHeight;
-            }
+                showPopup('burnPopup');
+            });
+            document.getElementById('giveawayBtn').addEventListener('click', () => {
+                updateLPStatus("Congratulaions! You just won... nothing! As expected. No gas fees required!");
+                appendRandomMessage();
+            });
 
-            for (let i = 0; i < 3; i++) {
-                setTimeout(appendRandomMessage, i * 1000);
-            }
-            setInterval(appendRandomMessage, 4000);
-
-            // Simulate price changes for other stats
-            setInterval(updateStats, 10000);
-            updateStats(); // Initial call
-
-            // Populate meme wall with new NFT structure
+            // Populate meme wall
             const memeGrid = document.getElementById('memeGrid');
             memes.forEach(meme => {
                 const memeCard = document.createElement('div');
@@ -1565,129 +1508,121 @@
                 memeGrid.appendChild(memeCard);
             });
             updateMostNonsensicalMeme();
-            setInterval(updateMostNonsensicalMeme, 30000);
-
-            // Initialize the new Buy/Sell interface
-            updateLPInterface();
-            // Update USD Raised and Tokens Sold every minute
-            setInterval(updateUsdTokensRaised, 60000); // Every 60 seconds
-
-            document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
-            document.getElementById('buyCurrencySelect').addEventListener('change', calculateReceiveAmount);
-            document.getElementById('maxAmountBtn').addEventListener('click', setMaxBuyAmount);
-            // lpConnectWalletBtn's initial click handler is connectWallet(),
-            // it will be updated to showPopup('lpBuy') after successful connection.
-
-            // Add handlers for new footer buttons
-            document.getElementById('howToBuyBtn').addEventListener('click', () => {
-                showHowToBuyPopup(); // Call the new popup
-            });
-            document.getElementById('giveawayBtn').addEventListener('click', () => {
-                updateLPStatus("Congratulaions! You just won... nothing! As expected. No gas fees required!");
-                appendRandomMessage();
-            });
-            // Add event listener for Burn button
-            document.getElementById('burnToVoidBtn').addEventListener('click', () => {
-                if (!isWalletConnected) {
-                    updateLPStatus("Connect wallet first to burn your nothing!");
-                    return;
-                }
-                showBurnPopup(); // Show the burn amount popup
-            });
-
-            // Initialize Chart.js
-            const ctx = document.getElementById('priceChart').getContext('2d');
-            priceChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Array(50).fill(''), // Placeholder labels
-                    datasets: [{
-                        label: '0xKNOTHING/USDT',
-                        data: Array(50).fill(0.00000068), // Initial dummy data
-                        borderColor: '#00ff80', // Green line
-                        backgroundColor: 'rgba(0, 255, 128, 0.2)', // Semi-transparent green fill
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4, // Smooth curve
-                        pointRadius: 0 // Hide points
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            display: false, // Hide x-axis labels
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)' // Very subtle grid
-                            }
-                        },
-                        y: {
-                            ticks: {
-                                color: '#aaa', // Y-axis label color
-                                callback: function(value, index, ticks) {
-                                    return '$' + value.toFixed(8); // Format as USD
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)' // Very subtle grid
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false // Hide legend
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += '$' + context.parsed.y.toFixed(8);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Start updating chart data
-            setInterval(updateChartData, 1000);
 
 
-            connectWallet(); // Simulate Wallet connection on page load
+            // Simulate initial wallet connection
+            connectWallet();
         });
 
-        // Web3 Functions - MODIFIED
+        // --- Core Simulation Logic ---
+
+        // Function to update all simulated numbers across the site
+        function updateAllSimulatedData() {
+            // Wallet Info
+            document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
+            document.getElementById("walletBalance").textContent = simulatedEthBalance.toFixed(4);
+            document.getElementById("knotBalance").textContent = `${simulatedKnotBalance.toLocaleString(undefined, { maximumFractionDigits: 0 })} 0xKNOTHING`;
+            document.getElementById("burnBalance").textContent = `${simulatedKnotBalance.toLocaleString(undefined, { maximumFractionDigits: 0 })}`; // For burn popup
+
+            // LP Interface Stats
+            const nextStagePrice = simulatedKnotPriceUsd * (1 + 0.1 * Math.random()); // Next stage price based on current fluctuating price
+            document.getElementById("currentKnotPriceLP").textContent = `$${simulatedKnotPriceUsd.toFixed(8)}`;
+            document.getElementById("nextStagePrice").textContent = `$${nextStagePrice.toFixed(8)}`;
+            document.getElementById("usdRaised").textContent = `$${simulatedTotalUsdRaised.toLocaleString(undefined, { maximumFractionDigits: 0 })} / $∞`;
+            document.getElementById("tokensSold").textContent = `${simulatedTotalTokensSold.toLocaleString(undefined, { maximumFractionDigits: 0 })} / ∞`;
+            document.getElementById("progressFill").style.width = `${(Math.random() * 100).toFixed(2)}%`; // Random progress for "nothing" theme
+
+            // Price Chart Display (main display)
+            document.getElementById("currentKnotPriceChart").textContent = `$${simulatedKnotPriceUsd.toFixed(8)}`;
+            const priceChange = (Math.random() * 200 - 100).toFixed(2); // Random +/- 100% change
+            document.getElementById("priceChangePercent").textContent = `${priceChange >= 0 ? '+' : ''}${priceChange}%`;
+            document.getElementById("priceChangePercent").style.color = priceChange >= 0 ? 'var(--accent-green)' : 'var(--primary-color)';
+
+            // Global Stats Section
+            const marketCap = simulatedTotalTokensSold * simulatedKnotPriceUsd;
+            document.getElementById("marketCap").textContent = `$${marketCap.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+            document.getElementById("volume24h").textContent = `$${simulated24hVolumeUsd.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+            document.getElementById("holdersCount").textContent = `${simulatedHoldersCount.toLocaleString()}`;
+            const lpVolumeValue = (Math.random() * 0.0001).toFixed(6);
+            document.getElementById("lpVolume").textContent = `${lpVolumeValue} LP (Glitchy Pool)`; // LP is always chaotic
+            document.getElementById("currentPrice").textContent = `$${simulatedKnotPriceUsd.toFixed(8)}`;
+
+            const randomBlock = Math.floor(Math.random() * 99999999) + 10000000;
+            const activityTypes = ["Mint", "Burn", "Transfer", "Swap"];
+            const randomActivity = activityTypes[Math.floor(Math.random() * activityTypes.length)];
+            const randomTxHashPart = Math.random().toString(16).substr(2, 8);
+            document.getElementById("lastActivity").textContent = `Block ${randomBlock} - ${randomActivity} (0x${randomTxHashPart}...)`;
+
+            // Save state to localStorage
+            localStorage.setItem('0xknothing_ethBalance', simulatedEthBalance.toFixed(4));
+            localStorage.setItem('0xknothing_knotBalance', simulatedKnotBalance);
+            localStorage.setItem('0xknothing_simulatedKnotPriceUsd', simulatedKnotPriceUsd.toFixed(8));
+            localStorage.setItem('0xknothing_usdRaised', simulatedTotalUsdRaised);
+            localStorage.setItem('0xknothing_tokensSold', simulatedTotalTokensSold);
+            localStorage.setItem('0xknothing_holdersCount', simulatedHoldersCount);
+            localStorage.setItem('0xknothing_24hVolumeUsd', simulated24hVolumeUsd);
+            localStorage.setItem('0xknothing_last24hVolumeReset', last24hVolumeReset);
+        }
+
+        // Simulate ETH balance change randomly over time
+        function updateEthBalanceRandomly() {
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+            // Only simulate major changes once every 24 hours for ETH balance
+            // Minor changes already happen during user buy actions
+            if (now - lastEthBalanceUpdateTime >= oneDay) {
+                const change = (Math.random() - 0.5) * 0.5; // +/- 0.25 ETH randomly
+                simulatedEthBalance = Math.max(0.001, simulatedEthBalance + change);
+                lastEthBalanceUpdateTime = now;
+                updateLPStatus("Your ETH balance slightly shifted in the void due to market chaos...");
+                appendRandomMessage();
+                updateAllSimulatedData(); // Update display
+            }
+        }
+
+        // Simulate overall market activity (e.g., other people buying/selling)
+        function updateOverallMarketActivity() {
+            // Increase total USD raised and tokens sold from external "market"
+            const usdIncrease = Math.random() * 500 + 100; // $100 - $600 per 5 seconds
+            const tokensIncrease = usdIncrease / simulatedKnotPriceUsd; // Calculate tokens based on current price
+
+            simulatedTotalUsdRaised += usdIncrease;
+            simulatedTotalTokensSold += tokensIncrease;
+
+            // Increase 24h volume
+            const volumeIncrease = Math.random() * 1000 + 200; // $200 - $1200 volume per 5 seconds
+            simulated24hVolumeUsd += volumeIncrease;
+
+            // Reset 24h volume if a new day (Bangkok time)
+            const now = new Date();
+            const bangkokTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+            const lastResetDate = new Date(last24hVolumeReset).toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }).split(',')[0];
+            const currentDate = bangkokTime.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }).split(',')[0];
+
+            if (currentDate !== lastResetDate) {
+                simulated24hVolumeUsd = 0; // Reset
+                last24hVolumeReset = now.getTime();
+                updateLPStatus("Daily volume reset! A new cycle of nothing begins...");
+                appendRandomMessage();
+            }
+
+            // Slowly increase holders count
+            if (Math.random() < 0.1) { // 10% chance to gain a new holder every 5 seconds
+                simulatedHoldersCount++;
+            }
+
+            updateAllSimulatedData(); // Update all displays
+        }
+
+
+        // --- Wallet & Interface Control ---
         async function connectWallet() {
             isWalletConnected = true;
             userAddress = "0xDummyWalletAddressXXXXXXXXXXXXXXXX";
 
-            // Check if it's been 24 hours since last ETH balance update
-            const now = Date.now();
-            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-            if (now - lastEthBalanceUpdate >= oneDay) {
-                // Simulate a random, small change in ETH balance
-                const change = (Math.random() - 0.5) * 0.1; // +/- 0.05 ETH
-                initialEthBalance = Math.max(0.001, initialEthBalance + change); // Ensure it doesn't go below almost zero
-                localStorage.setItem('0xknothing_ethBalance', initialEthBalance.toFixed(4));
-                lastEthBalanceUpdate = now;
-                localStorage.setItem('0xknothing_lastEthBalanceUpdate', lastEthBalanceUpdate);
-                updateLPStatus("Your ETH balance slightly shifted in the void...");
-                appendRandomMessage();
-            }
-
-            document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
-            document.getElementById("walletBalance").textContent = initialEthBalance.toFixed(4); // Use the updated balance
-            document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`; // Update 0xKNOTHING balance
-            document.getElementById("burnBalance").textContent = `${currentKnotBalance.toLocaleString()}`; // Update balance in burn popup
             document.getElementById("walletInfo").style.display = "block";
+            updateAllSimulatedData(); // Update all numbers once connected
 
             // Update the new connect button
             const lpConnectBtn = document.getElementById('lpConnectWalletBtn');
@@ -1700,6 +1635,12 @@
             updateLPStatus("Wallet connected (simulated). Ready to waste your existence.");
             updateNftMintStatus("Wallet connected (simulated). Ready to mint your void.");
             appendRandomMessage();
+
+            // Simulate a holder count increase on first connection for the session
+            if (!localStorage.getItem('0xknothing_firstConnect')) {
+                simulatedHoldersCount++;
+                localStorage.setItem('0xknothing_firstConnect', 'true');
+            }
         }
 
         function enableLPButtons() {
@@ -1707,52 +1648,19 @@
             document.getElementById('buyCurrencySelect').disabled = false;
             document.getElementById('maxAmountBtn').disabled = false;
             document.getElementById('receiveTokenAmount').disabled = false;
-            // Any other buttons that should be enabled after wallet connect
             document.getElementById('mintNftBtn').disabled = false;
-            document.getElementById('mintNftBtn').classList.add('web3-btn'); // Add web3 button styling
+            document.getElementById('mintNftBtn').classList.add('web3-btn');
             document.getElementById('mintNftBtn').style.cursor = 'pointer';
         }
 
-        // --- New LP Interface Functions ---
-        function updateLPInterface() {
-            // currentStage and knotPrice are now managed by countdown logic
-            let nextStagePrice = knotPrice * (1 + 0.1 * Math.random()); // 10-20% higher for next stage
-
-            document.getElementById("currentStage").textContent = `Stage ${currentStage}`;
-
-            // Handle Infinity price for display
-            if (knotPrice === Infinity || knotPrice === 0) {
-                document.getElementById("nextStagePrice").textContent = `$∞ (Impossible)`;
-                document.getElementById("knottingPrice").textContent = `$∞`;
-            } else {
-                document.getElementById("nextStagePrice").textContent = `$${nextStagePrice.toFixed(8)}`;
-                document.getElementById("knottingPrice").textContent = `$${knotPrice.toFixed(8)}`;
-            }
-
-            // USD Raised and Tokens Sold are updated by updateUsdTokensRaised function
-            document.getElementById("usdRaised").textContent = `$${totalUsdRaised.toLocaleString(undefined, { maximumFractionDigits: 0 })} / $∞`; // Goal can be infinite
-            document.getElementById("tokensSold").textContent = `${totalTokensSold.toLocaleString(undefined, { maximumFractionDigits: 0 })} / ∞`; // Goal can be infinite
-
-            // Update progress bar - always 0-100% of a stage, but randomly fluctuating for "nothing" theme
-            document.getElementById("progressFill").style.width = `${(Math.random() * 100).toFixed(2)}%`;
-
-            calculateReceiveAmount(); // Update 0xKNOTHING amount when prices change
+        function updateLPStatus(message) {
+            document.getElementById("lpStatusMessage").textContent = message;
         }
 
-        function updateUsdTokensRaised() {
-            // Simulate gradual increase for USD Raised and Tokens Sold
-            const usdIncrease = Math.random() * 1000 + 50; // Increase by $50 - $1050 per minute
-            const tokensIncrease = Math.random() * 5000000 + 100000; // Increase by 100k - 5.1M tokens per minute
-
-            totalUsdRaised += usdIncrease;
-            totalTokensSold += tokensIncrease;
-
-            // Save to localStorage
-            localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
-            localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
-
-            updateLPInterface(); // Refresh display
-            appendRandomMessage(); // Add a message for increased activity
+        function updateLPInterface() {
+            document.getElementById("currentStage").textContent = `Stage ${currentStage}`;
+            // Other LP price/stats are updated by updateAllSimulatedData
+            calculateReceiveAmount(); // Re-calculate received tokens when prices change
         }
 
         function calculateReceiveAmount() {
@@ -1762,7 +1670,6 @@
                 return;
             }
 
-            // For simplicity, assume 1 ETH = $2000, 1 USDT = $1, CARD = $0.5
             const selectedCurrency = document.getElementById('buyCurrencySelect').value;
             let usdEquivalent = 0;
             switch (selectedCurrency) {
@@ -1778,45 +1685,110 @@
             }
 
             let receivedKnot;
-            if (knotPrice === Infinity || knotPrice === 0) {
-                receivedKnot = 0; // Can't buy if price is infinite or zero
+            if (simulatedKnotPriceUsd <= 0 || simulatedKnotPriceUsd === Infinity) { // Handle absurd prices
+                receivedKnot = 0;
             } else {
-                receivedKnot = usdEquivalent / knotPrice;
+                receivedKnot = usdEquivalent / simulatedKnotPriceUsd;
             }
-            document.getElementById('receiveTokenAmount').value = receivedKnot.toLocaleString(undefined, { maximumFractionDigits: 0 }); // No decimals for 0xKNOTHING
+            document.getElementById('receiveTokenAmount').value = receivedKnot.toLocaleString(undefined, { maximumFractionDigits: 0 });
         }
 
         function setMaxBuyAmount() {
-            // Simulate max amount based on dummy wallet balance
             const selectedCurrency = document.getElementById('buyCurrencySelect').value;
             let maxAmount = 0;
 
-            // Use initialEthBalance for calculations
-            const dummyEthBalance = initialEthBalance;
+            const currentEthBalance = simulatedEthBalance; // Use the simulated balance
 
             switch (selectedCurrency) {
                 case 'ETH':
-                    maxAmount = dummyEthBalance;
+                    maxAmount = currentEthBalance;
                     break;
                 case 'USDT':
-                    maxAmount = dummyEthBalance * 2000; // Assume all ETH can be converted to USDT
+                    maxAmount = currentEthBalance * 2000; // Assume all ETH can be converted to USDT
                     break;
                 case 'CARD':
-                    maxAmount = dummyEthBalance * 4000; // Assume all ETH can be converted to CARD
+                    maxAmount = currentEthBalance * 4000; // Assume all ETH can be converted to CARD
                     break;
             }
             document.getElementById('buyInputAmount').value = maxAmount.toFixed(4);
             calculateReceiveAmount();
         }
 
-        // --- Modified Mint/NFT/Stat/Meme Functions (Use new status function) ---
-        function updateLPStatus(message) { // New status display for the buy/sell section
-            document.getElementById("lpStatusMessage").textContent = message;
-            // Optionally, append to the general message scroll box as well
-            // appendRandomMessage();
+        // --- Countdown Timer ---
+        function updateRealtimeCountdown() {
+            const now = new Date();
+            const bangkokTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+
+            const endOfDay = new Date(bangkokTime);
+            endOfDay.setHours(23, 59, 59, 999);
+
+            let timeLeft = endOfDay.getTime() - bangkokTime.getTime();
+
+            if (timeLeft <= 0) {
+                // Reset for the next day immediately
+                const nextDay = new Date(bangkokTime);
+                nextDay.setDate(bangkokTime.getDate() + 1);
+                nextDay.setHours(23, 59, 59, 999);
+                timeLeft = nextDay.getTime() - bangkokTime.getTime();
+
+                // Increment stage
+                currentStage++;
+                localStorage.setItem('0xknothing_currentStage', currentStage);
+
+                // Re-initialize price based on new stage, then let fluctuations continue
+                // For simplicity, make price start from a base related to stage, then fluctuate
+                simulatedKnotPriceUsd = 0.00000001 * Math.pow(1.5, currentStage - 1); // Exponential growth for base price
+                simulatedKnotPriceUsd = Math.max(0.00000001, Math.min(0.00001, simulatedKnotPriceUsd)); // Cap for sanity
+                localStorage.setItem('0xknothing_simulatedKnotPriceUsd', simulatedKnotPriceUsd.toFixed(8));
+
+                updateLPStatus(`Stage transitioned to Stage ${currentStage}! Embrace the new level of nothingness.`);
+                appendRandomMessage();
+                updateAllSimulatedData(); // Update all numbers
+                resetChartData(); // Reset chart for new stage
+            }
+
+            let hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("countdownDisplay").textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
-        async function mintNft() { // Existing NFT mint, just ensure status updates
+        // --- Message System ---
+        const messages = [
+            "There is no plan. There never was.", "You're waiting for something that will never come.",
+            "No utility. No purpose. Just vibes of emptiness.", "Even this message means nothing.",
+            "Stay unready. Stay unknowing.", "You came here for meaning? That's cute.",
+            "The real value is in the absolute void.", "We 0xKNOT what we're doing. Do you?",
+            "Imagine a meme. Now delete it. That's us.", "0xKNOTHING: not even trying since never.",
+            "This isn't a launch. It's a slow descent into madness.", "Not a rug. Not a moon. Not even a thing.",
+            "Spelled wrong. Built worse. Loved by none.", "The community asked for nothing. We delivered.",
+            "Tokenomics: Take your money, return confusion.", "Our marketing budget: $0.00. Our effort: Even less.",
+            "Join us in the eternal loop of disappointment.", "We're not early. We're not late. We're 0xKNOT.",
+            "The only guarantee: You'll question your choices.", "Built different. Built wrong. Built to confuse.",
+            "This is what happens when devs give up.", "No promises made. All promises broken anyway.",
+            "Your bags are empty. Your soul will be too.", "We tied your expectations in a knot. Get it?",
+            "The void stares back. It's also confused.", "Not your keys, not your coins, not our problem.",
+            "Web3 innovation: Making nothing from nothing.", "Gas fees higher than our token price.",
+            "Smart contract? More like confused contract.", "DEX listed us by mistake. We stayed.",
+            "Rug pull? We pulled the entire floor.", "Beware of the void, it's contagious.",
+            "You're still here? Why?", "Congratulations, you've achieved peak pointlessness."
+        ];
+
+        function appendRandomMessage() {
+            const container = document.getElementById("messageScroll");
+            const msg = document.createElement("div");
+            msg.className = "message-line";
+            msg.textContent = messages[Math.floor(Math.random() * messages.length)];
+            container.appendChild(msg);
+            while (container.children.length > 20) {
+                container.removeChild(container.firstChild);
+            }
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // --- NFT Minting ---
+        async function mintNft() {
             if (!isWalletConnected) {
                 updateNftMintStatus("Connect wallet first to mint a Nothing NFT!");
                 return;
@@ -1839,30 +1811,12 @@
             document.getElementById("nftMintStatus").textContent = message;
         }
 
-
-        function updateStats() { // Existing stats update
-            // Price is handled by simulated price in chart
-            const marketCaps = ["Undefined", "Negative", "404 Not Found", "NaN", "Imaginary", "Void"];
-            document.getElementById("marketCap").textContent = marketCaps[Math.floor(Math.random() * marketCaps.length)];
-
-            const volumes = ["Emotional Damage", "Tears of Regret", "Lost Dreams", "Wasted Time", "Pure Disappointment", "Existential Crisis"];
-            document.getElementById("volume24h").textContent = volumes[Math.floor(Math.random() * volumes.length)];
-
-            const holderCounts = ["Nobody + You", "Just You", "You + Your Alt", "2 Bots", "Error: NaN", "Everyone's Mom"];
-            document.getElementById("holdersCount").textContent = holderCounts[Math.floor(Math.random() * holderCounts.length)];
-
-            const lpVolume = (Math.random() * 0.0001).toFixed(6);
-            const lpStates = ["Glitchy Pool", "Broken Pool", "Empty Pool", "Non-Existent Pool"];
-            document.getElementById("lpVolume").textContent = `${lpVolume} LP (${lpStates[Math.floor(Math.random() * lpStates.length)]})`;
-
-            const randomBlock = Math.floor(Math.random() * 99999999) + 10000000;
-            const activityTypes = ["Mint", "Burn", "Transfer", "Swap"];
-            const randomActivity = activityTypes[Math.floor(Math.random() * activityTypes.length)];
-            const randomTxHashPart = Math.random().toString(16).substr(2, 8);
-            document.getElementById("lastActivity").textContent = `Block ${randomBlock} - ${randomActivity} (0x${randomTxHashPart}...)`;
+        // --- Stats Section Update ---
+        function updateStats() {
+            updateAllSimulatedData(); // This function already updates all relevant stats
         }
 
-        // Voidpaper toggle
+        // --- Voidpaper Toggle ---
         function toggleVoidpaper() {
             const voidpaper = document.getElementById('voidpaperSection');
             if (voidpaper.style.display === 'block') {
@@ -1873,7 +1827,7 @@
             }
         }
 
-        // Meme voting and NFT minting
+        // --- Meme Wall / NFT Interactivity ---
         function voteMeme(memeId) {
             const meme = memes.find(m => m.id === memeId);
             if (meme) {
@@ -1884,7 +1838,7 @@
             }
         }
 
-        function mintMemeNft(memeId) { // Existing meme NFT mint, just ensure status updates
+        function mintMemeNft(memeId) {
             if (!isWalletConnected) {
                 updateNftMintStatus("Connect wallet to mint this nonsensical NFT!");
                 return;
@@ -1902,7 +1856,7 @@
             }
         }
 
-        function updateMostNonsensicalMeme() { // Existing top meme update
+        function updateMostNonsensicalMeme() {
             if (memes.length === 0) return;
             let topMeme = memes[0];
             memes.forEach(meme => {
@@ -1920,49 +1874,106 @@
             }
         }
 
-        // --- Real-time Price Simulation (for chart)
-        let currentSimulatedPrice = 0.00000068; // Starting price
-        const priceDisplay = document.getElementById("currentKnotPrice");
-        const priceChangePercentDisplay = document.getElementById("priceChangePercent");
+        // --- Price Chart & Simulation ---
+        function initializeChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(50).fill(''),
+                    datasets: [{
+                        label: '0xKNOTHING/USDT',
+                        data: Array(50).fill(simulatedKnotPriceUsd),
+                        borderColor: '#00ff80',
+                        backgroundColor: 'rgba(0, 255, 128, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            display: false,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#aaa',
+                                callback: function(value, index, ticks) {
+                                    return '$' + value.toFixed(8);
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '$' + context.parsed.y.toFixed(8);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
         function updateSimulatedPrice() {
-            // This is the price for the main chart, not related to the LP buy price
-            const fluctuationFactor = (Math.random() - 0.5) * 0.00000002; // Larger fluctuations
-            currentSimulatedPrice += fluctuationFactor;
-            currentSimulatedPrice = Math.max(0.00000001, Math.min(0.00000150, currentSimulatedPrice)); // Keep within a reasonable range
+            // Apply a small random percentage change to the price
+            const fluctuationFactor = (Math.random() - 0.5) * 0.005; // +/- 0.5% fluctuation
+            simulatedKnotPriceUsd *= (1 + fluctuationFactor);
 
-            priceDisplay.textContent = `$${currentSimulatedPrice.toFixed(8)}`;
-
-            // For the "price change percent", we can keep it as "+∞%" for the nothing theme
-            priceChangePercentDisplay.textContent = `+∞%`;
-
-            const statsPriceDisplay = document.getElementById("currentPrice");
-            if (statsPriceDisplay) {
-                statsPriceDisplay.textContent = `$${currentSimulatedPrice.toFixed(8)}`;
+            // Add occasional larger "pump" or "dump" effects
+            const randomEvent = Math.random();
+            if (randomEvent < 0.01) { // 1% chance for a larger event
+                const impact = (Math.random() - 0.5) * 0.1; // +/- 10% impact
+                simulatedKnotPriceUsd *= (1 + impact);
             }
 
-            // Update Chart.js data
+            // Keep price within a reasonable (or absurdly low) range for display
+            simulatedKnotPriceUsd = Math.max(0.00000001, Math.min(0.00001, simulatedKnotPriceUsd));
+
+            // Update chart data
             if (priceChart) {
                 const data = priceChart.data.datasets[0].data;
-                data.push(currentSimulatedPrice);
-                // Keep only the last 50 data points for a smooth scrolling effect
+                data.push(simulatedKnotPriceUsd);
                 if (data.length > 50) {
                     data.shift();
                 }
                 priceChart.update();
             }
-        }
-        // Update price every second
-        setInterval(updateSimulatedPrice, 1000);
-        updateSimulatedPrice(); // Initial call
 
-        function updateChartData() {
-            // Data for the chart is now updated by updateSimulatedPrice directly.
-            // This function is just to trigger the update on an interval.
+            updateAllSimulatedData(); // Update price displays outside chart
         }
 
+        function resetChartData() {
+            if (priceChart) {
+                priceChart.data.labels = Array(50).fill('');
+                priceChart.data.datasets[0].data = Array(50).fill(simulatedKnotPriceUsd);
+                priceChart.update();
+            }
+        }
 
-        // Easter egg: Konami code for extra chaos
+        // --- Easter egg: Konami code for extra chaos ---
         let konamiCode = [];
         const konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
         document.addEventListener('keydown', function(e) {
@@ -1976,7 +1987,7 @@
             }
         });
 
-        function activateChaosMode() { // Existing chaos mode
+        function activateChaosMode() {
             updateLPStatus("🎮 CHAOS MODE ACTIVATED! The void welcomes you!");
             document.body.style.animation = "voidShift 0.1s infinite";
             setTimeout(() => {
@@ -1997,16 +2008,146 @@
             }
         }
 
-        // Auto-update wallet balance periodically (This is now handled in connectWallet for 24h updates)
-        // No need for a separate interval here anymore.
+        // --- Popup Functions (Modified for Slide Down) ---
+        // General show popup function with slide effect
+        function showPopup(popupId) {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.classList.add('is-active');
+            }
+        }
+
+        // General hide popup function with slide effect
+        function hidePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.classList.remove('is-active');
+            }
+        }
+
+        // Function for processing LP Buy from popup confirmation
+        async function processLPBuy(amount, currency, receivedKnot) {
+            updateLPStatus(`Initiating purchase of ${receivedKnot.toLocaleString()} 0xKNOTHING with ${amount.toLocaleString()} ${currency}...`);
+            appendRandomMessage();
+
+            setTimeout(() => {
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
+                simulatedKnotBalance += receivedKnot;
+
+                // Deduct from simulated ETH balance if ETH is used
+                if (currency === 'ETH') {
+                    simulatedEthBalance = Math.max(0, simulatedEthBalance - amount);
+                }
+                // For USDT/CARD, assume they are converted from ETH first or are just conceptual
+
+                simulatedTotalUsdRaised += (amount * (currency === 'ETH' ? 2000 : (currency === 'USDT' ? 1 : 0.5)));
+                simulatedTotalTokensSold += receivedKnot;
+
+                updateAllSimulatedData(); // Update all numbers after transaction
+
+                updateLPStatus(`✔️ Successfully bought ${receivedKnot.toLocaleString()} 0xKNOTHING! TX: ${txHash.slice(0, 10)}... Welcome to the void.`);
+                appendRandomMessage();
+            }, 2500 + Math.random() * 1500);
+        }
+
+        // Function for processing Burn from popup confirmation
+        async function processBurnToVoid(amount) {
+            updateLPStatus(`Preparing to burn ${amount.toLocaleString()} 0xKNOTHING... Feeling lighter already?`);
+            appendRandomMessage();
+
+            setTimeout(() => {
+                const burnedAmount = amount;
+                simulatedKnotBalance -= burnedAmount;
+
+                updateAllSimulatedData(); // Update all numbers after burn
+
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
+                updateLPStatus(`✔️ Successfully burned ${burnedAmount.toLocaleString()} 0xKNOTHING to the void! TX: ${txHash.slice(0, 10)}... You achieved ultimate nothingness.`);
+                appendRandomMessage();
+            }, 2500 + Math.random() * 1500);
+        }
+
+        // --- Popup Confirmation Logic ---
+        let currentConfirmAction = '';
+        let currentConfirmArgs = [];
+
+        function showConfirmationPopup(title, message, action, args) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupMessage').innerHTML = message;
+            currentConfirmAction = action;
+            currentConfirmArgs = args;
+            showPopup('actionPopup');
+
+            const confirmBtn = document.getElementById('popupConfirmBtn');
+            confirmBtn.onclick = () => {
+                hidePopup('actionPopup');
+                if (typeof window[currentConfirmAction] === 'function') {
+                    window[currentConfirmAction](...currentConfirmArgs);
+                } else {
+                    console.error("Action function not found:", currentConfirmAction);
+                }
+            };
+        }
+
+        // Modify LP Buy button to use general confirmation popup
+        const lpConnectBtn = document.getElementById('lpConnectWalletBtn');
+        if (lpConnectBtn) {
+            lpConnectBtn.onclick = () => {
+                if (!isWalletConnected) {
+                    connectWallet();
+                } else {
+                    const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
+                    const currency = document.getElementById('buyCurrencySelect').value;
+                    const receiveKnot = parseFloat(document.getElementById('receiveTokenAmount').value.replace(/,/g, ''));
+
+                    if (isNaN(inputAmount) || inputAmount <= 0) {
+                        updateLPStatus(`Please enter a valid amount to buy.`);
+                        return;
+                    }
+                    if (isNaN(receiveKnot) || receiveKnot <= 0) {
+                        updateLPStatus(`Cannot calculate 0xKNOTHING received. Price might be too low or input invalid.`);
+                        return;
+                    }
+                    if (currency === 'ETH' && inputAmount > simulatedEthBalance) {
+                        updateLPStatus(`Insufficient ETH balance. You have ${simulatedEthBalance.toFixed(4)} ETH.`);
+                        return;
+                    }
+                    // Add checks for USDT/CARD if needed
+
+                    showConfirmationPopup(
+                        'Confirm Buy 0xKNOTHING',
+                        `Are you sure you want to spend <span style="color:#00ff80;">${inputAmount.toLocaleString()} ${currency}</span> to buy <span style="color:#00ff80;">${receivedKnot.toLocaleString()} 0xKNOTHING</span>?`,
+                        'processLPBuy',
+                        [inputAmount, currency, receivedKnot]
+                    );
+                }
+            };
+        }
+
+        // Modify Burn Confirm button to use general confirmation popup
+        function confirmBurn() {
+            const amountToBurn = parseFloat(document.getElementById('burnAmount').value);
+            if (isNaN(amountToBurn) || amountToBurn <= 0 || amountToBurn > simulatedKnotBalance) {
+                updateLPStatus(`Invalid amount to burn or insufficient balance. Your balance: ${simulatedKnotBalance.toLocaleString(undefined, { maximumFractionDigits: 0 })} 0xKNOTHING.`);
+                hidePopup('burnPopup');
+                return;
+            }
+
+            hidePopup('burnPopup'); // Hide the input popup first
+
+            showConfirmationPopup(
+                'Confirm Burn 0xKNOTHING',
+                `Are you sure you want to send <span style="color:#00ff80;">${amountToBurn.toLocaleString()} 0xKNOTHING</span> into the eternal void?`,
+                'processBurnToVoid',
+                [amountToBurn]
+            );
+        }
 
         // Network change detection
         if (window.ethereum) {
             window.ethereum.on('chainChanged', (chainId) => {
                 updateLPStatus("Network changed! We're still confused.");
-                setTimeout(() => {
-                    updateLPStatus("Ready to waste gas on any network...");
-                }, 3000);
+                setTimeout(() => { updateLPStatus("Ready to waste gas on any network..."); }, 3000);
             });
             window.ethereum.on('accountsChanged', (accounts) => {
                 if (accounts.length === 0) {
@@ -2017,7 +2158,7 @@
                     lpConnectBtn.textContent = "CONNECT WALLET";
                     lpConnectBtn.disabled = false;
                     lpConnectBtn.classList.remove('connected');
-                    lpConnectBtn.onclick = () => connectWallet(); // Reset onclick to connect
+                    lpConnectBtn.onclick = () => connectWallet();
 
                     // Disable input and other buttons
                     document.getElementById('buyInputAmount').disabled = true;
@@ -2034,156 +2175,6 @@
                 }
             });
         }
-
-        // --- Popup Functions (Modified for LP Buy and Burn) ---
-        let currentAction = '';
-        let currentAmount = 0;
-        let currentCurrency = '';
-
-        function showPopup(actionType) {
-            let title = '';
-            let message = '';
-            let actionFunction;
-
-            currentAction = actionType;
-
-            if (actionType === 'lpBuy') {
-                const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
-                const currency = document.getElementById('buyCurrencySelect').value;
-                const receiveKnot = parseFloat(document.getElementById('receiveTokenAmount').value.replace(/,/g, '')); // Remove commas for parsing
-
-                if (!isWalletConnected) {
-                    updateLPStatus("Connect wallet first to buy nothing!");
-                    return;
-                }
-
-                if (isNaN(inputAmount) || inputAmount <= 0) {
-                    updateLPStatus(`Please enter a valid amount to buy.`);
-                    return;
-                }
-                if (isNaN(receiveKnot) || receiveKnot <= 0) {
-                    updateLPStatus(`Please enter a valid amount. Cannot calculate 0xKNOTHING received.`);
-                    return;
-                }
-
-                currentAmount = inputAmount;
-                currentCurrency = currency;
-                const formattedReceiveKnot = receiveKnot.toLocaleString();
-
-                title = 'Confirm Buy 0xKNOTHING';
-                message = `Are you sure you want to spend <span style="color:#00ff80;">${inputAmount.toLocaleString()} ${currency}</span> to buy <span style="color:#00ff80;">${formattedReceiveKnot} 0xKNOTHING</span>?`;
-                actionFunction = () => processLPBuy(inputAmount, currency, receiveKnot);
-            } else {
-                // Fallback or other actions if they were re-introduced. For now, this branch might not be used.
-                console.warn("Unsupported action type for popup:", actionType);
-                return;
-            }
-
-            document.getElementById('popupTitle').textContent = title;
-            document.getElementById('popupMessage').innerHTML = message;
-            document.getElementById('actionPopup').style.display = 'flex';
-
-            const confirmBtn = document.getElementById('popupConfirmBtn');
-            confirmBtn.onclick = () => {
-                hidePopup();
-                actionFunction();
-            };
-        }
-
-        function hidePopup() {
-            document.getElementById('actionPopup').style.display = 'none';
-        }
-
-        function showHowToBuyPopup() { // Renamed logically from showHowToBuyPopup
-            document.getElementById('howToBuyPopup').style.display = 'flex';
-        }
-
-        function hideHowToBuyPopup() { // Renamed logically from hideHowToBuyPopup
-            document.getElementById('howToBuyPopup').style.display = 'none';
-        }
-
-        // New functions for Burn Popups
-        function showBurnPopup() {
-            document.getElementById('burnBalance').textContent = currentKnotBalance.toLocaleString();
-            document.getElementById('burnAmount').value = ''; // Clear previous input
-            document.getElementById('burnPopup').style.display = 'flex';
-        }
-
-        function hideBurnPopup() {
-            document.getElementById('burnPopup').style.display = 'none';
-        }
-
-        function confirmBurn() {
-            const amountToBurn = parseFloat(document.getElementById('burnAmount').value);
-            if (isNaN(amountToBurn) || amountToBurn <= 0 || amountToBurn > currentKnotBalance) {
-                updateLPStatus(`Invalid amount to burn or insufficient balance. Your balance: ${currentKnotBalance.toLocaleString()} 0xKNOTHING.`);
-                hideBurnPopup(); // Hide popup if validation fails
-                return;
-            }
-            hideBurnPopup();
-            processBurnToVoid(amountToBurn);
-        }
-
-        async function processLPBuy(amount, currency, receivedKnot) {
-            updateLPStatus(`Initiating purchase of ${receivedKnot.toLocaleString()} 0xKNOTHING with ${amount.toLocaleString()} ${currency}...`);
-            appendRandomMessage();
-
-            setTimeout(() => {
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
-                currentKnotBalance += receivedKnot;
-                localStorage.setItem('0xknothing_knotBalance', currentKnotBalance); // Save to localStorage
-                document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`;
-                document.getElementById("burnBalance").textContent = `${currentKnotBalance.toLocaleString()}`; // Update burn balance display
-
-                // Deduct from simulated ETH balance
-                if (currency === 'ETH') {
-                    initialEthBalance = Math.max(0, initialEthBalance - amount); // Ensure balance doesn't go negative
-                    localStorage.setItem('0xknothing_ethBalance', initialEthBalance.toFixed(4));
-                    document.getElementById("walletBalance").textContent = initialEthBalance.toFixed(4);
-                } else {
-                    // For USDT/CARD, just assume deduction from an abstract pool
-                }
-
-                totalUsdRaised += (amount * (currency === 'ETH' ? 2000 : (currency === 'USDT' ? 1 : 0.5))); // Add to simulated raised USD
-                totalTokensSold += receivedKnot; // Add to simulated tokens sold
-                localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
-                localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
-
-                updateLPInterface(); // Update the LP interface immediately
-
-                updateLPStatus(`✔️ Successfully bought ${receivedKnot.toLocaleString()} 0xKNOTHING! TX: ${txHash.slice(0, 10)}... Welcome to the void.`);
-                appendRandomMessage();
-            }, 2500 + Math.random() * 1500);
-        }
-
-        async function processBurnToVoid(amount) {
-            updateLPStatus(`Preparing to burn ${amount.toLocaleString()} 0xKNOTHING... Feeling lighter already?`);
-            appendRandomMessage();
-
-            setTimeout(() => {
-                const burnedAmount = amount;
-                currentKnotBalance -= burnedAmount; // Deduct the specified amount
-                localStorage.setItem('0xknothing_knotBalance', currentKnotBalance); // Save to localStorage
-                document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`;
-                document.getElementById("burnBalance").textContent = `${currentKnotBalance.toLocaleString()}`; // Update burn balance display
-
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
-                updateLPStatus(`✔️ Successfully burned ${burnedAmount.toLocaleString()} 0xKNOTHING to the void! TX: ${txHash.slice(0, 10)}... You achieved ultimate nothingness.`);
-                appendRandomMessage();
-            }, 2500 + Math.random() * 1500);
-        }
-
-        function showBurnExplanation() {
-            document.getElementById('burnExplainPopup').style.display = 'flex';
-        }
-
-        function hideBurnExplanation() {
-            document.getElementById('burnExplainPopup').style.display = 'none';
-        }
-
-        // Initial connection setup for lpConnectWalletBtn
-        // This is handled inside connectWallet() now.
     </script>
 </body>
 </html>
-
