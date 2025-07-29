@@ -3,49 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>0xKNOTHING - The Ultimate Anti-Utility Meme Token</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>0xKNOTHING - The Ultimate Meme Token of Nothingness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <style>
-        @font-face {
-            font-family: 'Cyberpunk';
-            src: url('fonts/Cyberpunk-Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
         :root {
-            --primary-color: #e63946;
-            --secondary-color: #457b9d;
+            --primary-color: #e63946; /* A vibrant red */
+            --secondary-color: #457b9d; /* A muted blue */
             --dark-background: #1a1a1a;
             --light-text: #f1faee;
             --accent-green: #00ff80;
             --void-black: #000000;
-            --cyberpunk-font: 'Cyberpunk', monospace;
-            --neon-purple: #bf00ff;
-            --neon-blue: #00d4ff;
         }
 
         body {
-            font-family: var(--cyberpunk-font);
+            font-family: 'JetBrains Mono', monospace;
             background-color: var(--dark-background);
             color: var(--light-text);
             margin: 0;
             padding: 0;
             overflow-x: hidden;
             line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(230, 57, 70, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 255, 128, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(191, 0, 255, 0.1) 0%, transparent 50%);
-            animation: backgroundPulse 10s ease-in-out infinite;
+            background-image: url('images/void_pattern.png'); /* Subtle void pattern */
+            background-repeat: repeat;
+            background-size: 100px 100px;
         }
 
-        @keyframes backgroundPulse {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.1); }
+        /* Global animations for chaos mode */
+        @keyframes voidShift {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 10% 10%; }
+            50% { background-position: 0% 0%; }
+            75% { background-position: -10% -10%; }
+            100% { background-position: 0% 0%; }
         }
 
-        /* Floating particles */
+        /* Particle effects */
         #particles {
             position: fixed;
             top: 0;
@@ -61,17 +54,17 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            width: 4px;
-            height: 4px;
-            animation: floatAndFade 15s infinite ease-in-out;
+            width: 5px;
+            height: 5px;
+            animation: floatAndFade 20s infinite ease-in-out;
             opacity: 0;
         }
 
         @keyframes floatAndFade {
-            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
             20% { opacity: 1; }
             80% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
         }
 
         .container {
@@ -79,843 +72,1028 @@
             margin: 0 auto;
             padding: 20px;
             position: relative;
-            z-index: 1;
+            z-index: 1; /* Ensure content is above particles */
         }
 
-        /* Enhanced Header */
         header {
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95));
-            border-bottom: 3px solid var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, var(--primary-color), transparent);
-            animation: rotate 20s linear infinite;
-            opacity: 0.1;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            color: #b30047;
-            text-shadow: 
-                0 0 20px rgba(230, 57, 70, 0.8),
-                0 0 40px rgba(255, 0, 100, 0.6), 
-                0 0 60px rgba(0, 255, 255, 0.4);
-            margin-bottom: 20px;
-            letter-spacing: 8px;
+            font-family: 'Orbitron', sans-serif; /* Adjusted to Orbitron for logo similarity */
+            font-size: 3.5rem;
+            color: #b30047; /* Darker red from the logo */
+            text-shadow: 0 0 15px rgba(230, 57, 70, 0.7),
+                         0 0 25px rgba(255, 0, 100, 0.5), /* Glow effect */
+                         0 0 35px rgba(0, 255, 255, 0.4); /* Cyan glow from the logo */
+            margin-bottom: 10px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             position: relative;
-            z-index: 2;
-            animation: titleGlow 3s ease-in-out infinite alternate;
+            animation: glitch 1s infinite alternate; /* Glitch effect */
         }
 
-        @keyframes titleGlow {
-            0% { filter: brightness(1) hue-rotate(0deg); }
-            100% { filter: brightness(1.2) hue-rotate(10deg); }
+        /* Glitch effect for the main title */
+        @keyframes glitch {
+            0% {
+                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
+                transform: translate(0, 0);
+            }
+            20% {
+                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
+                transform: translate(2px, -2px);
+            }
+            60% {
+                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
+                transform: translate(-1px, 1px);
+            }
+            80% {
+                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
+                transform: translate(1px, -1px);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
+                transform: translate(0, 0);
+            }
         }
 
-        /* AI Assistant Feature */
-        .ai-assistant {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(191, 0, 255, 0.5);
-            z-index: 1000;
-            animation: aiPulse 2s ease-in-out infinite;
-            transition: all 0.3s ease;
-        }
 
-        .ai-assistant:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(191, 0, 255, 0.8);
-        }
-
-        @keyframes aiPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(191, 0, 255, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(191, 0, 255, 0.8); }
-        }
-
-        .ai-chat-window {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 350px;
-            height: 400px;
-            background: rgba(26, 26, 26, 0.95);
-            border: 2px solid var(--neon-purple);
-            border-radius: 15px;
-            display: none;
-            flex-direction: column;
-            box-shadow: 0 0 50px rgba(191, 0, 255, 0.3);
-            z-index: 1001;
-        }
-
-        .ai-chat-header {
-            padding: 15px;
-            background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
-            border-radius: 13px 13px 0 0;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ai-chat-messages {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .ai-message {
-            background: rgba(191, 0, 255, 0.2);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-        }
-
-        /* Enhanced Staking Pool */
-        .staking-pool {
-            background: rgba(17, 17, 17, 0.9);
-            border: 2px solid var(--accent-green);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 40px auto;
-            max-width: 600px;
-            box-shadow: 0 0 40px rgba(0, 255, 128, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .staking-pool::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 128, 0.1), transparent);
-            animation: sweep 3s infinite;
-        }
-
-        @keyframes sweep {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .staking-header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .staking-header h2 {
-            font-family: 'Orbitron', monospace;
-            color: var(--accent-green);
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(0, 255, 128, 0.5);
-        }
-
-        .staking-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .staking-stat {
-            text-align: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            border: 1px solid rgba(0, 255, 128, 0.3);
-        }
-
-        .staking-stat .label {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 5px;
-        }
-
-        .staking-stat .value {
-            font-size: 1.3rem;
-            color: var(--accent-green);
-            font-weight: bold;
-        }
-
-        /* Social Trading Features */
-        .social-trading {
-            background: rgba(17, 17, 17, 0.9);
-            border: 2px solid var(--neon-blue);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 40px auto;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
-        }
-
-        .social-trading h2 {
-            font-family: 'Orbitron', monospace;
-            color: var(--neon-blue);
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .trading-signals {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .signal-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--neon-blue);
-            border-radius: 15px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .signal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .signal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .signal-type {
-            background: var(--neon-blue);
-            color: black;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .signal-confidence {
-            color: var(--accent-green);
-            font-weight: bold;
-        }
-
-        /* Layer 2 Integration */
-        .layer2-section {
-            background: rgba(17, 17, 17, 0.9);
-            border: 2px solid var(--neon-purple);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 40px auto;
-            box-shadow: 0 0 40px rgba(191, 0, 255, 0.2);
-        }
-
-        .layer2-section h2 {
-            font-family: 'Orbitron', monospace;
-            color: var(--neon-purple);
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(191, 0, 255, 0.5);
-        }
-
-        .network-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .network-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--neon-purple);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .network-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(191, 0, 255, 0.4);
-        }
-
-        .network-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--neon-purple);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        /* Gamification Features */
-        .gamification-section {
-            background: rgba(17, 17, 17, 0.9);
-            border: 2px solid #ffd700;
-            border-radius: 20px;
-            padding: 30px;
-            margin: 40px auto;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
-        }
-
-        .achievement-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .achievement-badge {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffd700;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .achievement-badge:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-        }
-
-        .achievement-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .achievement-title {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #ffd700;
-            margin-bottom: 5px;
-        }
-
-        .achievement-progress {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 215, 0, 0.3);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .achievement-progress-fill {
-            height: 100%;
-            background: #ffd700;
-            transition: width 0.3s ease;
-        }
-
-        /* Enhanced Buy/Sell Interface */
-        .buy-sell-container {
-            background: rgba(17, 17, 17, 0.95);
-            border: 2px solid #e63946;
-            border-radius: 20px;
-            padding: 35px;
-            margin: 40px auto;
-            max-width: 550px;
-            box-shadow: 0 0 50px rgba(230, 57, 70, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .buy-sell-container::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--primary-color), var(--neon-purple), var(--neon-blue), var(--accent-green));
-            border-radius: 20px;
-            z-index: -1;
-            animation: borderGlow 4s linear infinite;
-        }
-
-        @keyframes borderGlow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-
-        /* Advanced Chart */
-        .price-chart-section {
-            background: rgba(17, 17, 17, 0.95);
-            border: 2px solid var(--secondary-color);
-            border-radius: 20px;
-            padding: 35px;
-            margin: 40px auto;
-            max-width: 900px;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .chart-btn {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--secondary-color);
+        header p {
+            font-size: 1.2rem;
             color: var(--light-text);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: var(--cyberpunk-font);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
         }
 
-        .chart-btn:hover, .chart-btn.active {
-            background: var(--secondary-color);
+        .web3-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;
+            background: rgba(26, 26, 26, 0.9);
+            border-bottom: 1px solid var(--secondary-color);
+            margin-bottom: 20px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .web3-status, .web3-balance {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: var(--light-text);
+            text-align: center;
+        }
+
+        .web3-status span, .web3-balance span {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .web3-btn {
+            background-color: var(--primary-color);
             color: white;
-            box-shadow: 0 0 15px rgba(69, 123, 157, 0.5);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.4);
         }
 
-        /* Social Media Integration */
-        .social-feed {
+        .web3-btn:hover {
+            background-color: #ff6b7a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(230, 57, 70, 0.6);
+        }
+
+        .web3-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Countdown Timer */
+        .countdown-section {
+            text-align: center;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(17, 17, 17, 0.8);
+            border: 1px dashed #555;
+            border-radius: 15px;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+        .countdown-section h3 {
+            color: var(--accent-green);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .countdown-timer {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(230, 57, 70, 0.6);
+            letter-spacing: 2px;
+        }
+        .countdown-section p {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #aaa;
+        }
+
+        /* New Buy/Sell Interface (inspired by LILPEPE) */
+        .buy-sell-container {
             background: rgba(17, 17, 17, 0.9);
-            border: 2px solid var(--accent-green);
-            border-radius: 20px;
+            border: 1px solid #e63946;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 500px;
+            box-shadow: 0 0 30px rgba(230, 57, 70, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .lp-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .lp-header h2 {
+            font-family: 'Orbitron', monospace;
+            color: #e63946;
+            font-size: 2rem;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+        .lp-header .stage-box {
+            background: #ffc107; /* Yellow */
+            color: #000;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .lp-price-info {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px dashed #555;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            width: 100%;
+            text-align: center;
+        }
+        .lp-price-info p {
+            margin: 5px 0;
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+        .lp-price-info .highlight {
+            color: var(--accent-green); /* Green for prices */
+            font-weight: bold;
+        }
+        .lp-price-info .stage-price {
+            font-size: 1.4rem;
+            color: #ffc107; /* Yellow for stage price */
+        }
+
+        .lp-progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid var(--primary-color);
+        }
+        .lp-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), #ff6b7a);
+            width: 0%; /* Controlled by JS */
+            border-radius: 10px 0 0 10px;
+            transition: width 0.5s ease-out;
+        }
+
+        .lp-stats {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .lp-stat-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #aaa;
+        }
+        .lp-stat-line span.value {
+            color: #eee;
+            font-weight: bold;
+        }
+
+        .lp-input-group {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .lp-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0d0d0d;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .lp-input-row input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            color: #eee;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            padding: 5px;
+            text-align: right;
+        }
+        .lp-input-row input:focus {
+            outline: none;
+        }
+        .lp-input-row .currency-select {
+            background: #222;
+            color: #eee;
+            border: 1px solid #555;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+        }
+        .lp-input-row .max-btn {
+            background: #444;
+            color: #eee;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: background 0.2s ease;
+        }
+        .lp-input-row .max-btn:hover {
+            background: #666;
+        }
+        .lp-input-row .token-display {
+            background: #1a1a1a;
+            color: var(--accent-green); /* Green for token */
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .lp-connect-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), #ff6b7a);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            margin-bottom: 20px;
+        }
+        .lp-connect-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+        }
+        .lp-connect-button.connected {
+            background: linear-gradient(135deg, #007bff, #0056b3); /* Blue for connected state */
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            cursor: default;
+        }
+        .lp-connect-button.connected:hover {
+            transform: none;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+
+        .lp-footer-buttons {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            gap: 15px;
+        }
+        .lp-footer-buttons button {
+            flex-grow: 1;
+            background: #333;
+            color: #ccc;
+            border: 1px solid #555;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        .lp-footer-buttons button:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Price Chart Section */
+        .price-chart-section {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid var(--secondary-color);
+            border-radius: 15px;
             padding: 30px;
             margin: 40px auto;
             max-width: 800px;
-            box-shadow: 0 0 40px rgba(0, 255, 128, 0.2);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            position: relative; /* For background image */
+            overflow: hidden; /* To contain the chart canvas */
         }
 
-        .social-feed h2 {
+        .price-chart-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/space_void.jpg'); /* Your space void image */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2; /* Subtle background */
+            z-index: 0;
+        }
+
+
+        .price-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative; /* Above background */
+            z-index: 1;
+        }
+        .price-chart-header h3 {
             font-family: 'Orbitron', monospace;
             color: var(--accent-green);
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(0, 255, 128, 0.5);
+            font-size: 1.8rem;
+            margin: 0;
         }
-
-        .tweet-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(0, 255, 128, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
+        .price-chart-header .current-price-display {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--light-text);
         }
-
-        .tweet-card:hover {
-            border-color: var(--accent-green);
-            box-shadow: 0 5px 20px rgba(0, 255, 128, 0.2);
-        }
-
-        .tweet-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .tweet-avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .price-chart-header .current-price-display span {
+            color: var(--primary-color);
             font-weight: bold;
-            color: black;
         }
-
-        .tweet-username {
-            font-weight: bold;
-            color: var(--accent-green);
-        }
-
-        .tweet-handle {
-            color: #aaa;
+        .price-chart-header .price-change {
+            font-size: 1.1rem;
+            color: var(--accent-green); /* Green for positive change */
             margin-left: 10px;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-                letter-spacing: 4px;
-            }
-            
-            .container {
-                padding: 15px;
-            }
-            
-            .buy-sell-container,
-            .staking-pool,
-            .social-trading,
-            .layer2-section {
-                margin: 20px auto;
-                padding: 20px;
-            }
-            
-            .ai-chat-window {
-                width: 90%;
-                right: 5%;
-                left: 5%;
-            }
-            
-            .ai-assistant {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-            }
+        .price-chart-canvas-container {
+            position: relative;
+            height: 300px; /* Chart height */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay for chart */
+            border: 1px dashed #444;
+            border-radius: 10px;
+            z-index: 1; /* Above background image */
         }
 
-        /* Button Enhancements */
-        .web3-btn,
-        .enhanced-btn {
-            background: linear-gradient(45deg, var(--primary-color), #ff6b7a);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: var(--cyberpunk-font);
+        .price-chart-canvas-container canvas {
+            width: 100% !important; /* Ensure canvas fills container */
+            height: 100% !important;
+            display: block;
+        }
+
+        .chart-notes {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #777;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .stat-card {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid var(--secondary-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card h4 {
+            font-family: 'Orbitron', monospace;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
             font-size: 1.1rem;
+            color: var(--light-text);
+            margin: 0;
+        }
+
+        .stat-card .value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--accent-green);
             font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
-            position: relative;
-            overflow: hidden;
         }
 
-        .web3-btn::before,
-        .enhanced-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        /* Meme Wall */
+        .meme-wall-section {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .meme-wall-section h2 {
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+
+        .meme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .meme-card {
+            background-color: #0d0d0d;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .meme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* NFT Card Specific Styles (for the new NFT look) */
+        .nft-card-content {
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .nft-image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Make it a square */
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: #222; /* Placeholder background if image loading fails */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #555;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .nft-image-container img {
+            display: block;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            object-fit: cover;
         }
 
-        .web3-btn:hover,
-        .enhanced-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(230, 57, 70, 0.6);
-        }
-
-        .web3-btn:hover::before,
-        .enhanced-btn:hover::before {
-            left: 100%;
-        }
-
-        /* Loading States */
-        .loading {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading::after {
-            content: '';
+        .nft-overlay {
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: loading-shimmer 2s infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
-        @keyframes loading-shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        .nft-info {
+            color: #eee;
         }
 
-        /* Popup Enhancements */
+        .nft-collection {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        .nft-price {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+
+        .nft-price .price-value {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .meme-actions button {
+            background-color: #333;
+            color: #eee;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .meme-actions button:hover {
+            background-color: var(--primary-color);
+        }
+
+        .meme-votes {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        /* Most Nonsensical Meme */
+        .top-meme-display {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            border: 1px dashed #555;
+        }
+
+        /* NFT Minting Section */
+        .nft-mint-section {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid var(--secondary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .nft-mint-section h2 {
+            font-family: 'Orbitron', monospace;
+            color: var(--accent-green);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 128, 0.5);
+        }
+
+        .current-nft-display {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed #444;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-block;
+        }
+
+        .current-nft-display img {
+            max-width: 150px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #555;
+        }
+
+        .current-nft-display p {
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        .nft-status {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Voidpaper & How-To-Buy Section Styling (shared) */
+        .voidpaper-section, .how-to-buy-section {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 800px;
+            box-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
+            display: none; /* Hidden by default */
+        }
+
+        .voidpaper-section h2, .how-to-buy-section h2 {
+            font-family: 'Orbitron', monospace;
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+
+        .voidpaper-section h3, .how-to-buy-section h3 {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+        .how-to-buy-section h2 { /* Specific color for how to buy */
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(0, 255, 128, 0.5);
+        }
+
+
+        .voidpaper-section p, .voidpaper-section ul,
+        .how-to-buy-section p, .how-to-buy-section ol {
+            color: #ccc;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .voidpaper-section ul {
+            list-style-type: '— ';
+            padding-left: 20px;
+        }
+
+        .voidpaper-section li, .how-to-buy-section li {
+            margin-bottom: 15px;
+        }
+
+        .how-to-buy-section ol {
+            list-style-type: decimal;
+            padding-left: 25px;
+        }
+
+        .how-to-buy-section ol li strong {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .how-to-buy-section ol li a {
+            color: var(--accent-green);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .how-to-buy-section ol li a:hover {
+            color: #ff6b7a;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95));
+            border-top: 2px solid var(--primary-color);
+            margin-top: 50px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: #ff6b7a;
+        }
+
+        /* Popup */
         .popup-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
+            background: rgba(0, 0, 0, 0.8);
+            display: none; /* Hidden by default */
             justify-content: center;
             align-items: center;
-            z-index: 2000;
-            visibility: hidden;
-            opacity: 0;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .popup-overlay.is-active {
-            visibility: visible;
-            opacity: 1;
+            z-index: 1000;
         }
 
         .popup-content {
-            background: linear-gradient(135deg, var(--dark-background), rgba(26, 26, 26, 0.95));
+            background: var(--dark-background);
             border: 2px solid var(--primary-color);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 15px;
+            padding: 30px;
             text-align: center;
-            max-width: 500px;
+            max-width: 400px;
             width: 90%;
-            box-shadow: 0 0 50px rgba(230, 57, 70, 0.5);
-            position: relative;
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 30px rgba(230, 57, 70, 0.5);
+            position: relative; /* For close button */
+        }
+        
+        .popup-content h3 {
+            color: var(--primary-color);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
         }
 
-        .popup-overlay.is-active .popup-content {
-            transform: scale(1);
+        .popup-content p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .popup-buttons button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            margin: 0 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .popup-buttons button:hover {
+            background-color: #ff6b7a;
+            transform: translateY(-2px);
+        }
+
+        /* Message Scroll Box */
+        .message-scroll-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #555;
+            border-radius: 10px;
+            padding: 15px;
+            height: 200px;
+            overflow-y: scroll;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .message-scroll-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .message-scroll-box::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        .message-scroll-box::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .message-scroll-box::-webkit-scrollbar-thumb:hover {
+            background: #ff6b7a;
+        }
+
+        .message-line {
+            color: #bbb;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .message-line::before {
+            content: '>';
+            color: var(--accent-green);
+            margin-right: 8px;
+        }
+        
+        /* NEW: Toast Notification System */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-left: 5px solid var(--primary-color);
+            font-family: 'JetBrains Mono', monospace;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast.success { border-left-color: var(--accent-green); }
+        .toast.info { border-left-color: var(--secondary-color); }
+        .toast.error { border-left-color: var(--primary-color); }
+
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            .web3-section {
+                flex-direction: column;
+            }
+            .countdown-timer {
+                font-size: 2rem;
+            }
+            .lp-header h2 {
+                font-size: 1.5rem;
+            }
+            .lp-header .stage-box {
+                font-size: 1rem;
+                padding: 6px 10px;
+            }
+            .lp-price-info p {
+                font-size: 0.9rem;
+            }
+            .lp-input-row input, .lp-input-row .currency-select, .lp-input-row .max-btn, .lp-input-row .token-display {
+                font-size: 0.9rem;
+            }
+            .lp-connect-button {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+            .lp-footer-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .lp-footer-buttons button {
+                font-size: 0.85rem;
+            }
+            .price-chart-header h3 {
+                font-size: 1.4rem;
+            }
+            .price-chart-header .current-price-display {
+                font-size: 1.2rem;
+            }
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+            .meme-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .nft-overlay {
+                font-size: 2rem;
+            }
+            .popup-content {
+                padding: 20px;
+            }
+            .popup-content h3 {
+                font-size: 1.5rem;
+            }
+            .popup-content p {
+                font-size: 1rem;
+            }
+            .popup-buttons button {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            .voidpaper-section, .how-to-buy-section {
+                padding: 20px;
+            }
+            .voidpaper-section h2, .how-to-buy-section h2 {
+                font-size: 1.8rem;
+            }
+            .voidpaper-section h3, .how-to-buy-section h3 {
+                font-size: 1.4rem;
+            }
+             .voidpaper-section p, .voidpaper-section ul,
+             .how-to-buy-section p, .how-to-buy-section ol {
+                font-size: 0.9rem;
+                padding-left: 20px;
+            }
+            #toast-container {
+                right: 10px;
+                top: 10px;
+                width: calc(100% - 20px);
+            }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div id="particles"></div>
-
-    <!-- AI Assistant -->
-    <div class="ai-assistant" onclick="toggleAIChat()">
-        🤖
-    </div>
-
-    <div class="ai-chat-window" id="aiChatWindow">
-        <div class="ai-chat-header">
-            <span>VOID AI Assistant</span>
-            <span onclick="toggleAIChat()" style="cursor: pointer;">✕</span>
-        </div>
-        <div class="ai-chat-messages" id="aiChatMessages">
-            <div class="ai-message">
-                👋 Welcome to the void! I'm here to guide you through your journey to nothingness. Ask me anything about 0xKNOTHING!
-            </div>
-        </div>
-    </div>
+    <div id="toast-container"></div>
 
     <header>
         <h1>0xKNOTHING</h1>
-        <p>The anti-utility token powered by AI, Layer 2 scaling, and social trading. No purpose. No roadmap. Pure, unadulterated nothingness with next-gen features.</p>
+        <p>The anti-utility token. No purpose. No roadmap. Pure, unadulterated nothingness. Invest your hopes and dreams here to see them vanish.</p>
     </header>
 
     <div class="container">
-        <!-- Enhanced Web3 Connection Section -->
         <section class="web3-section">
-            <button id="connectWalletBtn" class="enhanced-btn" onclick="connectWallet()">CONNECT TO THE VOID</button>
+            <button id="connectWalletBtn" class="web3-btn" onclick="connectWallet()">CONNECT WALLET</button>
             <div id="walletInfo" class="web3-status" style="display: none;">
                 Wallet: <span id="walletAddress">Not Connected</span><br>
                 Balance: <span id="walletBalance">0.0000</span> ETH<br>
                 0xKNOTHING: <span id="knotBalance">0 0xKNOTHING</span>
             </div>
-            <p id="lpStatusMessage" class="web3-status" style="border: none; background: none; color: #ffc107; font-size: 0.9rem;"></p>
         </section>
 
-        <!-- Staking Pool Section -->
-        <section class="staking-pool">
-            <div class="staking-header">
-                <h2>Void Staking Pool</h2>
-                <p>Stake your nothing and earn... more nothing! Revolutionary DeFi yields await.</p>
-            </div>
-            
-            <div class="staking-stats">
-                <div class="staking-stat">
-                    <div class="label">Total Staked</div>
-                    <div class="value" id="totalStaked">0 0xKNOTHING</div>
-                </div>
-                <div class="staking-stat">
-                    <div class="label">APY</div>
-                    <div class="value" id="stakingAPY">∞%</div>
-                </div>
-                <div class="staking-stat">
-                    <div class="label">Your Stake</div>
-                    <div class="value" id="userStaked">0 0xKNOTHING</div>
-                </div>
-                <div class="staking-stat">
-                    <div class="label">Rewards</div>
-                    <div class="value" id="stakingRewards">0 0xKNOTHING</div>
-                </div>
-            </div>
-            
-            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
-                <button class="enhanced-btn" onclick="showStakePopup()">STAKE NOTHING</button>
-                <button class="enhanced-btn" onclick="showUnstakePopup()">UNSTAKE VOID</button>
-                <button class="enhanced-btn" onclick="claimRewards()">CLAIM NOTHING</button>
-            </div>
+        <section class="countdown-section">
+            <h3>Time Until Meaningless Reset</h3>
+            <div class="countdown-timer" id="countdownDisplay">00:00:00</div>
+            <p>Every day, the void reshapes itself. Don't expect anything different.</p>
         </section>
 
-        <!-- Social Trading Section -->
-        <section class="social-trading">
-            <h2>AI-Powered Social Trading</h2>
-            <p>Follow the smartest void traders and copy their strategies (or lack thereof)</p>
-            
-            <div class="trading-signals">
-                <div class="signal-card">
-                    <div class="signal-header">
-                        <div class="signal-type">AI ANALYSIS</div>
-                        <div class="signal-confidence">42%</div>
-                    </div>
-                    <h4>Chaos Algorithm</h4>
-                    <p>"AI predicts 0xKNOTHING will either moon or crash. Probability: Yes."</p>
-                    <button class="enhanced-btn" onclick="copyTrade('chaos_ai')">FOLLOW AI</button>
-                </div>
-                
-                <div class="signal-card">
-                    <div class="signal-header">
-                        <div class="signal-type">MEME SIGNAL</div>
-                        <div class="signal-confidence">69%</div>
-                    </div>
-                    <h4>Diamond Hands McGee</h4>
-                    <p>"HODL nothing forever. My portfolio is a masterpiece of emptiness."</p>
-                    <button class="enhanced-btn" onclick="copyTrade('diamond_hands')">COPY HODL</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Layer 2 Integration -->
-        <section class="layer2-section">
-            <h2>Multi-Chain Nothingness</h2>
-            <p>Experience void across multiple Layer 2 networks with lightning-fast nothing transactions</p>
-            
-            <div class="network-grid">
-                <div class="network-card" onclick="switchNetwork('polygon')">
-                    <div class="network-icon">⬡</div>
-                    <h4>Polygon</h4>
-                    <p>Ultra-fast void</p>
-                    <div class="network-status">Gas: ~$0.001</div>
-                </div>
-                
-                <div class="network-card" onclick="switchNetwork('arbitrum')">
-                    <div class="network-icon">◆</div>
-                    <h4>Arbitrum</h4>
-                    <p>Optimized nothing</p>
-                    <div class="network-status">Gas: ~$0.05</div>
-                </div>
-                
-                <div class="network-card" onclick="switchNetwork('optimism')">
-                    <div class="network-icon">○</div>
-                    <h4>Optimism</h4>
-                    <p>Hopeful void</p>
-                    <div class="network-status">Gas: ~$0.03</div>
-                </div>
-                
-                <div class="network-card" onclick="switchNetwork('base')">
-                    <div class="network-icon">▣</div>
-                    <h4>Base</h4>
-                    <p>Based nothingness</p>
-                    <div class="network-status">Gas: ~$0.02</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Gamification Section -->
-        <section class="gamification-section">
-            <h2 style="color: #ffd700; text-align: center; font-family: 'Orbitron', monospace; font-size: 2.2rem; margin-bottom: 20px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);">Void Achievements</h2>
-            <p style="text-align: center; color: #ccc; margin-bottom: 30px;">Unlock meaningless badges as you progress through your journey to nothingness</p>
-            
-            <div class="achievement-grid">
-                <div class="achievement-badge" onclick="showAchievement('first_buy')">
-                    <div class="achievement-icon">🎯</div>
-                    <div class="achievement-title">First Mistake</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-fill" style="width: 100%;"></div>
-                    </div>
-                </div>
-                
-                <div class="achievement-badge" onclick="showAchievement('hodler')">
-                    <div class="achievement-icon">💎</div>
-                    <div class="achievement-title">Diamond Void</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-fill" style="width: 75%;"></div>
-                    </div>
-                </div>
-                
-                <div class="achievement-badge" onclick="showAchievement('burner')">
-                    <div class="achievement-icon">🔥</div>
-                    <div class="achievement-title">Void Burner</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-fill" style="width: 25%;"></div>
-                    </div>
-                </div>
-                
-                <div class="achievement-badge" onclick="showAchievement('whale')">
-                    <div class="achievement-icon">🐋</div>
-                    <div class="achievement-title">Nothing Whale</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-fill" style="width: 0%;"></div>
-                    </div>
-                </div>
-                
-                <div class="achievement-badge" onclick="showAchievement('social')">
-                    <div class="achievement-icon">📱</div>
-                    <div class="achievement-title">Void Influencer</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-fill" style="width: 50%;"></div>
-                    </div>
-                </div>
-                
-                <div class="achievement-badge" onclick="showAchievement('master')">
-                    <div class="achievement-icon">👑</div>
-                    <div class="achievement-title">Void Master</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-fill" style="width: 10%;"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Enhanced Buy/Sell Interface -->
         <section class="buy-sell-container">
             <div class="lp-header">
                 <h2 id="lpTokenName">0xKNOTHING</h2>
-                <div class="stage-box" id="currentStage">Stage ∞</div>
+                <div class="stage-box" id="currentStage">Void 1</div>
             </div>
 
             <div class="lp-price-info">
                 <p>Next Stage Price: <span class="highlight stage-price" id="nextStagePrice">$0.00000000</span></p>
-                <p>1 0xKNOTHING = <span class="highlight" id="currentKnotPriceLP">$0.00000000</span></p>
-                <p>AI Prediction: <span style="color: var(--neon-purple);" id="aiPrediction">Chaotic Void</span></p>
+                <p>1 0xKNOTHING = <span class="highlight" id="knottingPrice">$0.00000000</span></p>
             </div>
 
             <div class="lp-stats">
@@ -926,10 +1104,6 @@
                 <div class="lp-stat-line">
                     <span>Tokens Sold:</span>
                     <span class="value" id="tokensSold">0 / ∞</span>
-                </div>
-                <div class="lp-stat-line">
-                    <span>Social Score:</span>
-                    <span class="value" id="socialScore">∞ Hype</span>
                 </div>
             </div>
 
@@ -943,8 +1117,7 @@
                     <select id="buyCurrencySelect" class="currency-select" disabled>
                         <option value="ETH">ETH</option>
                         <option value="USDT">USDT</option>
-                        <option value="MATIC">MATIC</option>
-                        <option value="ARB">ARB</option>
+                        <option value="CARD">CARD</option>
                     </select>
                 </div>
                 <div class="lp-input-row">
@@ -954,46 +1127,659 @@
                 </div>
             </div>
 
-            <button class="enhanced-btn" id="lpConnectWalletBtn" onclick="connectWallet()" style="width: 100%; margin-bottom: 20px;">CONNECT TO VOID</button>
+            <button class="lp-connect-button" id="lpConnectWalletBtn" onclick="connectWallet()">CONNECT WALLET</button>
 
-            <div class="lp-footer-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
-                <button id="howToBuyBtn" class="enhanced-btn">HOW TO VOID</button>
-                <button id="burnToVoidBtn" class="enhanced-btn">BURN TO VOID</button>
-                <button id="stakeBtn" class="enhanced-btn">STAKE NOTHING</button>
-                <button id="giveawayBtn" class="enhanced-btn">AI GIVEAWAY</button>
+            <div class="lp-footer-buttons">
+                <button id="howToBuyBtn">HOW TO BUY NOTHING</button>
+                <button id="giveawayBtn">+777K MEANINGLESS GIVEAWAY</button>
             </div>
         </section>
 
-        <!-- Advanced Price Chart -->
+        <section id="howToBuySection" class="how-to-buy-section">
+             <h2>HOW TO BUY 0xKNOTHING</h2>
+            <ol>
+                <li><strong>Step 1: Get A Wallet (For Nothing)</strong><br>
+                    Download <a href="https://metamask.io/download/" target="_blank">MetaMask</a> or your preferred void-compatible wallet. This will hold your ETH (or other currencies) that you'll exchange for 0xKNOTHING, and your 0xKNOTHING tokens (which are, effectively, nothing).</li>
+                <li><strong>Step 2: Fund Your Wallet (With Something)</strong><br>
+                    You'll need some ETH (or USDT/CARD if supported by the exchange). You can get ETH from exchanges like Binance, Coinbase, or any other platform that deals in actual value. Transfer it to your MetaMask wallet.</li>
+                <li><strong>Step 3: Connect to the Abyss (Our DApp)</strong><br>
+                    On this very page, click the "CONNECT WALLET" button. Your MetaMask (or other wallet) will prompt you to connect. Approve the connection. Now your wallet is ready to participate in our glorious non-economy.</li>
+                <li><strong>Step 4: Swap for Nothingness (The Transaction)</strong><br>
+                    In the "Buy/Sell" section, enter the amount of ETH (or other currency) you wish to exchange. The system will calculate how much 0xKNOTHING (which is infinite, but you'll get a specific number to make it look real) you'll receive. Click the big button (which will say "BUY NOTHING" once connected) to initiate the transaction.</li>
+                <li><strong>Step 5: Confirm Transaction (And Your Regret)</strong><br>
+                    Your wallet will pop up asking you to confirm the transaction and gas fees. Review the details. If you're truly committed to embracing nothingness, confirm the transaction. The tokens will appear in your wallet shortly.</li>
+                <li><strong>Step 6: Add 0xKNOTHING to Your Wallet (If You Must)</strong><br>
+                    Since 0xKNOTHING is, well, nothing, you might need to manually add the token to your MetaMask to see it. Use our contract address (if we ever bothered to deploy one that works) and the token symbol "0xKNOTHING" with 18 decimals.
+                    <br><strong>(Disclaimer: We haven't deployed a contract yet. It's too much effort for nothing.)</strong></li>
+            </ol>
+            <p style="text-align: center; font-style: italic;">Congratulations! You've successfully acquired nothing. We told you so.</p>
+        </section>
+        
+        <button id="burnToVoidBtn" title="Burn all your 0xKNOTHING tokens to achieve ultimate nothingness. This action is irreversible." class="web3-btn" style="display: block; margin: 30px auto; background-color: #333; border: 1px solid #555;">BURN TO VOID</button>
+        
+
+        <section class="message-scroll-box" id="messageScroll">
+        </section>
+
         <section class="price-chart-section">
             <div class="price-chart-header">
-                <h3>AI-Enhanced Price Chart</h3>
+                <h3>0xKNOTHING Price Chart (Totally Real & Not Fake)</h3>
                 <div class="current-price-display">
-                    Current Price: <span id="currentKnotPriceChart">$0.00000000</span>
+                    Current Price: <span id="currentKnotPrice">$0.00000068</span>
                     <span id="priceChangePercent" class="price-change">+∞%</span>
                 </div>
             </div>
-            
-            <div class="chart-controls">
-                <button class="chart-btn active" onclick="setChartTimeframe('1H')">1H</button>
-                <button class="chart-btn" onclick="setChartTimeframe('1D')">1D</button>
-                <button class="chart-btn" onclick="setChartTimeframe('1W')">1W</button>
-                <button class="chart-btn" onclick="setChartTimeframe('1M')">1M</button>
-                <button class="chart-btn" onclick="toggleChartType()">📊 Type</button>
-                <button class="chart-btn" onclick="toggleAIAnalysis()">🤖 AI</button>
-            </div>
-            
             <div class="price-chart-canvas-container">
                 <canvas id="priceChart"></canvas>
             </div>
             <p class="chart-notes">
-                * Chart powered by AI predictions<div class="signal-header">
-                        <div class="signal-type">VOID SIGNAL</div>
-                        <div class="signal-confidence">95%</div>
-                    </div>
-                    <h4>The Nothingness Prophet</h4>
-                    <p>"Buy more nothing when nothing happens. Trust me, I've been wrong before."</p>
-                    <button class="enhanced-btn" onclick="copyTrade('void_prophet')">COPY TRADE</button>
+                * Chart shows the price of our hopes and dreams, not actual trading data.
+            </p>
+        </section>
+
+        <section class="stats-section">
+            <div class="stat-card">
+                <h4>Market Cap</h4>
+                <p id="marketCap" class="value">Undefined</p>
+            </div>
+            <div class="stat-card">
+                <h4>24h Volume</h4>
+                <p id="volume24h" class="value">Tears of Regret</p>
+            </div>
+            <div class="stat-card">
+                <h4>Holders</h4>
+                <p id="holdersCount" class="value">Nobody + You</p>
+            </div>
+            <div class="stat-card">
+                <h4>LP Status</h4>
+                <p id="lpVolume" class="value">0.000000 LP (Glitchy Pool)</p>
+            </div>
+            <div class="stat-card">
+                <h4>Last Activity</h4>
+                <p id="lastActivity" class="value">Block ??? - Random Event (0x...)</p>
+            </div>
+            <div class="stat-card">
+                <h4>Current Price</h4>
+                <p id="currentPrice" class="value">$0.00000068</p>
+            </div>
+        </section>
+
+        <section class="meme-wall-section">
+            <h2>The Wall of Nonsense NFTs</h2>
+            <div class="meme-grid" id="memeGrid">
                 </div>
+            <div class="top-meme-display" id="mostNonsensicalMeme">
+                Most Nonsensical Meme Today: "My Brain Cell Count"
+            </div>
+        </section>
+
+        <section class="nft-mint-section">
+            <h2>Mint Your Own Nothing NFT</h2>
+            <p>Embrace the void. Own a piece of digital non-existence. Each NFT is a unique representation of futility.</p>
+            <button id="mintNftBtn" class="web3-btn" onclick="mintNft()" disabled>Mint A Nothing NFT (Cost: Gas Fees + Your Sanity)</button>
+            <div class="current-nft-display">
+                <img id="currentNftImage" src="https://via.placeholder.com/100/333333/FFFFFF?text=NFT" alt="Your Minted NFT">
+                <p id="currentNftText">Your NFT: Nothing yet. Connect wallet to see your future regret.</p>
+            </div>
+            <p id="nftMintStatus" class="nft-status">Ready to waste your gas...</p>
+        </section>
+
+        <section class="voidpaper-section" id="voidpaperSection">
+            <h2>The Voidpaper (or lack thereof)</h2>
+            <p>Welcome, seeker of truth, to the Voidpaper. A document meticulously crafted to explain absolutely nothing about 0xKNOTHING. Our philosophy is simple: there is no philosophy. Our technology is groundbreaking: it doesn't exist. Our community is thriving: in their own heads.</p>
+
+            <h3>1. Introduction to the Abyss</h3>
+            <p>0xKNOTHING is not a cryptocurrency. It is not a meme coin. It is not even a concept. It is the digital embodiment of that nagging feeling in the back of your mind that everything is meaningless. We've tokenized the void, and frankly, we're not sure why.</p>
+
+            <h3>2. Non-existent Tokenomics</h3>
+            <ul>
+                <li>Total Supply: ∞ (It grows as fast as your disappointment)</li>
+                <li>Burn Mechanism: Every transaction burns a small piece of your hope.</li>
+                <li>Staking: You can stake your tokens, and we'll stake ours that you'll gain nothing.</li>
+                <li>Liquidity: As volatile as your life choices.</li>
+                <li>Utility: Less than zero. This token actively subtracts utility from your life.</li>
+            </ul>
+
+            <h3>3. The Anti-Roadmap (or The Road to Nowhere)</h3>
+            <p>Our roadmap is a blank canvas, perfectly reflecting our commitment to going nowhere. We plan to achieve absolutely nothing, consistently, for an indefinite period. Key milestones include:</p>
+            <ul>
+                <li>**Q3 2025: Continue to exist (maybe).**</li>
+                <li>**Q4 2025: Fail to launch any meaningful partnerships.**</li>
+                <li>**2026: Further decentralize the feeling of despair.**</li>
+                <li>**Future: Achieve ultimate oblivion.**</li>
+                <li>**Forever: Continue to be nothing.**</li>
+            </ul>
+
+            <h3>4. Our Non-existent Team</h3>
+            <p>Our team is comprised of highly experienced individuals in the art of doing nothing. We are anonymous, not because we fear regulations, but because we fear accountability. We are passionate about... well, we're not passionate about anything really.</p>
+
+            <h3>5. Join the Void (Don't)</h3>
+            <p>Don't join our community. Don't invest. Don't believe the hype (there isn't any). Just observe the nothingness, and perhaps, find a strange comfort in its absolute pointlessness.</p>
+
+            <p style="text-align: center; margin-top: 30px; font-style: italic;">Thank you for wasting your time reading the Voidpaper. You're now one step closer to embracing true Nothingness.</p>
+        </section>
+
+        <button class="web3-btn" onclick="toggleVoidpaper()" style="display: block; margin: 30px auto;">READ THE VOIDPAPER</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 0xKNOTHING. All rights reserved. (We think. Who cares anyway?)</p>
+        <div class="social-links">
+            <a href="#" target="_blank">X</a> |
+            <a href="#" target="_blank">Telegram</a> |
+            <a href="#" target="_blank">Discord</a>
+        </div>
+    </footer>
+
+    <div id="actionPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h3 id="popupTitle">Confirm Action</h3>
+            <p id="popupMessage">Are you sure you want to perform this action?</p>
+            <div class="popup-buttons">
+                <button id="popupConfirmBtn">Confirm</button>
+                <button onclick="hidePopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- NEW: Toast Notification Function ---
+        function showToast(message, type = 'info') { // types: info, success, error
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            // Trigger the animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10); // Small delay to allow the element to be in the DOM
+
+            // Remove the toast after some time
+            setTimeout(() => {
+                toast.classList.remove('show');
+                // Remove the element from DOM after transition ends
+                toast.addEventListener('transitionend', () => {
+                    if (toast.parentElement) {
+                        container.removeChild(toast);
+                    }
+                });
+            }, 5000); // Toast visible for 5 seconds
+        }
+
+        // Global Web3 variables
+        let provider, signer, userAddress;
+        let isWalletConnected = false;
+        
+        // Use localStorage to persist wallet state
+        function getInitialBalance(key, defaultValue) {
+            const storedValue = localStorage.getItem(key);
+            return storedValue !== null ? parseFloat(storedValue) : defaultValue;
+        }
+        
+        // Initialize balances
+        let currentKnotBalance = getInitialBalance('0xknothing_knotBalance', 0); 
+        let currentEthBalance = getInitialBalance('0xknothing_ethBalance', -1); // -1 indicates not yet initialized
+
+        let totalUsdRaised = getInitialBalance('0xknothing_usdRaised', 0);
+        let totalTokensSold = getInitialBalance('0xknothing_tokensSold', 0);
+        let currentStage = getInitialBalance('0xknothing_currentStage', 1); // Start stage
+        let knotPrice = calculateKnotPrice(currentStage); // Calculate price based on stage
+
+        // Function to calculate 0xKNOTHING price based on stage
+        function calculateKnotPrice(stage) {
+            if (stage <= 10) {
+                return 0.00000001 * Math.pow(2, stage - 1);
+            } else if (stage <= 20) {
+                return 0.00000001 * Math.pow(2, 9) + (stage - 10) * 0.00000005; 
+            } else {
+                const basePrice = 0.00000001 * Math.pow(2, 9) + 10 * 0.00000005;
+                const randomFactor = Math.random();
+                if (randomFactor < 0.3) return basePrice * (1 + Math.random() * 0.5);
+                if (randomFactor < 0.6) return basePrice * (0.5 + Math.random() * 0.5);
+                if (randomFactor < 0.8) return Math.random() * 0.00001;
+                return Infinity;
+            }
+        }
+
+        const memes = [
+             { id: 'nft404_1', collection: 'The Void Collection', number: '#4?4', price: '∞ 0xKNOTHING (Coming Never)', mintText: 'Mint Confusion', img: 'images/nft_placeholder.png', votes: 0 },
+             { id: 'misspelled_∞', collection: 'Misspelled Dreams', number: '#∞', price: 'Your Soul (Sold Out)', mintText: 'Soul Not Found', img: 'images/nft_placeholder_alert.png', votes: 0 },
+             { id: 'oxknothing_0', collection: '0xKNOTHING Original', number: '#0000', price: '0.000 ETH (Not for sale)', mintText: 'Mint Nothing (Unavailable)', img: 'images/nft_placeholder_void.png', votes: 0 },
+             { id: 'nft404_2', collection: 'The Void Collection', number: '#404', price: 'Ξ ??? (Maybe)', mintText: 'Attempt Mint?', img: 'images/nft_placeholder_question.png', votes: 0 },
+             { id: 'lost_cause', collection: 'Lost Cause Series', number: '#500', price: '1.000 ETH (Not For You)', mintText: 'Mint Disappointment', img: 'images/nft_placeholder_cross.png', votes: 0 },
+             { id: 'digital_dust', collection: 'Digital Dust', number: '#999', price: 'FREE (But Costly)', mintText: 'Claim Your Dust', img: 'images/nft_placeholder_dust.png', votes: 0 }
+        ];
+
+        let priceChart; // Declare chart variable globally
+
+        document.addEventListener("DOMContentLoaded", function () {
+            createParticles();
+            setInterval(updateRealtimeCountdown, 1000);
+            updateRealtimeCountdown();
+
+            const messages = ["There is no plan. There never was.", "You're waiting for something that will never come.", "No utility. No purpose. Just vibes of emptiness.", "Even this message means nothing.", "Stay unready. Stay unknowing.", "You came here for meaning? That's cute.", "The real value is in the absolute void.", "We 0xKNOT what we're doing. Do you?", "Imagine a meme. Now delete it. That's us.", "0xKNOTHING: not even trying since never.", "This isn't a launch. It's a slow descent into madness.", "Not a rug. Not a moon. Not even a thing.", "Spelled wrong. Built worse. Loved by none.", "The community asked for nothing. We delivered.", "Tokenomics: Take your money, return confusion.", "Our marketing budget: $0.00. Our effort: Even less.", "Join us in the eternal loop of disappointment.", "We're not early. We're not late. We're 0xKNOT.", "The only guarantee: You'll question your choices.", "Built different. Built wrong. Built to confuse.", "This is what happens when devs give up.", "No promises made. All promises broken anyway.", "Your bags are empty. Your soul will be too.", "We tied your expectations in a knot. Get it?", "The void stares back. It's also confused.", "Not your keys, not your coins, not our problem.", "Web3 innovation: Making nothing from nothing.", "Gas fees higher than our token price.", "Smart contract? More like confused contract.", "DEX listed us by mistake. We stayed.", "Rug pull? We pulled the entire floor.", "Beware of the void, it's contagious.", "You're still here? Why?", "Congratulations, you've achieved peak pointlessness."];
+
+            function appendRandomMessage() {
+                const container = document.getElementById("messageScroll");
+                const msg = document.createElement("div");
+                msg.className = "message-line";
+                msg.textContent = messages[Math.floor(Math.random() * messages.length)];
+                container.appendChild(msg);
+                while (container.children.length > 20) {
+                    container.removeChild(container.firstChild);
+                }
+                container.scrollTop = container.scrollHeight;
+            }
+            for (let i = 0; i < 3; i++) { setTimeout(appendRandomMessage, i * 1000); }
+            setInterval(appendRandomMessage, 4000);
+
+            setInterval(updateStats, 10000);
+            updateStats();
+
+            populateMemeWall();
+            updateMostNonsensicalMeme();
+            setInterval(updateMostNonsensicalMeme, 30000);
+
+            updateLPInterface();
+            setInterval(updateUsdTokensRaised, 60000); 
+
+            document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
+            document.getElementById('buyCurrencySelect').addEventListener('change', calculateReceiveAmount);
+            document.getElementById('maxAmountBtn').addEventListener('click', setMaxBuyAmount);
+
+            document.getElementById('howToBuyBtn').addEventListener('click', toggleHowToBuySection);
+            document.getElementById('giveawayBtn').addEventListener('click', () => {
+                showToast("🎉 Congratulations! You just won... nothing! As expected.", 'success');
+                appendRandomMessage();
+            });
+            document.getElementById('burnToVoidBtn').addEventListener('click', () => {
+                if (!isWalletConnected) {
+                    showToast("Connect wallet first to burn your nothing!", 'error');
+                    return;
+                }
+                showPopup('burn');
+            });
+            
+            initializeChart();
+            setInterval(updateChartData, 1000);
+            
+            if (localStorage.getItem('0xknothing_isConnected') === 'true') {
+                 connectWallet();
+            }
+        });
+
+        // Web3 Functions
+        async function connectWallet() {
+            showToast("Connecting to the void...", 'info');
+            
+            // Simulate connection delay
+            setTimeout(() => {
+                isWalletConnected = true;
+                localStorage.setItem('0xknothing_isConnected', 'true');
+                userAddress = "0xDummyWalletAddressXXXXXXXXXXXXXXXX";
+
+                // If ETH balance was never set, initialize it
+                if (currentEthBalance === -1) {
+                    currentEthBalance = Math.random() * 0.5 + 0.01; // Random balance between 0.01 and 0.51 ETH
+                }
                 
-                <div class="signal-card">
+                updateWalletUI();
+                
+                const lpConnectBtn = document.getElementById('lpConnectWalletBtn');
+                lpConnectBtn.textContent = "BUY NOTHING";
+                lpConnectBtn.disabled = false;
+                lpConnectBtn.classList.add('connected');
+                lpConnectBtn.onclick = () => showPopup('lpBuy');
+
+                enableLPButtons();
+                showToast("Wallet connected to the void.", 'success');
+                appendRandomMessage();
+
+            }, 1500);
+        }
+        
+        function updateWalletUI() {
+             // Update all balance displays
+            document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
+            document.getElementById("walletBalance").textContent = `${currentEthBalance.toFixed(4)} ETH`;
+            document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`;
+            document.getElementById("walletInfo").style.display = "block";
+            
+            // Save current balances to localStorage
+            localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
+            localStorage.setItem('0xknothing_ethBalance', currentEthBalance);
+        }
+
+        function enableLPButtons() {
+            document.getElementById('buyInputAmount').disabled = false;
+            document.getElementById('buyCurrencySelect').disabled = false;
+            document.getElementById('maxAmountBtn').disabled = false;
+            document.getElementById('receiveTokenAmount').disabled = false;
+            document.getElementById('mintNftBtn').disabled = false;
+        }
+
+        // --- LP Interface Functions ---
+        function updateLPInterface() {
+            let nextStagePrice = knotPrice * (1 + 0.1 * Math.random());
+            document.getElementById("currentStage").textContent = `Void ${currentStage}`;
+
+            if (knotPrice === Infinity || knotPrice <= 0) {
+                document.getElementById("nextStagePrice").textContent = `$∞ (Impossible)`;
+                document.getElementById("knottingPrice").textContent = `$∞`;
+            } else {
+                document.getElementById("nextStagePrice").textContent = `$${nextStagePrice.toFixed(8)}`;
+                document.getElementById("knottingPrice").textContent = `$${knotPrice.toFixed(8)}`;
+            }
+
+            document.getElementById("usdRaised").textContent = `$${totalUsdRaised.toLocaleString(undefined, { maximumFractionDigits: 0 })} / $∞`;
+            document.getElementById("tokensSold").textContent = `${totalTokensSold.toLocaleString(undefined, { maximumFractionDigits: 0 })} / ∞`;
+            document.getElementById("progressFill").style.width = `${(Math.random() * 100).toFixed(2)}%`;
+            calculateReceiveAmount();
+        }
+
+        function updateUsdTokensRaised() {
+            const usdIncrease = Math.random() * 1000 + 50;
+            const tokensIncrease = Math.random() * 5000000 + 100000;
+            totalUsdRaised += usdIncrease;
+            totalTokensSold += tokensIncrease;
+            localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
+            localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
+            updateLPInterface();
+        }
+
+        function calculateReceiveAmount() {
+            const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
+            if (isNaN(inputAmount) || inputAmount <= 0) {
+                document.getElementById('receiveTokenAmount').value = 0;
+                return;
+            }
+            const selectedCurrency = document.getElementById('buyCurrencySelect').value;
+            let usdEquivalent = 0;
+            switch (selectedCurrency) {
+                case 'ETH': usdEquivalent = inputAmount * 2000; break;
+                case 'USDT': usdEquivalent = inputAmount * 1; break;
+                case 'CARD': usdEquivalent = inputAmount * 0.5; break;
+            }
+            let receivedKnot = (knotPrice === Infinity || knotPrice <= 0) ? 0 : usdEquivalent / knotPrice;
+            document.getElementById('receiveTokenAmount').value = receivedKnot.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        }
+
+        function setMaxBuyAmount() {
+            const selectedCurrency = document.getElementById('buyCurrencySelect').value;
+            let maxAmount = 0;
+            switch (selectedCurrency) {
+                case 'ETH': maxAmount = currentEthBalance; break;
+                case 'USDT': maxAmount = currentEthBalance * 2000; break;
+                case 'CARD': maxAmount = currentEthBalance * 4000; break;
+            }
+            document.getElementById('buyInputAmount').value = maxAmount.toFixed(4);
+            calculateReceiveAmount();
+        }
+
+        // NFT, Stats, and other functions
+        async function mintNft() {
+            if (!isWalletConnected) {
+                showToast("Connect wallet first to mint a Nothing NFT!", 'error');
+                return;
+            }
+            const gasFee = 0.008 + Math.random() * 0.005; // Simulate gas fee
+            if (currentEthBalance < gasFee) {
+                showToast(`Insufficient ETH for gas! Need ~${gasFee.toFixed(4)} ETH.`, 'error');
+                return;
+            }
+
+            showToast("Minting Nothing NFT... Wasting your gas...", 'info');
+            
+            setTimeout(() => {
+                currentEthBalance -= gasFee;
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
+                const nftNames = ["Void Fragment", "Eternal Echo", "Quantum Blankness", "Unseen Horizon", "Zero Point Entity", "The Invisible Pixel"];
+                const randomNftName = nftNames[Math.floor(Math.random() * nftNames.length)];
+                document.getElementById('currentNftText').textContent = `Your NFT: "${randomNftName}"`;
+                document.getElementById('currentNftImage').src = `https://via.placeholder.com/150/000000/FFFFFF?text=${encodeURIComponent(randomNftName.split(' ')[0])}`;
+                
+                updateWalletUI();
+                showToast(`✔️ Nothing NFT minted! TX: ${txHash.slice(0, 10)}...`, 'success');
+                appendRandomMessage();
+            }, 2500);
+        }
+
+        function updateStats() {
+            const marketCaps = ["Undefined", "Negative", "404 Not Found", "NaN", "Imaginary", "Void"];
+            document.getElementById("marketCap").textContent = marketCaps[Math.floor(Math.random() * marketCaps.length)];
+            const volumes = ["Emotional Damage", "Tears of Regret", "Lost Dreams", "Wasted Time", "Pure Disappointment", "Existential Crisis"];
+            document.getElementById("volume24h").textContent = volumes[Math.floor(Math.random() * volumes.length)];
+            const holderCounts = ["Nobody + You", "Just You", "You + Your Alt", "2 Bots", "Error: NaN", "Everyone's Mom"];
+            document.getElementById("holdersCount").textContent = holderCounts[Math.floor(Math.random() * holderCounts.length)];
+            const lpVolume = (Math.random() * 0.0001).toFixed(6);
+            const lpStates = ["Glitchy Pool", "Broken Pool", "Empty Pool", "Non-Existent Pool"];
+            document.getElementById("lpVolume").textContent = `${lpVolume} LP (${lpStates[Math.floor(Math.random() * lpStates.length)]})`;
+            const randomBlock = Math.floor(Math.random() * 99999999) + 10000000;
+            const activityTypes = ["Mint", "Burn", "Transfer", "Swap"];
+            const randomActivity = activityTypes[Math.floor(Math.random() * activityTypes.length)];
+            const randomTxHashPart = Math.random().toString(16).substr(2, 8);
+            document.getElementById("lastActivity").textContent = `Block ${randomBlock} - ${randomActivity} (0x${randomTxHashPart}...)`;
+        }
+
+        // --- NEW: Slide-down section toggles ---
+        function toggleVoidpaper() {
+            const section = document.getElementById('voidpaperSection');
+            toggleSection(section);
+        }
+        function toggleHowToBuySection() {
+            const section = document.getElementById('howToBuySection');
+            toggleSection(section);
+        }
+        function toggleSection(sectionElement) {
+            if (sectionElement.style.display === 'block') {
+                sectionElement.style.display = 'none';
+            } else {
+                sectionElement.style.display = 'block';
+                sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        function populateMemeWall() {
+            const memeGrid = document.getElementById('memeGrid');
+            memeGrid.innerHTML = ''; // Clear existing
+            memes.forEach(meme => {
+                const memeCard = document.createElement('div');
+                memeCard.className = 'meme-card';
+                memeCard.innerHTML = `
+                    <div class="nft-card-content">
+                        <div class="nft-image-container">
+                            <img src="${meme.img}" alt="${meme.collection} ${meme.number}">
+                            <div class="nft-overlay">${meme.number}</div>
+                        </div>
+                        <div class="nft-info">
+                            <div class="nft-collection">${meme.collection}</div>
+                            <div class="nft-price">Price: <span class="price-value">${meme.price}</span></div>
+                            <div class="meme-actions">
+                                <button onclick="voteMeme('${meme.id}')">This means NOTHING</button>
+                                <button onclick="mintMemeNft('${meme.id}')">${meme.mintText}</button>
+                            </div>
+                            <div class="meme-votes" id="votes-${meme.id}">Votes: ${meme.votes}</div>
+                        </div>
+                    </div>`;
+                memeGrid.appendChild(memeCard);
+            });
+        }
+        
+        function voteMeme(memeId) {
+            const meme = memes.find(m => m.id === memeId);
+            if (meme) {
+                meme.votes++;
+                document.getElementById(`votes-${meme.id}`).textContent = `Votes: ${meme.votes}`;
+                showToast(`You voted for "${meme.collection} ${meme.number}". Your meaninglessness score increased.`, 'info');
+            }
+        }
+
+        function mintMemeNft(memeId) {
+            showToast("This feature also leads to nothing... Try minting from the main section.", 'info');
+        }
+
+        function updateMostNonsensicalMeme() {
+            if (memes.length === 0) return;
+            let topMeme = memes.reduce((prev, current) => (prev.votes > current.votes) ? prev : current);
+            const topMemeDisplay = document.getElementById('mostNonsensicalMeme');
+            if (topMeme.votes > 0) {
+                 topMemeDisplay.textContent = `Most Nonsensical NFT Today: "${topMeme.collection} ${topMeme.number}" (Votes: ${topMeme.votes})`;
+            } else {
+                const defaultMemes = ["Silence is Golden, Duct Tape is Silver", "The Cat Staring at Nothing", "My Brain Cell Count"];
+                topMemeDisplay.textContent = `Most Nonsensical Meme Today: "${defaultMemes[Math.floor(Math.random() * defaultMemes.length)]}"`;
+            }
+        }
+
+        // Real-time Price Simulation (for chart)
+        let currentSimulatedPrice = 0.00000068;
+        function updateChartData() {
+            const fluctuationFactor = (Math.random() - 0.5) * 0.00000002;
+            currentSimulatedPrice += fluctuationFactor;
+            currentSimulatedPrice = Math.max(0.00000001, Math.min(0.00000150, currentSimulatedPrice));
+            document.getElementById("currentKnotPrice").textContent = `$${currentSimulatedPrice.toFixed(8)}`;
+            document.getElementById("currentPrice").textContent = `$${currentSimulatedPrice.toFixed(8)}`;
+            if (priceChart) {
+                const data = priceChart.data.datasets[0].data;
+                data.push(currentSimulatedPrice);
+                if (data.length > 50) data.shift();
+                priceChart.update('none'); // Update without animation
+            }
+        }
+
+        // Popup and Transaction Logic
+        let currentAction = '';
+        function showPopup(actionType) {
+            let title, message, actionFunction;
+            currentAction = actionType;
+
+            if (actionType === 'lpBuy') {
+                const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
+                const currency = document.getElementById('buyCurrencySelect').value;
+                const receiveKnot = parseFloat(document.getElementById('receiveTokenAmount').value.replace(/,/g, ''));
+
+                if (!isWalletConnected) { showToast("Connect wallet first to buy nothing!", 'error'); return; }
+                if (isNaN(inputAmount) || inputAmount <= 0) { showToast(`Please enter a valid amount to buy.`, 'error'); return; }
+                if (isNaN(receiveKnot) || receiveKnot <= 0) { showToast(`Cannot calculate 0xKNOTHING received. Price might be infinite.`, 'error'); return; }
+                
+                let costInEth = currency === 'ETH' ? inputAmount : (currency === 'USDT' ? inputAmount / 2000 : inputAmount / 4000);
+                if (currentEthBalance < costInEth) { showToast(`Insufficient ETH balance to perform this transaction.`, 'error'); return; }
+                
+                title = 'Confirm Buy 0xKNOTHING';
+                message = `Are you sure you want to spend <span style="color:#00ff80;">${inputAmount.toLocaleString()} ${currency}</span> to buy <span style="color:#00ff80;">${receiveKnot.toLocaleString()} 0xKNOTHING</span>?`;
+                actionFunction = () => processLPBuy(inputAmount, currency, receiveKnot);
+            } else if (actionType === 'burn') {
+                if (currentKnotBalance <= 0) { showToast("You have no 0xKNOTHING to burn. It's already nothing.", 'info'); return; }
+                title = 'Burn 0xKNOTHING to the Void';
+                message = `Are you sure you want to burn all <span style="color:#e63946;">${currentKnotBalance.toLocaleString()}</span> 0xKNOTHING? This action is irreversible.`;
+                actionFunction = () => burnToVoid();
+            } else { return; }
+
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupMessage').innerHTML = message;
+            document.getElementById('actionPopup').style.display = 'flex';
+            document.getElementById('popupConfirmBtn').onclick = () => {
+                hidePopup();
+                actionFunction();
+            };
+        }
+
+        function hidePopup() { document.getElementById('actionPopup').style.display = 'none'; }
+
+        async function processLPBuy(amount, currency, receivedKnot) {
+            showToast(`Processing purchase...`, 'info');
+
+            setTimeout(() => {
+                let costInEth = currency === 'ETH' ? amount : (currency === 'USDT' ? amount / 2000 : amount / 4000);
+                currentEthBalance -= costInEth;
+                currentKnotBalance += receivedKnot;
+                
+                totalUsdRaised += (costInEth * 2000);
+                totalTokensSold += receivedKnot;
+                localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
+                localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
+
+                updateWalletUI();
+                updateLPInterface();
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
+                showToast(`✔️ Successfully bought ${receivedKnot.toLocaleString()} 0xKNOTHING!`, 'success');
+                appendRandomMessage();
+            }, 2500);
+        }
+
+        async function burnToVoid() {
+            showToast(`Sending your tokens to the void...`, 'info');
+            setTimeout(() => {
+                const burnedAmount = currentKnotBalance;
+                currentKnotBalance = 0;
+                updateWalletUI();
+                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
+                showToast(`✔️ Successfully burned ${burnedAmount.toLocaleString()} 0xKNOTHING!`, 'success');
+                appendRandomMessage();
+            }, 2500);
+        }
+        
+        // --- Remaining Utility Functions ---
+        function createParticles() {
+            const container = document.getElementById("particles");
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement("div");
+                particle.className = "particle";
+                particle.style.left = Math.random() * 100 + "%";
+                particle.style.animationDelay = Math.random() * 20 + "s";
+                particle.style.animationDuration = (15 + Math.random() * 10) + "s";
+                container.appendChild(particle);
+            }
+        }
+        
+        function updateRealtimeCountdown() {
+            const now = new Date();
+            const endOfDay = new Date(now);
+            endOfDay.setUTCHours(23, 59, 59, 999); // Use UTC for universal reset time
+            let timeLeft = endOfDay.getTime() - now.getTime();
+
+            if (timeLeft <= 0) {
+                currentStage++;
+                localStorage.setItem('0xknothing_currentStage', currentStage);
+                knotPrice = calculateKnotPrice(currentStage);
+                updateLPInterface();
+                showToast(`Void transitioned to Void ${currentStage}! Embrace the new nothingness.`, 'info');
+                timeLeft += 24 * 60 * 60 * 1000;
+            }
+            let h = Math.floor(timeLeft / (1000 * 60 * 60));
+            let m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            let s = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            document.getElementById("countdownDisplay").textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+        
+        function initializeChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(50).fill(''),
+                    datasets: [{
+                        label: '0xKNOTHING/USDT',
+                        data: Array(50).fill(0.00000068),
+                        borderColor: '#00ff80',
+                        backgroundColor: 'rgba(0, 255, 128, 0.2)',
+                        borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        x: { display: false },
+                        y: { ticks: { color: '#aaa', callback: value => '$' + value.toFixed(8) }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: context => `$${context.parsed.y.toFixed(8)}` } }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
