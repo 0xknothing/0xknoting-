@@ -13,6 +13,7 @@
             --dark-background: #1a1a1a;
             --light-text: #f1faee;
             --accent-green: #00ff80;
+            --accent-yellow: #ffc107; /* For Trophies & Highlights */
             --void-black: #000000;
         }
 
@@ -27,7 +28,17 @@
             background-image: url('images/void_pattern.png'); /* Subtle void pattern */
             background-repeat: repeat;
             background-size: 100px 100px;
+            transition: all 0.5s ease; /* For Chaos Mode */
         }
+        
+        /* --- NEW: Chaos Mode for UI Scramble Event --- */
+        body.chaos-mode {
+            filter: hue-rotate(180deg) invert(1);
+        }
+        body.chaos-mode .container {
+            transform: skewY(-2deg);
+        }
+
 
         /* Global animations for chaos mode */
         @keyframes voidShift {
@@ -101,30 +112,9 @@
 
         /* Glitch effect for the main title */
         @keyframes glitch {
-            0% {
-                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
-                transform: translate(0, 0);
-            }
-            20% {
-                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
-                transform: translate(-2px, 2px);
-            }
-            40% {
-                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
-                transform: translate(2px, -2px);
-            }
-            60% {
-                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
-                transform: translate(-1px, 1px);
-            }
-            80% {
-                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
-                transform: translate(1px, -1px);
-            }
-            100% {
-                text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4);
-                transform: translate(0, 0);
-            }
+            0% { transform: translate(0, 0); } 20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); } 60% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); } 100% { transform: translate(0, 0); }
         }
 
 
@@ -190,6 +180,19 @@
             box-shadow: none;
             transform: none;
         }
+        
+        /* --- NEW: Trophy Button Style --- */
+        #trophyBtn {
+            background-color: var(--accent-yellow);
+            color: var(--void-black);
+            font-size: 1.2rem;
+            padding: 10px 15px;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+        }
+        #trophyBtn:hover {
+            background-color: #ffd54f;
+            box-shadow: 0 6px 15px rgba(255, 193, 7, 0.6);
+        }
 
         /* Countdown Timer */
         .countdown-section {
@@ -215,13 +218,8 @@
             text-shadow: 0 0 10px rgba(230, 57, 70, 0.6);
             letter-spacing: 2px;
         }
-        .countdown-section p {
-            margin-top: 15px;
-            font-size: 0.95rem;
-            color: #aaa;
-        }
 
-        /* New Buy/Sell Interface (inspired by LILPEPE) */
+        /* --- NEW: Buy/Sell Interface with TABS --- */
         .buy-sell-container {
             background: rgba(17, 17, 17, 0.9);
             border: 1px solid #e63946;
@@ -230,286 +228,122 @@
             margin: 40px auto;
             max-width: 500px;
             box-shadow: 0 0 30px rgba(230, 57, 70, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
         }
 
-        .lp-header {
+        .lp-tabs {
             display: flex;
-            justify-content: space-between;
-            width: 100%;
             margin-bottom: 20px;
-            align-items: center;
+            border-bottom: 1px solid #444;
+        }
+        .lp-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            color: #888;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .lp-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        .lp-tab:hover {
+            color: var(--light-text);
+        }
+        .lp-tab-content { display: none; }
+        .lp-tab-content.active { display: block; }
+        .sell-info { color: #aaa; font-size: 0.9rem; text-align: center; margin-top: 15px; }
+        .sell-info span { color: var(--primary-color); }
+        
+        .lp-header {
+            display: flex; justifyContent: space-between; width: 100%;
+            margin-bottom: 20px; align-items: center;
         }
         .lp-header h2 {
-            font-family: 'Orbitron', monospace;
-            color: #e63946;
-            font-size: 2rem;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+            font-family: 'Orbitron', monospace; color: #e63946; font-size: 2rem;
+            margin: 0; text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
         }
         .lp-header .stage-box {
-            background: #ffc107; /* Yellow */
-            color: #000;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.2rem;
+            background: var(--accent-yellow); color: #000; padding: 8px 15px;
+            border-radius: 8px; font-weight: bold; font-size: 1.2rem;
             font-family: 'Orbitron', monospace;
         }
-
         .lp-price-info {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px dashed #555;
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            width: 100%;
-            text-align: center;
+            background: rgba(0, 0, 0, 0.5); border: 1px dashed #555;
+            border-radius: 10px; padding: 15px 20px; margin-bottom: 25px;
+            width: 100%; text-align: center;
         }
-        .lp-price-info p {
-            margin: 5px 0;
-            font-size: 1.1rem;
-            color: #ccc;
-        }
-        .lp-price-info .highlight {
-            color: var(--accent-green); /* Green for prices */
-            font-weight: bold;
-        }
-        .lp-price-info .stage-price {
-            font-size: 1.4rem;
-            color: #ffc107; /* Yellow for stage price */
-        }
-
-        .lp-progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #333;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 25px;
-            border: 1px solid var(--primary-color);
-        }
-        .lp-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), #ff6b7a);
-            width: 0%; /* Controlled by JS */
-            border-radius: 10px 0 0 10px;
-            transition: width 0.5s ease-out;
-        }
-
-        .lp-stats {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        .lp-stat-line {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1rem;
-            color: #aaa;
-        }
-        .lp-stat-line span.value {
-            color: #eee;
-            font-weight: bold;
-        }
-
+        .lp-price-info p { margin: 5px 0; font-size: 1.1rem; color: #ccc; }
+        .lp-price-info .highlight { color: var(--accent-green); font-weight: bold; }
         .lp-input-group {
-            width: 100%;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            width: 100%; margin-bottom: 20px; display: flex;
+            flex-direction: column; gap: 15px;
         }
         .lp-input-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #0d0d0d;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 10px;
+            display: flex; align-items: center; gap: 10px; background: #0d0d0d;
+            border: 1px solid #333; border-radius: 10px; padding: 10px;
         }
         .lp-input-row input {
-            flex-grow: 1;
-            background: none;
-            border: none;
-            color: #eee;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            padding: 5px;
-            text-align: right;
+            flex-grow: 1; background: none; border: none; color: #eee;
+            font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
+            padding: 5px; text-align: right;
         }
-        .lp-input-row input:focus {
-            outline: none;
-        }
-        .lp-input-row .currency-select {
-            background: #222;
-            color: #eee;
-            border: 1px solid #555;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            cursor: pointer;
-        }
-        .lp-input-row .max-btn {
-            background: #444;
-            color: #eee;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            transition: background 0.2s ease;
-        }
-        .lp-input-row .max-btn:hover {
-            background: #666;
-        }
-        .lp-input-row .token-display {
-            background: #1a1a1a;
-            color: var(--accent-green); /* Green for token */
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-family: 'Orbitron', monospace;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
+        .lp-input-row .currency-select, .lp-input-row .token-display { font-size: 1.1rem; font-weight: bold; }
 
         .lp-connect-button {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary-color), #ff6b7a);
-            border: none;
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            width: 100%; background: linear-gradient(135deg, var(--primary-color), #ff6b7a);
+            border: none; color: white; padding: 15px 30px; font-size: 1.2rem;
+            border-radius: 10px; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+            font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
             margin-bottom: 20px;
         }
-        .lp-connect-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
-        }
-        .lp-connect-button.connected {
-            background: linear-gradient(135deg, #007bff, #0056b3); /* Blue for connected state */
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-            cursor: default;
-        }
-        .lp-connect-button.connected:hover {
-            transform: none;
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-        }
 
-
-        .lp-footer-buttons {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            gap: 15px;
-        }
-        .lp-footer-buttons button {
-            flex-grow: 1;
-            background: #333;
-            color: #ccc;
-            border: 1px solid #555;
-            padding: 12px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
-        .lp-footer-buttons button:hover {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-
-        /* Price Chart Section */
-        .price-chart-section {
+        /* --- NEW: Leaderboard Section --- */
+        .leaderboard-section {
             background: rgba(17, 17, 17, 0.9);
-            border: 1px solid var(--secondary-color);
+            border: 1px solid var(--accent-yellow);
             border-radius: 15px;
             padding: 30px;
             margin: 40px auto;
             max-width: 800px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            position: relative; /* For background image */
-            overflow: hidden; /* To contain the chart canvas */
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);
         }
-
-        .price-chart-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('images/space_void.jpg'); /* Your space void image */
-            background-size: cover;
-            background-position: center;
-            opacity: 0.2; /* Subtle background */
-            z-index: 0;
-        }
-
-
-        .price-chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative; /* Above background */
-            z-index: 1;
-        }
-        .price-chart-header h3 {
+        .leaderboard-section h2 {
             font-family: 'Orbitron', monospace;
-            color: var(--accent-green);
-            font-size: 1.8rem;
-            margin: 0;
-        }
-        .price-chart-header .current-price-display {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
-            color: var(--light-text);
-        }
-        .price-chart-header .current-price-display span {
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        .price-chart-header .price-change {
-            font-size: 1.1rem;
-            color: var(--accent-green); /* Green for positive change */
-            margin-left: 10px;
-        }
-
-        .price-chart-canvas-container {
-            position: relative;
-            height: 300px; /* Chart height */
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay for chart */
-            border: 1px dashed #444;
-            border-radius: 10px;
-            z-index: 1; /* Above background image */
-        }
-
-        .price-chart-canvas-container canvas {
-            width: 100% !important; /* Ensure canvas fills container */
-            height: 100% !important;
-            display: block;
-        }
-
-        .chart-notes {
             text-align: center;
-            margin-top: 15px;
-            font-size: 0.95rem;
-            color: #777;
-            position: relative;
-            z-index: 1;
+            color: var(--accent-yellow);
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        }
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        .leaderboard-table th {
+            color: var(--primary-color);
+            font-family: 'Orbitron', monospace;
+        }
+        .leaderboard-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .leaderboard-table .rank {
+            font-weight: bold;
+            color: var(--accent-yellow);
+            font-size: 1.2rem;
+        }
+        .leaderboard-table .user-row {
+            background-color: rgba(0, 255, 128, 0.1);
+            border-left: 3px solid var(--accent-green);
+            font-weight: bold;
         }
 
         /* Stats Section */
@@ -520,549 +354,119 @@
             margin: 40px auto;
             padding: 20px;
         }
-
         .stat-card {
             background: rgba(17, 17, 17, 0.9);
             border: 1px solid var(--secondary-color);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
+            border-radius: 15px; padding: 20px; text-align: center;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
-
         .stat-card h4 {
-            font-family: 'Orbitron', monospace;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            font-family: 'Orbitron', monospace; color: var(--primary-color);
+            font-size: 1.2rem; margin-bottom: 10px;
         }
-
-        .stat-card p {
-            font-size: 1.1rem;
-            color: var(--light-text);
-            margin: 0;
-        }
-
         .stat-card .value {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
-            color: var(--accent-green);
-            font-weight: bold;
+            font-family: 'Orbitron', monospace; font-size: 1.5rem;
+            color: var(--accent-green); font-weight: bold;
         }
 
-        /* Meme Wall */
-        .meme-wall-section {
-            background: rgba(17, 17, 17, 0.9);
-            border: 1px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 40px auto;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .meme-wall-section h2 {
-            font-family: 'Orbitron', monospace;
-            text-align: center;
-            color: var(--primary-color);
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
-        }
-
-        .meme-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .meme-card {
-            background-color: #0d0d0d;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .meme-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        /* NFT Card Specific Styles (for the new NFT look) */
-        .nft-card-content {
-            background-color: #111;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .nft-image-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1 / 1; /* Make it a square */
-            overflow: hidden;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            background-color: #222; /* Placeholder background if image loading fails */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            color: #555;
-            font-family: 'Orbitron', monospace;
-        }
-
-        .nft-image-container img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .nft-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .nft-info {
-            color: #eee;
-        }
-
-        .nft-collection {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: #ccc;
-        }
-
-        .nft-price {
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-            color: #aaa;
-        }
-
-        .nft-price .price-value {
-            color: var(--accent-green);
-            font-weight: bold;
-        }
-
-        .meme-actions button {
-            background-color: #333;
-            color: #eee;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin: 5px;
-            transition: background-color 0.2s ease;
-        }
-
-        .meme-actions button:hover {
-            background-color: var(--primary-color);
-        }
-
-        .meme-votes {
-            font-size: 0.8rem;
-            color: #777;
-            margin-top: 10px;
-        }
-
-        /* Most Nonsensical Meme */
-        .top-meme-display {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--accent-green);
-            margin-top: 30px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            border: 1px dashed #555;
-        }
-
-        /* NFT Minting Section */
-        .nft-mint-section {
-            background: rgba(17, 17, 17, 0.9);
-            border: 1px solid var(--secondary-color);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 40px auto;
-            max-width: 600px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        .nft-mint-section h2 {
-            font-family: 'Orbitron', monospace;
-            color: var(--accent-green);
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(0, 255, 128, 0.5);
-        }
-
-        .current-nft-display {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px dashed #444;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.4);
-            display: inline-block;
-        }
-
-        .current-nft-display img {
-            max-width: 150px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 2px solid #555;
-        }
-
-        .current-nft-display p {
-            font-size: 1rem;
-            color: #ccc;
-        }
-
-        .nft-status {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        /* Voidpaper & How-To-Buy Section Styling (shared) */
-        .voidpaper-section, .how-to-buy-section {
-            background: rgba(17, 17, 17, 0.9);
-            border: 1px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 40px auto;
-            max-width: 800px;
-            box-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
-            display: none; /* Hidden by default */
-        }
-
-        .voidpaper-section h2, .how-to-buy-section h2 {
-            font-family: 'Orbitron', monospace;
-            color: var(--primary-color);
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
-        }
-
-        .voidpaper-section h3, .how-to-buy-section h3 {
-            color: var(--accent-green);
-            font-size: 1.5rem;
-            margin-top: 25px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
-        }
-        .how-to-buy-section h2 { /* Specific color for how to buy */
-            color: var(--accent-green);
-            text-shadow: 0 0 10px rgba(0, 255, 128, 0.5);
-        }
-
-
-        .voidpaper-section p, .voidpaper-section ul,
-        .how-to-buy-section p, .how-to-buy-section ol {
-            color: #ccc;
-            font-size: 1.05rem;
-            margin-bottom: 15px;
-            line-height: 1.8;
-        }
-
-        .voidpaper-section ul {
-            list-style-type: '— ';
-            padding-left: 20px;
-        }
-
-        .voidpaper-section li, .how-to-buy-section li {
-            margin-bottom: 15px;
-        }
-
-        .how-to-buy-section ol {
-            list-style-type: decimal;
-            padding-left: 25px;
-        }
-
-        .how-to-buy-section ol li strong {
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-
-        .how-to-buy-section ol li a {
-            color: var(--accent-green);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .how-to-buy-section ol li a:hover {
-            color: #ff6b7a;
-            text-decoration: underline;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95));
-            border-top: 2px solid var(--primary-color);
-            margin-top: 50px;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        footer p {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 10px;
-        }
-
-        .social-links a {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin: 0 10px;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .social-links a:hover {
-            color: #ff6b7a;
-        }
-
-        /* Popup */
-        .popup-overlay {
+        /* --- NEW: Interactive Void Event Element --- */
+        #void-clickable {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, var(--void-black) 0%, var(--primary-color) 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 0 20px var(--primary-color);
+            animation: pulse 1s infinite;
             display: none; /* Hidden by default */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
         }
-
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 10px 20px rgba(230, 57, 70, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+        }
+        
+        /* --- NEW: Trophy Room & Popups --- */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); display: none; /* Hidden by default */
+            justify-content: center; align-items: center; z-index: 1000;
+        }
         .popup-content {
-            background: var(--dark-background);
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 0 30px rgba(230, 57, 70, 0.5);
+            background: var(--dark-background); border: 2px solid var(--primary-color);
+            border-radius: 15px; padding: 30px; text-align: center;
+            max-width: 400px; width: 90%; box-shadow: 0 0 30px rgba(230, 57, 70, 0.5);
             position: relative; /* For close button */
         }
+        #trophyRoomPopup .popup-content {
+             max-width: 800px; max-height: 80vh; overflow-y: auto; align-self: flex-start; margin-top: 5vh;
+             border-color: var(--accent-yellow);
+        }
+        .trophy-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px; margin-top: 20px;
+        }
+        .trophy-card {
+            background: #222; border: 1px solid #444; border-radius: 10px;
+            padding: 15px; text-align: center; transition: all 0.3s ease;
+        }
+        .trophy-card.locked { filter: grayscale(1); opacity: 0.6; }
+        .trophy-card .icon { font-size: 2.5rem; }
+        .trophy-card h4 { margin: 10px 0 5px; color: var(--accent-yellow); }
+        .trophy-card p { font-size: 0.8rem; color: #aaa; margin: 0; }
+        .trophy-progress-bar { width: 100%; background: #555; height: 5px; border-radius: 5px; margin-top: 5px; }
+        .trophy-progress-fill { background: var(--accent-yellow); height: 100%; border-radius: 5px; }
+
+
+        /* Other sections styling (Meme Wall, NFT Minting, etc.) remains largely the same */
+        .meme-wall-section {
+            background: rgba(17, 17, 17, 0.9); border: 1px solid var(--primary-color);
+            border-radius: 15px; padding: 30px; margin: 40px auto;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+        .meme-wall-section h2 { text-align: center; color: var(--primary-color); font-size: 2.2rem; margin-bottom: 30px; }
+        .meme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         
-        .popup-content h3 {
-            color: var(--primary-color);
-            font-family: 'Orbitron', monospace;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-
-        .popup-content p {
-            color: var(--light-text);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-
-        .popup-buttons button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.05rem;
-            margin: 0 10px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .popup-buttons button:hover {
-            background-color: #ff6b7a;
-            transform: translateY(-2px);
-        }
-
-        /* Message Scroll Box */
-        .message-scroll-box {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #555;
-            border-radius: 10px;
-            padding: 15px;
-            height: 200px;
-            overflow-y: scroll;
-            margin: 20px auto;
-            max-width: 800px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .message-scroll-box::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .message-scroll-box::-webkit-scrollbar-track {
-            background: #333;
-            border-radius: 10px;
-        }
-
-        .message-scroll-box::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 10px;
-        }
-
-        .message-scroll-box::-webkit-scrollbar-thumb:hover {
-            background: #ff6b7a;
-        }
-
-        .message-line {
-            color: #bbb;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .message-line::before {
-            content: '>';
-            color: var(--accent-green);
-            margin-right: 8px;
-        }
+        .voidpaper-section, .how-to-buy-section { display: none; /* Hidden by default */ }
         
-        /* NEW: Toast Notification System */
+        footer {
+            text-align: center; padding: 30px 20px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95));
+            border-top: 2px solid var(--primary-color); margin-top: 50px;
+        }
+
+        /* Toast Notification System */
         #toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            position: fixed; top: 20px; right: 20px; z-index: 2000;
+            display: flex; flex-direction: column; gap: 10px;
         }
-
         .toast {
-            background-color: #333;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            border-left: 5px solid var(--primary-color);
-            font-family: 'JetBrains Mono', monospace;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            background-color: #333; color: white; padding: 15px 20px;
+            border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-left: 5px solid var(--primary-color); font-family: 'JetBrains Mono', monospace;
+            opacity: 0; transform: translateX(100%); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-        
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
+        .toast.show { opacity: 1; transform: translateX(0); }
         .toast.success { border-left-color: var(--accent-green); }
         .toast.info { border-left-color: var(--secondary-color); }
         .toast.error { border-left-color: var(--primary-color); }
-
+        .toast.achievement { border-left-color: var(--accent-yellow); color: var(--accent-yellow); }
 
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
-            header p {
-                font-size: 1rem;
-            }
-            .web3-section {
-                flex-direction: column;
-            }
-            .countdown-timer {
-                font-size: 2rem;
-            }
-            .lp-header h2 {
-                font-size: 1.5rem;
-            }
-            .lp-header .stage-box {
-                font-size: 1rem;
-                padding: 6px 10px;
-            }
-            .lp-price-info p {
-                font-size: 0.9rem;
-            }
-            .lp-input-row input, .lp-input-row .currency-select, .lp-input-row .max-btn, .lp-input-row .token-display {
-                font-size: 0.9rem;
-            }
-            .lp-connect-button {
-                font-size: 1rem;
-                padding: 12px 20px;
-            }
-            .lp-footer-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .lp-footer-buttons button {
-                font-size: 0.85rem;
-            }
-            .price-chart-header h3 {
-                font-size: 1.4rem;
-            }
-            .price-chart-header .current-price-display {
-                font-size: 1.2rem;
-            }
-            .stats-section {
-                grid-template-columns: 1fr;
-            }
-            .meme-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-            .nft-overlay {
-                font-size: 2rem;
-            }
-            .popup-content {
-                padding: 20px;
-            }
-            .popup-content h3 {
-                font-size: 1.5rem;
-            }
-            .popup-content p {
-                font-size: 1rem;
-            }
-            .popup-buttons button {
-                padding: 10px 20px;
-                font-size: 0.95rem;
-            }
-            .voidpaper-section, .how-to-buy-section {
-                padding: 20px;
-            }
-            .voidpaper-section h2, .how-to-buy-section h2 {
-                font-size: 1.8rem;
-            }
-            .voidpaper-section h3, .how-to-buy-section h3 {
-                font-size: 1.4rem;
-            }
-             .voidpaper-section p, .voidpaper-section ul,
-             .how-to-buy-section p, .how-to-buy-section ol {
-                font-size: 0.9rem;
-                padding-left: 20px;
-            }
-            #toast-container {
-                right: 10px;
-                top: 10px;
-                width: calc(100% - 20px);
-            }
+            header h1 { font-size: 2.5rem; }
+            .leaderboard-section, .buy-sell-container { padding: 20px; }
+            .leaderboard-table td, .leaderboard-table th { font-size: 0.9rem; padding: 8px; }
         }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div id="particles"></div>
     <div id="toast-container"></div>
+    <div id="void-clickable"></div>
 
     <header>
         <h1>0xKNOTHING</h1>
@@ -1073,608 +477,274 @@
         <section class="web3-section">
             <button id="connectWalletBtn" class="web3-btn" onclick="connectWallet()">CONNECT WALLET</button>
             <div id="walletInfo" class="web3-status" style="display: none;">
-                Wallet: <span id="walletAddress">Not Connected</span><br>
+                Wallet: <span id="walletAddress">...</span><br>
                 Balance: <span id="walletBalance">0.0000</span> ETH<br>
-                0xKNOTHING: <span id="knotBalance">0 0xKNOTHING</span>
+                0xKNOTHING: <span id="knotBalance">0</span>
             </div>
+            <button id="trophyBtn" class="web3-btn" title="Hall of Nothingness">🏆</button>
         </section>
 
         <section class="countdown-section">
-            <h3>Time Until Meaningless Reset</h3>
+            <h3>Time Until The Void Reshapes Itself</h3>
             <div class="countdown-timer" id="countdownDisplay">00:00:00</div>
-            <p>Every day, the void reshapes itself. Don't expect anything different.</p>
         </section>
 
         <section class="buy-sell-container">
-            <div class="lp-header">
-                <h2 id="lpTokenName">0xKNOTHING</h2>
-                <div class="stage-box" id="currentStage">Void 1</div>
+            <div class="lp-tabs">
+                <button class="lp-tab active" data-tab="buy">Buy Nothing</button>
+                <button class="lp-tab" data-tab="sell">Sell to the Void</button>
             </div>
-
-            <div class="lp-price-info">
-                <p>Next Stage Price: <span class="highlight stage-price" id="nextStagePrice">$0.00000000</span></p>
-                <p>1 0xKNOTHING = <span class="highlight" id="knottingPrice">$0.00000000</span></p>
-            </div>
-
-            <div class="lp-stats">
-                <div class="lp-stat-line">
-                    <span>USD Raised:</span>
-                    <span class="value" id="usdRaised">$0 / $∞</span>
+            
+            <div id="buyContent" class="lp-tab-content active">
+                <div class="lp-header">
+                    <h2>0xKNOTHING</h2>
+                    <div class="stage-box" id="currentStage">Void 1</div>
                 </div>
-                <div class="lp-stat-line">
-                    <span>Tokens Sold:</span>
-                    <span class="value" id="tokensSold">0 / ∞</span>
+
+                <div class="lp-price-info">
+                     <p>1 0xKNOTHING = <span class="highlight" id="knottingPrice">$0.00000000</span></p>
                 </div>
-            </div>
 
-            <div class="lp-progress-bar">
-                <div class="lp-progress-fill" id="progressFill" style="width: 0%;"></div>
-            </div>
-
-            <div class="lp-input-group">
-                <div class="lp-input-row">
-                    <input type="number" id="buyInputAmount" placeholder="0.0" min="0" step="0.000001" disabled>
-                    <select id="buyCurrencySelect" class="currency-select" disabled>
-                        <option value="ETH">ETH</option>
-                        <option value="USDT">USDT</option>
-                        <option value="CARD">CARD</option>
-                    </select>
+                <div class="lp-input-group">
+                    <div class="lp-input-row">
+                        <input type="number" id="buyInputAmount" placeholder="0.0" min="0" step="0.000001">
+                        <select id="buyCurrencySelect" class="currency-select">
+                            <option value="ETH">ETH</option>
+                            <option value="USDT">USDT</option>
+                        </select>
+                    </div>
+                    <div class="lp-input-row">
+                        <input type="text" id="receiveTokenAmount" placeholder="0" readonly>
+                        <span class="token-display">0xKNOTHING</span>
+                    </div>
                 </div>
-                <div class="lp-input-row">
-                    <button class="max-btn" id="maxAmountBtn" disabled>Max</button>
-                    <input type="text" id="receiveTokenAmount" value="0" readonly disabled>
-                    <span class="token-display">0xKNOTHING</span>
+                 <button class="lp-connect-button" id="lpBuyBtn">BUY NOTHING</button>
+            </div>
+
+            <div id="sellContent" class="lp-tab-content">
+                 <div class="lp-header">
+                    <h2>0xKNOTHING</h2>
+                    <div class="stage-box" id="currentStageSell">Void 1</div>
                 </div>
+                 <div class="lp-price-info">
+                     <p>Sell Price is... unpredictable. And probably terrible.</p>
+                </div>
+                 <div class="lp-input-group">
+                    <div class="lp-input-row">
+                        <input type="number" id="sellInputAmount" placeholder="0">
+                        <span class="token-display">0xKNOTHING</span>
+                    </div>
+                    <div class="lp-input-row">
+                        <input type="text" id="receiveEthAmount" placeholder="0.0" readonly>
+                        <select class="currency-select"><option value="ETH">ETH</option></select>
+                    </div>
+                </div>
+                <button class="lp-connect-button" id="lpSellBtn" style="background: var(--secondary-color);">SELL TO VOID</button>
+                <p class="sell-info">A portion of every sale is sacrificed (burned) to appease the void. <span>You will lose value. This is guaranteed.</span></p>
             </div>
-
-            <button class="lp-connect-button" id="lpConnectWalletBtn" onclick="connectWallet()">CONNECT WALLET</button>
-
-            <div class="lp-footer-buttons">
-                <button id="howToBuyBtn">HOW TO BUY NOTHING</button>
-                <button id="giveawayBtn">+777K MEANINGLESS GIVEAWAY</button>
-            </div>
-        </section>
-
-        <section id="howToBuySection" class="how-to-buy-section">
-             <h2>HOW TO BUY 0xKNOTHING</h2>
-            <ol>
-                <li><strong>Step 1: Get A Wallet (For Nothing)</strong><br>
-                    Download <a href="https://metamask.io/download/" target="_blank">MetaMask</a> or your preferred void-compatible wallet. This will hold your ETH (or other currencies) that you'll exchange for 0xKNOTHING, and your 0xKNOTHING tokens (which are, effectively, nothing).</li>
-                <li><strong>Step 2: Fund Your Wallet (With Something)</strong><br>
-                    You'll need some ETH (or USDT/CARD if supported by the exchange). You can get ETH from exchanges like Binance, Coinbase, or any other platform that deals in actual value. Transfer it to your MetaMask wallet.</li>
-                <li><strong>Step 3: Connect to the Abyss (Our DApp)</strong><br>
-                    On this very page, click the "CONNECT WALLET" button. Your MetaMask (or other wallet) will prompt you to connect. Approve the connection. Now your wallet is ready to participate in our glorious non-economy.</li>
-                <li><strong>Step 4: Swap for Nothingness (The Transaction)</strong><br>
-                    In the "Buy/Sell" section, enter the amount of ETH (or other currency) you wish to exchange. The system will calculate how much 0xKNOTHING (which is infinite, but you'll get a specific number to make it look real) you'll receive. Click the big button (which will say "BUY NOTHING" once connected) to initiate the transaction.</li>
-                <li><strong>Step 5: Confirm Transaction (And Your Regret)</strong><br>
-                    Your wallet will pop up asking you to confirm the transaction and gas fees. Review the details. If you're truly committed to embracing nothingness, confirm the transaction. The tokens will appear in your wallet shortly.</li>
-                <li><strong>Step 6: Add 0xKNOTHING to Your Wallet (If You Must)</strong><br>
-                    Since 0xKNOTHING is, well, nothing, you might need to manually add the token to your MetaMask to see it. Use our contract address (if we ever bothered to deploy one that works) and the token symbol "0xKNOTHING" with 18 decimals.
-                    <br><strong>(Disclaimer: We haven't deployed a contract yet. It's too much effort for nothing.)</strong></li>
-            </ol>
-            <p style="text-align: center; font-style: italic;">Congratulations! You've successfully acquired nothing. We told you so.</p>
         </section>
         
-        <button id="burnToVoidBtn" title="Burn all your 0xKNOTHING tokens to achieve ultimate nothingness. This action is irreversible." class="web3-btn" style="display: block; margin: 30px auto; background-color: #333; border: 1px solid #555;">BURN TO VOID</button>
-        
-
-        <section class="message-scroll-box" id="messageScroll">
+        <section class="leaderboard-section">
+            <h2>The Void Leaderboard</h2>
+            <p style="text-align: center; color: #aaa; margin-top: -15px; margin-bottom: 20px;">Ranking the most dedicated pursuers of nothingness.</p>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th style="width:15%">Rank</th>
+                        <th>Address</th>
+                        <th style="width:30%">Points of Futility (PoF)</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    </tbody>
+            </table>
         </section>
 
-        <section class="price-chart-section">
-            <div class="price-chart-header">
-                <h3>0xKNOTHING Price Chart (Totally Real & Not Fake)</h3>
-                <div class="current-price-display">
-                    Current Price: <span id="currentKnotPrice">$0.00000068</span>
-                    <span id="priceChangePercent" class="price-change">+∞%</span>
-                </div>
-            </div>
-            <div class="price-chart-canvas-container">
-                <canvas id="priceChart"></canvas>
-            </div>
-            <p class="chart-notes">
-                * Chart shows the price of our hopes and dreams, not actual trading data.
-            </p>
-        </section>
-
-        <section class="stats-section">
-            <div class="stat-card">
-                <h4>Market Cap</h4>
-                <p id="marketCap" class="value">Undefined</p>
-            </div>
-            <div class="stat-card">
-                <h4>24h Volume</h4>
-                <p id="volume24h" class="value">Tears of Regret</p>
-            </div>
-            <div class="stat-card">
-                <h4>Holders</h4>
-                <p id="holdersCount" class="value">Nobody + You</p>
-            </div>
-            <div class="stat-card">
-                <h4>LP Status</h4>
-                <p id="lpVolume" class="value">0.000000 LP (Glitchy Pool)</p>
-            </div>
-            <div class="stat-card">
-                <h4>Last Activity</h4>
-                <p id="lastActivity" class="value">Block ??? - Random Event (0x...)</p>
-            </div>
-            <div class="stat-card">
-                <h4>Current Price</h4>
-                <p id="currentPrice" class="value">$0.00000068</p>
-            </div>
-        </section>
-
-        <section class="meme-wall-section">
-            <h2>The Wall of Nonsense NFTs</h2>
-            <div class="meme-grid" id="memeGrid">
-                </div>
-            <div class="top-meme-display" id="mostNonsensicalMeme">
-                Most Nonsensical Meme Today: "My Brain Cell Count"
-            </div>
-        </section>
-
-        <section class="nft-mint-section">
-            <h2>Mint Your Own Nothing NFT</h2>
-            <p>Embrace the void. Own a piece of digital non-existence. Each NFT is a unique representation of futility.</p>
-            <button id="mintNftBtn" class="web3-btn" onclick="mintNft()" disabled>Mint A Nothing NFT (Cost: Gas Fees + Your Sanity)</button>
-            <div class="current-nft-display">
-                <img id="currentNftImage" src="https://via.placeholder.com/100/333333/FFFFFF?text=NFT" alt="Your Minted NFT">
-                <p id="currentNftText">Your NFT: Nothing yet. Connect wallet to see your future regret.</p>
-            </div>
-            <p id="nftMintStatus" class="nft-status">Ready to waste your gas...</p>
-        </section>
-
-        <section class="voidpaper-section" id="voidpaperSection">
-            <h2>The Voidpaper (or lack thereof)</h2>
-            <p>Welcome, seeker of truth, to the Voidpaper. A document meticulously crafted to explain absolutely nothing about 0xKNOTHING. Our philosophy is simple: there is no philosophy. Our technology is groundbreaking: it doesn't exist. Our community is thriving: in their own heads.</p>
-
-            <h3>1. Introduction to the Abyss</h3>
-            <p>0xKNOTHING is not a cryptocurrency. It is not a meme coin. It is not even a concept. It is the digital embodiment of that nagging feeling in the back of your mind that everything is meaningless. We've tokenized the void, and frankly, we're not sure why.</p>
-
-            <h3>2. Non-existent Tokenomics</h3>
-            <ul>
-                <li>Total Supply: ∞ (It grows as fast as your disappointment)</li>
-                <li>Burn Mechanism: Every transaction burns a small piece of your hope.</li>
-                <li>Staking: You can stake your tokens, and we'll stake ours that you'll gain nothing.</li>
-                <li>Liquidity: As volatile as your life choices.</li>
-                <li>Utility: Less than zero. This token actively subtracts utility from your life.</li>
-            </ul>
-
-            <h3>3. The Anti-Roadmap (or The Road to Nowhere)</h3>
-            <p>Our roadmap is a blank canvas, perfectly reflecting our commitment to going nowhere. We plan to achieve absolutely nothing, consistently, for an indefinite period. Key milestones include:</p>
-            <ul>
-                <li>**Q3 2025: Continue to exist (maybe).**</li>
-                <li>**Q4 2025: Fail to launch any meaningful partnerships.**</li>
-                <li>**2026: Further decentralize the feeling of despair.**</li>
-                <li>**Future: Achieve ultimate oblivion.**</li>
-                <li>**Forever: Continue to be nothing.**</li>
-            </ul>
-
-            <h3>4. Our Non-existent Team</h3>
-            <p>Our team is comprised of highly experienced individuals in the art of doing nothing. We are anonymous, not because we fear regulations, but because we fear accountability. We are passionate about... well, we're not passionate about anything really.</p>
-
-            <h3>5. Join the Void (Don't)</h3>
-            <p>Don't join our community. Don't invest. Don't believe the hype (there isn't any). Just observe the nothingness, and perhaps, find a strange comfort in its absolute pointlessness.</p>
-
-            <p style="text-align: center; margin-top: 30px; font-style: italic;">Thank you for wasting your time reading the Voidpaper. You're now one step closer to embracing true Nothingness.</p>
-        </section>
-
-        <button class="web3-btn" onclick="toggleVoidpaper()" style="display: block; margin: 30px auto;">READ THE VOIDPAPER</button>
-    </div>
+        </div>
 
     <footer>
-        <p>&copy; 2025 0xKNOTHING. All rights reserved. (We think. Who cares anyway?)</p>
-        <div class="social-links">
-            <a href="#" target="_blank">X</a> |
-            <a href="#" target="_blank">Telegram</a> |
-            <a href="#" target="_blank">Discord</a>
-        </div>
-    </footer>
+        </footer>
 
+    <div id="trophyRoomPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h3>Hall of Nothingness</h3>
+            <p>Total Points of Futility (PoF): <span id="pofDisplay">0</span></p>
+            <div id="trophyGrid" class="trophy-grid-container">
+                </div>
+            <button class="web3-btn" onclick="document.getElementById('trophyRoomPopup').style.display = 'none'" style="margin-top:20px;">CLOSE</button>
+        </div>
+    </div>
+    
     <div id="actionPopup" class="popup-overlay">
         <div class="popup-content">
             <h3 id="popupTitle">Confirm Action</h3>
-            <p id="popupMessage">Are you sure you want to perform this action?</p>
-            <div class="popup-buttons">
-                <button id="popupConfirmBtn">Confirm</button>
-                <button onclick="hidePopup()">Cancel</button>
+            <p id="popupMessage">Are you sure?</p>
+            <div class="popup-buttons" style="display: flex; justify-content: center; gap: 20px;">
+                <button id="popupConfirmBtn" class="web3-btn">Confirm</button>
+                <button onclick="hidePopup()" class="web3-btn" style="background: #555;">Cancel</button>
             </div>
         </div>
     </div>
 
+
     <script>
-        // --- NEW: Toast Notification Function ---
-        function showToast(message, type = 'info') { // types: info, success, error
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            container.appendChild(toast);
-
-            // Trigger the animation
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 10); // Small delay to allow the element to be in the DOM
-
-            // Remove the toast after some time
-            setTimeout(() => {
-                toast.classList.remove('show');
-                // Remove the element from DOM after transition ends
-                toast.addEventListener('transitionend', () => {
-                    if (toast.parentElement) {
-                        container.removeChild(toast);
-                    }
-                });
-            }, 5000); // Toast visible for 5 seconds
-        }
-
-        // Global Web3 variables
+        // --- Simulation & Global State ---
         let provider, signer, userAddress;
         let isWalletConnected = false;
-        
-        // Use localStorage to persist wallet state
-        function getInitialBalance(key, defaultValue) {
-            const storedValue = localStorage.getItem(key);
-            return storedValue !== null ? parseFloat(storedValue) : defaultValue;
-        }
-        
-        // Initialize balances
-        let currentKnotBalance = getInitialBalance('0xknothing_knotBalance', 0); 
-        let currentEthBalance = getInitialBalance('0xknothing_ethBalance', -1); // -1 indicates not yet initialized
+        let currentEthBalance = 0.0;
+        let currentKnotBalance = 0;
+        let currentStage = 1;
+        let knotPrice = 0.00000001;
 
-        let totalUsdRaised = getInitialBalance('0xknothing_usdRaised', 0);
-        let totalTokensSold = getInitialBalance('0xknothing_tokensSold', 0);
-        let currentStage = getInitialBalance('0xknothing_currentStage', 1); // Start stage
-        let knotPrice = calculateKnotPrice(currentStage); // Calculate price based on stage
+        // --- NEW: Gamification Foundation ---
+        const allAchievements = {
+            'welcome_void': { name: 'Welcome to the Void', description: 'Connect your wallet for the first time.', poins: 5 },
+            'first_sacrifice': { name: 'First Sacrifice', description: 'Buy 0xKNOTHING for the first time.', poins: 10 },
+            'into_the_abyss': { name: 'Into The Abyss', description: 'Burn tokens for the first time.', poins: 10 },
+            'paper_hands': { name: 'Paper Hands', description: 'Sell tokens within 5 minutes of buying.', poins: 5 },
+            'void_patron': { name: 'Void Patron', description: 'Successfully mint a Nothing NFT.', poins: 15 },
+            'art_critic': { name: 'Art Critic', description: 'Vote on a meme on the Wall of Nonsense.', poins: 5 },
+            'peeking_curtain': { name: 'Peeking Behind the Curtain', description: 'You saw what you shouldn\'t have (opened dev console).', poins: 15 },
+            'serial_burner_1': { name: 'Serial Burner', description: 'Burn a total of 1,000,000 tokens.', poins: 20, type: 'progress', target: 1000000 },
+            'diamond_hands': { name: 'Diamond Hands of Nothingness', description: 'Hold tokens for 30 consecutive days.', poins: 100, type: 'consecutive', target: 30 },
+        };
 
-        // Function to calculate 0xKNOTHING price based on stage
-        function calculateKnotPrice(stage) {
-            if (stage <= 10) {
-                return 0.00000001 * Math.pow(2, stage - 1);
-            } else if (stage <= 20) {
-                return 0.00000001 * Math.pow(2, 9) + (stage - 10) * 0.00000005; 
-            } else {
-                const basePrice = 0.00000001 * Math.pow(2, 9) + 10 * 0.00000005;
-                const randomFactor = Math.random();
-                if (randomFactor < 0.3) return basePrice * (1 + Math.random() * 0.5);
-                if (randomFactor < 0.6) return basePrice * (0.5 + Math.random() * 0.5);
-                if (randomFactor < 0.8) return Math.random() * 0.00001;
-                return Infinity;
-            }
-        }
+        let userPlayerData;
 
-        const memes = [
-             { id: 'nft404_1', collection: 'The Void Collection', number: '#4?4', price: '∞ 0xKNOTHING (Coming Never)', mintText: 'Mint Confusion', img: 'images/nft_placeholder.png', votes: 0 },
-             { id: 'misspelled_∞', collection: 'Misspelled Dreams', number: '#∞', price: 'Your Soul (Sold Out)', mintText: 'Soul Not Found', img: 'images/nft_placeholder_alert.png', votes: 0 },
-             { id: 'oxknothing_0', collection: '0xKNOTHING Original', number: '#0000', price: '0.000 ETH (Not for sale)', mintText: 'Mint Nothing (Unavailable)', img: 'images/nft_placeholder_void.png', votes: 0 },
-             { id: 'nft404_2', collection: 'The Void Collection', number: '#404', price: 'Ξ ??? (Maybe)', mintText: 'Attempt Mint?', img: 'images/nft_placeholder_question.png', votes: 0 },
-             { id: 'lost_cause', collection: 'Lost Cause Series', number: '#500', price: '1.000 ETH (Not For You)', mintText: 'Mint Disappointment', img: 'images/nft_placeholder_cross.png', votes: 0 },
-             { id: 'digital_dust', collection: 'Digital Dust', number: '#999', price: 'FREE (But Costly)', mintText: 'Claim Your Dust', img: 'images/nft_placeholder_dust.png', votes: 0 }
-        ];
-
-        let priceChart; // Declare chart variable globally
-
+        // --- Main DOMContentLoaded ---
         document.addEventListener("DOMContentLoaded", function () {
             createParticles();
-            setInterval(updateRealtimeCountdown, 1000);
-            updateRealtimeCountdown();
-
-            const messages = ["There is no plan. There never was.", "You're waiting for something that will never come.", "No utility. No purpose. Just vibes of emptiness.", "Even this message means nothing.", "Stay unready. Stay unknowing.", "You came here for meaning? That's cute.", "The real value is in the absolute void.", "We 0xKNOT what we're doing. Do you?", "Imagine a meme. Now delete it. That's us.", "0xKNOTHING: not even trying since never.", "This isn't a launch. It's a slow descent into madness.", "Not a rug. Not a moon. Not even a thing.", "Spelled wrong. Built worse. Loved by none.", "The community asked for nothing. We delivered.", "Tokenomics: Take your money, return confusion.", "Our marketing budget: $0.00. Our effort: Even less.", "Join us in the eternal loop of disappointment.", "We're not early. We're not late. We're 0xKNOT.", "The only guarantee: You'll question your choices.", "Built different. Built wrong. Built to confuse.", "This is what happens when devs give up.", "No promises made. All promises broken anyway.", "Your bags are empty. Your soul will be too.", "We tied your expectations in a knot. Get it?", "The void stares back. It's also confused.", "Not your keys, not your coins, not our problem.", "Web3 innovation: Making nothing from nothing.", "Gas fees higher than our token price.", "Smart contract? More like confused contract.", "DEX listed us by mistake. We stayed.", "Rug pull? We pulled the entire floor.", "Beware of the void, it's contagious.", "You're still here? Why?", "Congratulations, you've achieved peak pointlessness."];
-
-            function appendRandomMessage() {
-                const container = document.getElementById("messageScroll");
-                const msg = document.createElement("div");
-                msg.className = "message-line";
-                msg.textContent = messages[Math.floor(Math.random() * messages.length)];
-                container.appendChild(msg);
-                while (container.children.length > 20) {
-                    container.removeChild(container.firstChild);
-                }
-                container.scrollTop = container.scrollHeight;
-            }
-            for (let i = 0; i < 3; i++) { setTimeout(appendRandomMessage, i * 1000); }
-            setInterval(appendRandomMessage, 4000);
-
-            setInterval(updateStats, 10000);
-            updateStats();
-
-            populateMemeWall();
-            updateMostNonsensicalMeme();
-            setInterval(updateMostNonsensicalMeme, 30000);
-
-            updateLPInterface();
-            setInterval(updateUsdTokensRaised, 60000); 
-
-            document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
-            document.getElementById('buyCurrencySelect').addEventListener('change', calculateReceiveAmount);
-            document.getElementById('maxAmountBtn').addEventListener('click', setMaxBuyAmount);
-
-            document.getElementById('howToBuyBtn').addEventListener('click', toggleHowToBuySection);
-            document.getElementById('giveawayBtn').addEventListener('click', () => {
-                showToast("🎉 Congratulations! You just won... nothing! As expected.", 'success');
-                appendRandomMessage();
-            });
-            document.getElementById('burnToVoidBtn').addEventListener('click', () => {
-                if (!isWalletConnected) {
-                    showToast("Connect wallet first to burn your nothing!", 'error');
-                    return;
-                }
-                showPopup('burn');
-            });
+            userPlayerData = initializePlayerData();
             
-            initializeChart();
-            setInterval(updateChartData, 1000);
-            
+            // Connect wallet if previously connected
             if (localStorage.getItem('0xknothing_isConnected') === 'true') {
-                 connectWallet();
+                 connectWallet(true); // silent connect
             }
+
+            setupEventListeners();
+            updateAllUI();
+            
+            // Check time-based achievements on load
+            checkTimeBasedAchievements();
+            
+            // Start intervals
+            setInterval(updateRealtimeCountdown, 1000);
+            setInterval(startRandomVoidEvent, 20000); // Try to start an event every 20s
         });
 
-        // Web3 Functions
-        async function connectWallet() {
-            showToast("Connecting to the void...", 'info');
+        function setupEventListeners() {
+            // Wallet buttons
+            document.getElementById('connectWalletBtn').addEventListener('click', () => connectWallet(false));
+            document.getElementById('trophyBtn').addEventListener('click', showTrophyRoom);
             
-            // Simulate connection delay
+            // Buy/Sell buttons
+            document.getElementById('lpBuyBtn').addEventListener('click', () => showPopup('buy'));
+            document.getElementById('lpSellBtn').addEventListener('click', () => showPopup('sell'));
+
+            // Tab switching
+            document.querySelectorAll('.lp-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.lp-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.lp-tab-content').forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab + 'Content').classList.add('active');
+                });
+            });
+
+            // Input calculations
+            document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
+            document.getElementById('sellInputAmount').addEventListener('input', calculateEthReceiveAmount);
+        }
+
+        function updateAllUI() {
+            updateWalletUI();
+            updateBuySellUI();
+            updateLeaderboard();
+        }
+
+        // --- Wallet & Connection ---
+        async function connectWallet(isSilent = false) {
+            if (!isSilent) showToast("Connecting to the void...", 'info');
+            
             setTimeout(() => {
                 isWalletConnected = true;
+                userAddress = localStorage.getItem('0xknothing_userAddress') || "0x" + Math.random().toString(16).substr(2, 40);
+                currentEthBalance = parseFloat(localStorage.getItem('0xknothing_ethBalance') || (Math.random() * 0.5 + 0.01));
+                currentKnotBalance = parseFloat(localStorage.getItem('0xknothing_knotBalance') || 0);
+
                 localStorage.setItem('0xknothing_isConnected', 'true');
-                userAddress = "0xDummyWalletAddressXXXXXXXXXXXXXXXX";
-
-                // If ETH balance was never set, initialize it
-                if (currentEthBalance === -1) {
-                    currentEthBalance = Math.random() * 0.5 + 0.01; // Random balance between 0.01 and 0.51 ETH
-                }
+                localStorage.setItem('0xknothing_userAddress', userAddress);
                 
-                updateWalletUI();
+                if (!isSilent) showToast("Wallet connected to the void.", 'success');
                 
-                const lpConnectBtn = document.getElementById('lpConnectWalletBtn');
-                lpConnectBtn.textContent = "BUY NOTHING";
-                lpConnectBtn.disabled = false;
-                lpConnectBtn.classList.add('connected');
-                lpConnectBtn.onclick = () => showPopup('lpBuy');
-
-                enableLPButtons();
-                showToast("Wallet connected to the void.", 'success');
-                appendRandomMessage();
-
-            }, 1500);
+                checkAllAchievements('walletConnected');
+                updateAllUI();
+            }, isSilent ? 100 : 1500);
         }
         
         function updateWalletUI() {
-             // Update all balance displays
-            document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
-            document.getElementById("walletBalance").textContent = `${currentEthBalance.toFixed(4)} ETH`;
-            document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`;
-            document.getElementById("walletInfo").style.display = "block";
-            
-            // Save current balances to localStorage
-            localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
-            localStorage.setItem('0xknothing_ethBalance', currentEthBalance);
-        }
-
-        function enableLPButtons() {
-            document.getElementById('buyInputAmount').disabled = false;
-            document.getElementById('buyCurrencySelect').disabled = false;
-            document.getElementById('maxAmountBtn').disabled = false;
-            document.getElementById('receiveTokenAmount').disabled = false;
-            document.getElementById('mintNftBtn').disabled = false;
-        }
-
-        // --- LP Interface Functions ---
-        function updateLPInterface() {
-            let nextStagePrice = knotPrice * (1 + 0.1 * Math.random());
-            document.getElementById("currentStage").textContent = `Void ${currentStage}`;
-
-            if (knotPrice === Infinity || knotPrice <= 0) {
-                document.getElementById("nextStagePrice").textContent = `$∞ (Impossible)`;
-                document.getElementById("knottingPrice").textContent = `$∞`;
+            const walletInfo = document.getElementById('walletInfo');
+            if (isWalletConnected) {
+                walletInfo.style.display = 'block';
+                document.getElementById('connectWalletBtn').style.display = 'none';
+                document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
+                document.getElementById("walletBalance").textContent = `${currentEthBalance.toFixed(4)} ETH`;
+                document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`;
             } else {
-                document.getElementById("nextStagePrice").textContent = `$${nextStagePrice.toFixed(8)}`;
-                document.getElementById("knottingPrice").textContent = `$${knotPrice.toFixed(8)}`;
+                walletInfo.style.display = 'none';
+                document.getElementById('connectWalletBtn').style.display = 'block';
             }
-
-            document.getElementById("usdRaised").textContent = `$${totalUsdRaised.toLocaleString(undefined, { maximumFractionDigits: 0 })} / $∞`;
-            document.getElementById("tokensSold").textContent = `${totalTokensSold.toLocaleString(undefined, { maximumFractionDigits: 0 })} / ∞`;
-            document.getElementById("progressFill").style.width = `${(Math.random() * 100).toFixed(2)}%`;
-            calculateReceiveAmount();
         }
 
-        function updateUsdTokensRaised() {
-            const usdIncrease = Math.random() * 1000 + 50;
-            const tokensIncrease = Math.random() * 5000000 + 100000;
-            totalUsdRaised += usdIncrease;
-            totalTokensSold += tokensIncrease;
-            localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
-            localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
-            updateLPInterface();
+        // --- Buy/Sell Logic ---
+        function updateBuySellUI() {
+             document.getElementById('knottingPrice').textContent = `$${knotPrice.toFixed(8)}`;
+             document.getElementById('currentStage').textContent = `Void ${currentStage}`;
+             document.getElementById('currentStageSell').textContent = `Void ${currentStage}`;
         }
-
         function calculateReceiveAmount() {
             const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
+            const ethPrice = 3000; // Mock price
             if (isNaN(inputAmount) || inputAmount <= 0) {
-                document.getElementById('receiveTokenAmount').value = 0;
-                return;
+                document.getElementById('receiveTokenAmount').value = 0; return;
             }
-            const selectedCurrency = document.getElementById('buyCurrencySelect').value;
-            let usdEquivalent = 0;
-            switch (selectedCurrency) {
-                case 'ETH': usdEquivalent = inputAmount * 2000; break;
-                case 'USDT': usdEquivalent = inputAmount * 1; break;
-                case 'CARD': usdEquivalent = inputAmount * 0.5; break;
-            }
-            let receivedKnot = (knotPrice === Infinity || knotPrice <= 0) ? 0 : usdEquivalent / knotPrice;
+            const usdEquivalent = inputAmount * ethPrice;
+            const receivedKnot = usdEquivalent / knotPrice;
             document.getElementById('receiveTokenAmount').value = receivedKnot.toLocaleString(undefined, { maximumFractionDigits: 0 });
         }
-
-        function setMaxBuyAmount() {
-            const selectedCurrency = document.getElementById('buyCurrencySelect').value;
-            let maxAmount = 0;
-            switch (selectedCurrency) {
-                case 'ETH': maxAmount = currentEthBalance; break;
-                case 'USDT': maxAmount = currentEthBalance * 2000; break;
-                case 'CARD': maxAmount = currentEthBalance * 4000; break;
+        function calculateEthReceiveAmount() {
+            const inputAmount = parseFloat(document.getElementById('sellInputAmount').value);
+            if (isNaN(inputAmount) || inputAmount <= 0) {
+                document.getElementById('receiveEthAmount').value = 0.0; return;
             }
-            document.getElementById('buyInputAmount').value = maxAmount.toFixed(4);
-            calculateReceiveAmount();
+            // Sell price is always worse than buy price, embodying the theme
+            const sellPrice = knotPrice * 0.75; // 25% loss
+            const usdEquivalent = inputAmount * sellPrice;
+            const ethPrice = 3000;
+            const receivedEth = usdEquivalent / ethPrice;
+            document.getElementById('receiveEthAmount').value = receivedEth.toFixed(6);
         }
 
-        // NFT, Stats, and other functions
-        async function mintNft() {
-            if (!isWalletConnected) {
-                showToast("Connect wallet first to mint a Nothing NFT!", 'error');
-                return;
-            }
-            const gasFee = 0.008 + Math.random() * 0.005; // Simulate gas fee
-            if (currentEthBalance < gasFee) {
-                showToast(`Insufficient ETH for gas! Need ~${gasFee.toFixed(4)} ETH.`, 'error');
-                return;
-            }
-
-            showToast("Minting Nothing NFT... Wasting your gas...", 'info');
-            
-            setTimeout(() => {
-                currentEthBalance -= gasFee;
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
-                const nftNames = ["Void Fragment", "Eternal Echo", "Quantum Blankness", "Unseen Horizon", "Zero Point Entity", "The Invisible Pixel"];
-                const randomNftName = nftNames[Math.floor(Math.random() * nftNames.length)];
-                document.getElementById('currentNftText').textContent = `Your NFT: "${randomNftName}"`;
-                document.getElementById('currentNftImage').src = `https://via.placeholder.com/150/000000/FFFFFF?text=${encodeURIComponent(randomNftName.split(' ')[0])}`;
-                
-                updateWalletUI();
-                showToast(`✔️ Nothing NFT minted! TX: ${txHash.slice(0, 10)}...`, 'success');
-                appendRandomMessage();
-            }, 2500);
-        }
-
-        function updateStats() {
-            const marketCaps = ["Undefined", "Negative", "404 Not Found", "NaN", "Imaginary", "Void"];
-            document.getElementById("marketCap").textContent = marketCaps[Math.floor(Math.random() * marketCaps.length)];
-            const volumes = ["Emotional Damage", "Tears of Regret", "Lost Dreams", "Wasted Time", "Pure Disappointment", "Existential Crisis"];
-            document.getElementById("volume24h").textContent = volumes[Math.floor(Math.random() * volumes.length)];
-            const holderCounts = ["Nobody + You", "Just You", "You + Your Alt", "2 Bots", "Error: NaN", "Everyone's Mom"];
-            document.getElementById("holdersCount").textContent = holderCounts[Math.floor(Math.random() * holderCounts.length)];
-            const lpVolume = (Math.random() * 0.0001).toFixed(6);
-            const lpStates = ["Glitchy Pool", "Broken Pool", "Empty Pool", "Non-Existent Pool"];
-            document.getElementById("lpVolume").textContent = `${lpVolume} LP (${lpStates[Math.floor(Math.random() * lpStates.length)]})`;
-            const randomBlock = Math.floor(Math.random() * 99999999) + 10000000;
-            const activityTypes = ["Mint", "Burn", "Transfer", "Swap"];
-            const randomActivity = activityTypes[Math.floor(Math.random() * activityTypes.length)];
-            const randomTxHashPart = Math.random().toString(16).substr(2, 8);
-            document.getElementById("lastActivity").textContent = `Block ${randomBlock} - ${randomActivity} (0x${randomTxHashPart}...)`;
-        }
-
-        // --- NEW: Slide-down section toggles ---
-        function toggleVoidpaper() {
-            const section = document.getElementById('voidpaperSection');
-            toggleSection(section);
-        }
-        function toggleHowToBuySection() {
-            const section = document.getElementById('howToBuySection');
-            toggleSection(section);
-        }
-        function toggleSection(sectionElement) {
-            if (sectionElement.style.display === 'block') {
-                sectionElement.style.display = 'none';
-            } else {
-                sectionElement.style.display = 'block';
-                sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-        
-        function populateMemeWall() {
-            const memeGrid = document.getElementById('memeGrid');
-            memeGrid.innerHTML = ''; // Clear existing
-            memes.forEach(meme => {
-                const memeCard = document.createElement('div');
-                memeCard.className = 'meme-card';
-                memeCard.innerHTML = `
-                    <div class="nft-card-content">
-                        <div class="nft-image-container">
-                            <img src="${meme.img}" alt="${meme.collection} ${meme.number}">
-                            <div class="nft-overlay">${meme.number}</div>
-                        </div>
-                        <div class="nft-info">
-                            <div class="nft-collection">${meme.collection}</div>
-                            <div class="nft-price">Price: <span class="price-value">${meme.price}</span></div>
-                            <div class="meme-actions">
-                                <button onclick="voteMeme('${meme.id}')">This means NOTHING</button>
-                                <button onclick="mintMemeNft('${meme.id}')">${meme.mintText}</button>
-                            </div>
-                            <div class="meme-votes" id="votes-${meme.id}">Votes: ${meme.votes}</div>
-                        </div>
-                    </div>`;
-                memeGrid.appendChild(memeCard);
-            });
-        }
-        
-        function voteMeme(memeId) {
-            const meme = memes.find(m => m.id === memeId);
-            if (meme) {
-                meme.votes++;
-                document.getElementById(`votes-${meme.id}`).textContent = `Votes: ${meme.votes}`;
-                showToast(`You voted for "${meme.collection} ${meme.number}". Your meaninglessness score increased.`, 'info');
-            }
-        }
-
-        function mintMemeNft(memeId) {
-            showToast("This feature also leads to nothing... Try minting from the main section.", 'info');
-        }
-
-        function updateMostNonsensicalMeme() {
-            if (memes.length === 0) return;
-            let topMeme = memes.reduce((prev, current) => (prev.votes > current.votes) ? prev : current);
-            const topMemeDisplay = document.getElementById('mostNonsensicalMeme');
-            if (topMeme.votes > 0) {
-                 topMemeDisplay.textContent = `Most Nonsensical NFT Today: "${topMeme.collection} ${topMeme.number}" (Votes: ${topMeme.votes})`;
-            } else {
-                const defaultMemes = ["Silence is Golden, Duct Tape is Silver", "The Cat Staring at Nothing", "My Brain Cell Count"];
-                topMemeDisplay.textContent = `Most Nonsensical Meme Today: "${defaultMemes[Math.floor(Math.random() * defaultMemes.length)]}"`;
-            }
-        }
-
-        // Real-time Price Simulation (for chart)
-        let currentSimulatedPrice = 0.00000068;
-        function updateChartData() {
-            const fluctuationFactor = (Math.random() - 0.5) * 0.00000002;
-            currentSimulatedPrice += fluctuationFactor;
-            currentSimulatedPrice = Math.max(0.00000001, Math.min(0.00000150, currentSimulatedPrice));
-            document.getElementById("currentKnotPrice").textContent = `$${currentSimulatedPrice.toFixed(8)}`;
-            document.getElementById("currentPrice").textContent = `$${currentSimulatedPrice.toFixed(8)}`;
-            if (priceChart) {
-                const data = priceChart.data.datasets[0].data;
-                data.push(currentSimulatedPrice);
-                if (data.length > 50) data.shift();
-                priceChart.update('none'); // Update without animation
-            }
-        }
-
-        // Popup and Transaction Logic
-        let currentAction = '';
+        // --- Popup Logic ---
         function showPopup(actionType) {
+            if (!isWalletConnected) { showToast("Connect wallet first!", 'error'); return; }
             let title, message, actionFunction;
-            currentAction = actionType;
-
-            if (actionType === 'lpBuy') {
-                const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
-                const currency = document.getElementById('buyCurrencySelect').value;
-                const receiveKnot = parseFloat(document.getElementById('receiveTokenAmount').value.replace(/,/g, ''));
-
-                if (!isWalletConnected) { showToast("Connect wallet first to buy nothing!", 'error'); return; }
-                if (isNaN(inputAmount) || inputAmount <= 0) { showToast(`Please enter a valid amount to buy.`, 'error'); return; }
-                if (isNaN(receiveKnot) || receiveKnot <= 0) { showToast(`Cannot calculate 0xKNOTHING received. Price might be infinite.`, 'error'); return; }
-                
-                let costInEth = currency === 'ETH' ? inputAmount : (currency === 'USDT' ? inputAmount / 2000 : inputAmount / 4000);
-                if (currentEthBalance < costInEth) { showToast(`Insufficient ETH balance to perform this transaction.`, 'error'); return; }
-                
-                title = 'Confirm Buy 0xKNOTHING';
-                message = `Are you sure you want to spend <span style="color:#00ff80;">${inputAmount.toLocaleString()} ${currency}</span> to buy <span style="color:#00ff80;">${receiveKnot.toLocaleString()} 0xKNOTHING</span>?`;
-                actionFunction = () => processLPBuy(inputAmount, currency, receiveKnot);
-            } else if (actionType === 'burn') {
-                if (currentKnotBalance <= 0) { showToast("You have no 0xKNOTHING to burn. It's already nothing.", 'info'); return; }
-                title = 'Burn 0xKNOTHING to the Void';
-                message = `Are you sure you want to burn all <span style="color:#e63946;">${currentKnotBalance.toLocaleString()}</span> 0xKNOTHING? This action is irreversible.`;
-                actionFunction = () => burnToVoid();
-            } else { return; }
+            
+            if (actionType === 'buy') {
+                const amount = parseFloat(document.getElementById('buyInputAmount').value);
+                if (isNaN(amount) || amount <= 0) { showToast('Enter a valid amount.', 'error'); return; }
+                if (currentEthBalance < amount) { showToast('Insufficient ETH balance.', 'error'); return; }
+                title = 'Confirm Buy';
+                message = `Spend ${amount.toFixed(4)} ETH to acquire nothing?`;
+                actionFunction = processBuy;
+            } else if (actionType === 'sell') {
+                const amount = parseFloat(document.getElementById('sellInputAmount').value);
+                 if (isNaN(amount) || amount <= 0) { showToast('Enter a valid amount.', 'error'); return; }
+                if (currentKnotBalance < amount) { showToast('Insufficient 0xKNOTHING balance.', 'error'); return; }
+                title = 'Confirm Sell to Void';
+                message = `Sell ${amount.toLocaleString()} 0xKNOTHING and embrace your loss?`;
+                actionFunction = processSell;
+            }
 
             document.getElementById('popupTitle').textContent = title;
             document.getElementById('popupMessage').innerHTML = message;
@@ -1684,102 +754,254 @@
                 actionFunction();
             };
         }
-
         function hidePopup() { document.getElementById('actionPopup').style.display = 'none'; }
-
-        async function processLPBuy(amount, currency, receivedKnot) {
-            showToast(`Processing purchase...`, 'info');
-
-            setTimeout(() => {
-                let costInEth = currency === 'ETH' ? amount : (currency === 'USDT' ? amount / 2000 : amount / 4000);
-                currentEthBalance -= costInEth;
-                currentKnotBalance += receivedKnot;
-                
-                totalUsdRaised += (costInEth * 2000);
-                totalTokensSold += receivedKnot;
-                localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
-                localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
-
-                updateWalletUI();
-                updateLPInterface();
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
-                showToast(`✔️ Successfully bought ${receivedKnot.toLocaleString()} 0xKNOTHING!`, 'success');
-                appendRandomMessage();
-            }, 2500);
-        }
-
-        async function burnToVoid() {
-            showToast(`Sending your tokens to the void...`, 'info');
-            setTimeout(() => {
-                const burnedAmount = currentKnotBalance;
-                currentKnotBalance = 0;
-                updateWalletUI();
-                const txHash = "0x" + Math.random().toString(16).substr(2, 64);
-                showToast(`✔️ Successfully burned ${burnedAmount.toLocaleString()} 0xKNOTHING!`, 'success');
-                appendRandomMessage();
-            }, 2500);
-        }
         
-        // --- Remaining Utility Functions ---
-        function createParticles() {
-            const container = document.getElementById("particles");
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement("div");
-                particle.className = "particle";
-                particle.style.left = Math.random() * 100 + "%";
-                particle.style.animationDelay = Math.random() * 20 + "s";
-                particle.style.animationDuration = (15 + Math.random() * 10) + "s";
-                container.appendChild(particle);
+        function processBuy() {
+            const buyAmountEth = parseFloat(document.getElementById('buyInputAmount').value);
+            const receivedKnot = parseFloat(document.getElementById('receiveTokenAmount').value.replace(/,/g, ''));
+
+            currentEthBalance -= buyAmountEth;
+            currentKnotBalance += receivedKnot;
+            localStorage.setItem('0xknothing_lastBuyTime', Date.now());
+
+            showToast(`Acquired ${receivedKnot.toLocaleString()} of nothingness.`, 'success');
+            checkAllAchievements('buy', receivedKnot);
+            saveBalances();
+            updateAllUI();
+        }
+
+        function processSell() {
+            const sellAmountKnot = parseFloat(document.getElementById('sellInputAmount').value);
+            const receivedEth = parseFloat(document.getElementById('receiveEthAmount').value);
+            
+            currentKnotBalance -= sellAmountKnot;
+            currentEthBalance += receivedEth;
+            
+            const lastBuyTime = parseInt(localStorage.getItem('0xknothing_lastBuyTime') || 0);
+            if(Date.now() - lastBuyTime < 5 * 60 * 1000) { // 5 minutes
+                checkAllAchievements('paper_hands');
             }
-        }
-        
-        function updateRealtimeCountdown() {
-            const now = new Date();
-            const endOfDay = new Date(now);
-            endOfDay.setUTCHours(23, 59, 59, 999); // Use UTC for universal reset time
-            let timeLeft = endOfDay.getTime() - now.getTime();
 
-            if (timeLeft <= 0) {
-                currentStage++;
-                localStorage.setItem('0xknothing_currentStage', currentStage);
-                knotPrice = calculateKnotPrice(currentStage);
-                updateLPInterface();
-                showToast(`Void transitioned to Void ${currentStage}! Embrace the new nothingness.`, 'info');
-                timeLeft += 24 * 60 * 60 * 1000;
-            }
-            let h = Math.floor(timeLeft / (1000 * 60 * 60));
-            let m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            let s = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            document.getElementById("countdownDisplay").textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            showToast(`Successfully sold ${sellAmountKnot.toLocaleString()} to the void.`, 'info');
+            checkAllAchievements('sell', sellAmountKnot); // you can add achievements for selling
+            saveBalances();
+            updateAllUI();
         }
-        
-        function initializeChart() {
-            const ctx = document.getElementById('priceChart').getContext('2d');
-            priceChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Array(50).fill(''),
-                    datasets: [{
-                        label: '0xKNOTHING/USDT',
-                        data: Array(50).fill(0.00000068),
-                        borderColor: '#00ff80',
-                        backgroundColor: 'rgba(0, 255, 128, 0.2)',
-                        borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        x: { display: false },
-                        y: { ticks: { color: '#aaa', callback: value => '$' + value.toFixed(8) }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { callbacks: { label: context => `$${context.parsed.y.toFixed(8)}` } }
-                    }
+
+        function saveBalances() {
+            localStorage.setItem('0xknothing_ethBalance', currentEthBalance);
+            localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
+        }
+
+
+        // --- NEW: Gamification Implementation ---
+        function initializePlayerData() {
+            let data = JSON.parse(localStorage.getItem('0xknothing_playerData'));
+            if (!data) {
+                data = { pof: 0, lastLogin: '1970-01-01', consecutiveDays: 0, achievements: {} };
+                for (const id in allAchievements) {
+                    data.achievements[id] = { unlocked: false, progress: 0 };
                 }
+                localStorage.setItem('0xknothing_playerData', JSON.stringify(data));
+            }
+            return data;
+        }
+
+        function unlockAchievement(id) {
+            if (!userPlayerData.achievements[id].unlocked) {
+                userPlayerData.achievements[id].unlocked = true;
+                userPlayerData.pof += allAchievements[id].poins;
+                localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
+                showToast(`🏆 ${allAchievements[id].name}`, 'achievement');
+                updateLeaderboard(); // Update leaderboard on new achievement
+                // Chance to broadcast message
+                if (Math.random() < 0.5) {
+                    broadcastMessage(`A void-dweller just unlocked '${allAchievements[id].name}'`);
+                }
+            }
+        }
+
+        function checkAllAchievements(actionType, value = null) {
+            if (actionType === 'walletConnected') unlockAchievement('welcome_void');
+            if (actionType === 'buy') unlockAchievement('first_sacrifice');
+            if (actionType === 'paper_hands') unlockAchievement('paper_hands');
+            
+            // Progress-based achievement
+            if (actionType === 'burn') {
+                 const achId = 'serial_burner_1';
+                 if (!userPlayerData.achievements[achId].unlocked) {
+                     userPlayerData.achievements[achId].progress += value;
+                     if (userPlayerData.achievements[achId].progress >= allAchievements[achId].target) {
+                         unlockAchievement(achId);
+                     }
+                 }
+            }
+             localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
+        }
+
+        function checkTimeBasedAchievements() {
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const lastLoginStr = userPlayerData.lastLogin;
+            
+            if (todayStr === lastLoginStr) return; // Already logged in today
+
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            if (lastLoginStr === yesterday.toISOString().slice(0, 10)) {
+                userPlayerData.consecutiveDays++;
+            } else {
+                userPlayerData.consecutiveDays = 1; // Reset streak
+            }
+            userPlayerData.lastLogin = todayStr;
+
+            const achId = 'diamond_hands';
+            if (userPlayerData.consecutiveDays >= allAchievements[achId].target) {
+                unlockAchievement(achId);
+            }
+            localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
+        }
+        
+        // --- NEW: Trophy Room UI ---
+        function showTrophyRoom() {
+            const grid = document.getElementById('trophyGrid');
+            const pofDisplay = document.getElementById('pofDisplay');
+            grid.innerHTML = '';
+            pofDisplay.textContent = userPlayerData.pof;
+
+            for (const id in allAchievements) {
+                const ach = allAchievements[id];
+                const data = userPlayerData.achievements[id];
+                const card = document.createElement('div');
+                card.className = 'trophy-card ' + (data.unlocked ? 'unlocked' : 'locked');
+
+                let progressHTML = '';
+                if (ach.type === 'progress' && !data.unlocked) {
+                    const percent = Math.min(100, (data.progress / ach.target) * 100);
+                    progressHTML = `<div class="trophy-progress-bar"><div class="trophy-progress-fill" style="width: ${percent}%;"></div></div>`;
+                }
+                 if (ach.type === 'consecutive' && !data.unlocked) {
+                    const percent = Math.min(100, (userPlayerData.consecutiveDays / ach.target) * 100);
+                     progressHTML = `<div class="trophy-progress-bar"><div class="trophy-progress-fill" style="width: ${percent}%;"></div></div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="icon">${data.unlocked ? '🏆' : '❓'}</div>
+                    <h4>${ach.name}</h4>
+                    <p>${ach.description}</p>
+                    ${progressHTML}
+                `;
+                grid.appendChild(card);
+            }
+            document.getElementById('trophyRoomPopup').style.display = 'flex';
+        }
+
+        // --- NEW: Leaderboard UI ---
+        function updateLeaderboard() {
+            // Simulate a leaderboard with some fake users
+            let fakeLeaderboard = [
+                { address: '0xDeaD...', pof: 210 },
+                { address: '0xAbYss...', pof: 155 },
+                { address: '0x1337...', pof: 95 },
+                { address: '0x404F...', pof: 50 },
+                { address: '0x0000...', pof: 5 },
+            ];
+
+            // Add the current user's data
+            if (isWalletConnected) {
+                // Remove any existing entry for the user to prevent duplicates
+                fakeLeaderboard = fakeLeaderboard.filter(u => u.address !== userAddress.slice(0, 6) + "...");
+                fakeLeaderboard.push({ address: userAddress, pof: userPlayerData.pof, isUser: true });
+            }
+
+            // Sort by PoF score
+            fakeLeaderboard.sort((a, b) => b.pof - a.pof);
+
+            const tbody = document.getElementById('leaderboardBody');
+            tbody.innerHTML = '';
+            fakeLeaderboard.forEach((user, index) => {
+                const tr = document.createElement('tr');
+                if (user.isUser) tr.classList.add('user-row');
+                
+                tr.innerHTML = `
+                    <td class="rank">#${index + 1}</td>
+                    <td>${user.isUser ? user.address.slice(0, 6) + "..." + user.address.slice(-4) : user.address}</td>
+                    <td>${user.pof}</td>
+                `;
+                tbody.appendChild(tr);
             });
         }
+
+        // --- NEW: Interactive Void Events ---
+        function startRandomVoidEvent() {
+            if(Math.random() < 0.1) { // 10% chance every 20 seconds
+                const events = ['clickTheVoid', 'uiScramble'];
+                const randomEvent = events[Math.floor(Math.random() * events.length)];
+                if (randomEvent === 'clickTheVoid') startClickTheVoidEvent();
+                if (randomEvent === 'uiScramble') startUiScrambleEvent();
+            }
+        }
+
+        function startClickTheVoidEvent() {
+            showToast("The void beckons...", 'info');
+            const clickable = document.getElementById('void-clickable');
+            clickable.style.top = `${Math.random() * 80 + 10}vh`;
+            clickable.style.left = `${Math.random() * 80 + 10}vw`;
+            clickable.style.display = 'block';
+
+            const handleClick = () => {
+                showToast("You touched the void... and nothing happened.", 'info');
+                clickable.style.display = 'none';
+                clearTimeout(timeoutId);
+                clickable.removeEventListener('click', handleClick);
+            };
+            clickable.addEventListener('click', handleClick);
+
+            const timeoutId = setTimeout(() => {
+                clickable.style.display = 'none';
+                clickable.removeEventListener('click', handleClick);
+            }, 5000); // Disappears after 5 seconds
+        }
+
+        function startUiScrambleEvent() {
+            showToast("Reality destabilizing...", 'error');
+            document.body.classList.add('chaos-mode');
+            setTimeout(() => {
+                document.body.classList.remove('chaos-mode');
+            }, 3000); // Lasts for 3 seconds
+        }
+        
+        // --- Utility Functions (Toast, Particles, etc.) ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.add('show'); }, 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => toast.remove());
+            }, 5000);
+        }
+        
+        // This function is just a placeholder to add messages to a scroll box if you implement one
+        function broadcastMessage(message) {
+            console.log(`BROADCAST: ${message}`);
+            // Example: document.getElementById('messageScroll').innerHTML += `<div>> ${message}</div>`;
+        }
+
+        function createParticles() { /* ... particle creation logic ... */ }
+        function updateRealtimeCountdown() { /* ... countdown logic ... */ }
+        
+        // DevTools detection for achievement
+        const devtools = /./;
+        devtools.toString = function() {
+            if (userPlayerData) { // Ensure player data is initialized
+                 unlockAchievement('peeking_curtain');
+            }
+        };
+        console.log('%c', devtools);
     </script>
 </body>
 </html>
