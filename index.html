@@ -8,15 +8,14 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <style>
         :root {
-            --primary-color: #e63946; /* A vibrant red */
-            --secondary-color: #457b9d; /* A muted blue */
+            --primary-color: #e63946;
+            --secondary-color: #457b9d;
             --dark-background: #1a1a1a;
             --light-text: #f1faee;
             --accent-green: #00ff80;
-            --accent-yellow: #ffc107; /* For Trophies & Highlights */
+            --accent-yellow: #ffc107;
             --void-black: #000000;
         }
-
         body {
             font-family: 'JetBrains Mono', monospace;
             background-color: var(--dark-background);
@@ -25,457 +24,98 @@
             padding: 0;
             overflow-x: hidden;
             line-height: 1.6;
-            background-image: url('images/void_pattern.png'); /* Subtle void pattern */
-            background-repeat: repeat;
-            background-size: 100px 100px;
-            transition: all 0.5s ease; /* For Chaos Mode */
+            background-image: url('images/void_pattern.png');
+            transition: all 0.5s ease;
         }
-        
-        /* --- NEW: Chaos Mode for UI Scramble Event --- */
-        body.chaos-mode {
-            filter: hue-rotate(180deg) invert(1);
-        }
-        body.chaos-mode .container {
-            transform: skewY(-2deg);
-        }
-
-
-        /* Global animations for chaos mode */
-        @keyframes voidShift {
-            0% { background-position: 0% 0%; }
-            25% { background-position: 10% 10%; }
-            50% { background-position: 0% 0%; }
-            75% { background-position: -10% -10%; }
-            100% { background-position: 0% 0%; }
-        }
-
-        /* Particle effects */
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            width: 5px;
-            height: 5px;
-            animation: floatAndFade 20s infinite ease-in-out;
-            opacity: 0;
-        }
-
-        @keyframes floatAndFade {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1; /* Ensure content is above particles */
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95));
-            border-bottom: 2px solid var(--primary-color);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        header h1 {
-            font-family: 'Orbitron', sans-serif; /* Adjusted to Orbitron for logo similarity */
-            font-size: 3.5rem;
-            color: #b30047; /* Darker red from the logo */
-            text-shadow: 0 0 15px rgba(230, 57, 70, 0.7),
-                         0 0 25px rgba(255, 0, 100, 0.5), /* Glow effect */
-                         0 0 35px rgba(0, 255, 255, 0.4); /* Cyan glow from the logo */
-            margin-bottom: 10px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            position: relative;
-            animation: glitch 1s infinite alternate; /* Glitch effect */
-        }
-
-        /* Glitch effect for the main title */
-        @keyframes glitch {
-            0% { transform: translate(0, 0); } 20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(2px, -2px); } 60% { transform: translate(-1px, 1px); }
-            80% { transform: translate(1px, -1px); } 100% { transform: translate(0, 0); }
-        }
-
-
-        header p {
-            font-size: 1.2rem;
-            color: var(--light-text);
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        .web3-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 20px;
-            gap: 20px;
-            background: rgba(26, 26, 26, 0.9);
-            border-bottom: 1px solid var(--secondary-color);
-            margin-bottom: 20px;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .web3-status, .web3-balance {
-            background-color: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--primary-color);
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            color: var(--light-text);
-            text-align: center;
-        }
-
-        .web3-status span, .web3-balance span {
-            color: var(--accent-green);
-            font-weight: bold;
-        }
-
-        .web3-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.4);
-        }
-
-        .web3-btn:hover {
-            background-color: #ff6b7a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(230, 57, 70, 0.6);
-        }
-
-        .web3-btn:disabled {
-            background-color: #555;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-        
-        /* --- NEW: Trophy Button Style --- */
-        #trophyBtn {
-            background-color: var(--accent-yellow);
-            color: var(--void-black);
-            font-size: 1.2rem;
-            padding: 10px 15px;
-            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
-        }
-        #trophyBtn:hover {
-            background-color: #ffd54f;
-            box-shadow: 0 6px 15px rgba(255, 193, 7, 0.6);
-        }
-
-        /* Countdown Timer */
-        .countdown-section {
-            text-align: center;
-            margin: 30px auto;
-            padding: 20px;
-            background: rgba(17, 17, 17, 0.8);
-            border: 1px dashed #555;
-            border-radius: 15px;
-            max-width: 600px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-        }
-        .countdown-section h3 {
-            color: var(--accent-green);
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-        .countdown-timer {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px rgba(230, 57, 70, 0.6);
-            letter-spacing: 2px;
-        }
-
-        /* --- NEW: Buy/Sell Interface with TABS --- */
-        .buy-sell-container {
-            background: rgba(17, 17, 17, 0.9);
-            border: 1px solid #e63946;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 40px auto;
-            max-width: 500px;
-            box-shadow: 0 0 30px rgba(230, 57, 70, 0.2);
-        }
-
-        .lp-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #444;
-        }
-        .lp-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: 'Orbitron', monospace;
-            font-size: 1.2rem;
-            color: #888;
-            background: transparent;
-            border: none;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .lp-tab.active {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
-        }
-        .lp-tab:hover {
-            color: var(--light-text);
-        }
+        body.chaos-mode { filter: hue-rotate(180deg) invert(1); }
+        body.screen-shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+        header { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95)); border-bottom: 2px solid var(--primary-color); }
+        header h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #b30047; text-shadow: 0 0 15px rgba(230, 57, 70, 0.7), 0 0 25px rgba(255, 0, 100, 0.5), 0 0 35px rgba(0, 255, 255, 0.4); animation: glitch 1s infinite alternate; }
+        @keyframes glitch { 0%{transform:translate(0,0)}20%{transform:translate(-2px,2px)}40%{transform:translate(2px,-2px)}60%{transform:translate(-1px,1px)}80%{transform:translate(1px,-1px)}100%{transform:translate(0,0)} }
+        header p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; }
+        .web3-section { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; padding: 20px; gap: 20px; background: rgba(26, 26, 26, 0.9); border-bottom: 1px solid var(--secondary-color); margin-bottom: 20px; }
+        .web3-status { background: rgba(0,0,0,0.6); border: 1px solid var(--primary-color); border-radius: 10px; padding: 10px 20px; text-align: center; }
+        .web3-status span { color: var(--accent-green); font-weight: bold; }
+        .web3-btn { background-color: var(--primary-color); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; transition: all 0.3s ease; }
+        .web3-btn:hover { background-color: #ff6b7a; transform: translateY(-2px); }
+        .web3-btn:disabled { background-color: #555; cursor: not-allowed; transform: none; }
+        #trophyBtn { background-color: var(--accent-yellow); color: var(--void-black); font-size: 1.2rem; padding: 10px 15px; }
+        .countdown-section { text-align: center; margin: 30px auto; padding: 20px; background: rgba(17,17,17,0.8); border: 1px dashed #555; border-radius: 15px; max-width: 600px; }
+        .countdown-timer { font-family: 'Orbitron'; font-size: 2.5rem; color: var(--primary-color); }
+        .buy-sell-container { background: rgba(17,17,17,0.9); border: 1px solid var(--primary-color); border-radius: 15px; padding: 30px; margin: 40px auto; max-width: 500px; }
+        .lp-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #444; }
+        .lp-tab { padding: 10px 20px; cursor: pointer; font-family: 'Orbitron'; font-size: 1.2rem; color: #888; background: transparent; border: none; border-bottom: 3px solid transparent; }
+        .lp-tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
         .lp-tab-content { display: none; }
         .lp-tab-content.active { display: block; }
-        .sell-info { color: #aaa; font-size: 0.9rem; text-align: center; margin-top: 15px; }
-        .sell-info span { color: var(--primary-color); }
-        
-        .lp-header {
-            display: flex; justifyContent: space-between; width: 100%;
-            margin-bottom: 20px; align-items: center;
-        }
-        .lp-header h2 {
-            font-family: 'Orbitron', monospace; color: #e63946; font-size: 2rem;
-            margin: 0; text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
-        }
-        .lp-header .stage-box {
-            background: var(--accent-yellow); color: #000; padding: 8px 15px;
-            border-radius: 8px; font-weight: bold; font-size: 1.2rem;
-            font-family: 'Orbitron', monospace;
-        }
-        .lp-price-info {
-            background: rgba(0, 0, 0, 0.5); border: 1px dashed #555;
-            border-radius: 10px; padding: 15px 20px; margin-bottom: 25px;
-            width: 100%; text-align: center;
-        }
-        .lp-price-info p { margin: 5px 0; font-size: 1.1rem; color: #ccc; }
-        .lp-price-info .highlight { color: var(--accent-green); font-weight: bold; }
-        .lp-input-group {
-            width: 100%; margin-bottom: 20px; display: flex;
-            flex-direction: column; gap: 15px;
-        }
-        .lp-input-row {
-            display: flex; align-items: center; gap: 10px; background: #0d0d0d;
-            border: 1px solid #333; border-radius: 10px; padding: 10px;
-        }
-        .lp-input-row input {
-            flex-grow: 1; background: none; border: none; color: #eee;
-            font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
-            padding: 5px; text-align: right;
-        }
-        .lp-input-row .currency-select, .lp-input-row .token-display { font-size: 1.1rem; font-weight: bold; }
-
-        .lp-connect-button {
-            width: 100%; background: linear-gradient(135deg, var(--primary-color), #ff6b7a);
-            border: none; color: white; padding: 15px 30px; font-size: 1.2rem;
-            border-radius: 10px; cursor: pointer; font-family: 'JetBrains Mono', monospace;
-            font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
-            margin-bottom: 20px;
-        }
-
-        /* --- NEW: Leaderboard Section --- */
-        .leaderboard-section {
-            background: rgba(17, 17, 17, 0.9);
-            border: 1px solid var(--accent-yellow);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 40px auto;
-            max-width: 800px;
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);
-        }
-        .leaderboard-section h2 {
-            font-family: 'Orbitron', monospace;
-            text-align: center;
-            color: var(--accent-yellow);
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-        }
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .leaderboard-table th, .leaderboard-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #333;
-        }
-        .leaderboard-table th {
-            color: var(--primary-color);
-            font-family: 'Orbitron', monospace;
-        }
-        .leaderboard-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        .leaderboard-table .rank {
-            font-weight: bold;
-            color: var(--accent-yellow);
-            font-size: 1.2rem;
-        }
-        .leaderboard-table .user-row {
-            background-color: rgba(0, 255, 128, 0.1);
-            border-left: 3px solid var(--accent-green);
-            font-weight: bold;
-        }
-
-        /* Stats Section */
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .stat-card {
-            background: rgba(17, 17, 17, 0.9);
-            border: 1px solid var(--secondary-color);
-            border-radius: 15px; padding: 20px; text-align: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-        .stat-card h4 {
-            font-family: 'Orbitron', monospace; color: var(--primary-color);
-            font-size: 1.2rem; margin-bottom: 10px;
-        }
-        .stat-card .value {
-            font-family: 'Orbitron', monospace; font-size: 1.5rem;
-            color: var(--accent-green); font-weight: bold;
-        }
-
-        /* --- NEW: Interactive Void Event Element --- */
-        #void-clickable {
-            position: fixed;
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle, var(--void-black) 0%, var(--primary-color) 100%);
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 9999;
-            box-shadow: 0 0 20px var(--primary-color);
-            animation: pulse 1s infinite;
-            display: none; /* Hidden by default */
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 10px 20px rgba(230, 57, 70, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
-        }
-        
-        /* --- NEW: Trophy Room & Popups --- */
-        .popup-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); display: none; /* Hidden by default */
-            justify-content: center; align-items: center; z-index: 1000;
-        }
-        .popup-content {
-            background: var(--dark-background); border: 2px solid var(--primary-color);
-            border-radius: 15px; padding: 30px; text-align: center;
-            max-width: 400px; width: 90%; box-shadow: 0 0 30px rgba(230, 57, 70, 0.5);
-            position: relative; /* For close button */
-        }
-        #trophyRoomPopup .popup-content {
-             max-width: 800px; max-height: 80vh; overflow-y: auto; align-self: flex-start; margin-top: 5vh;
-             border-color: var(--accent-yellow);
-        }
-        .trophy-grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px; margin-top: 20px;
-        }
-        .trophy-card {
-            background: #222; border: 1px solid #444; border-radius: 10px;
-            padding: 15px; text-align: center; transition: all 0.3s ease;
-        }
+        .lp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .lp-header h2 { font-family: 'Orbitron'; color: var(--primary-color); font-size: 2rem; }
+        .lp-header .stage-box { background: var(--accent-yellow); color: #000; padding: 8px 15px; border-radius: 8px; font-weight: bold; }
+        .lp-price-info { text-align: center; margin-bottom: 25px; }
+        .lp-price-info .highlight { color: var(--accent-green); }
+        .lp-input-group { width: 100%; margin-bottom: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .lp-input-row { display: flex; align-items: center; gap: 10px; background: #0d0d0d; border: 1px solid #333; border-radius: 10px; padding: 10px; }
+        .lp-input-row input { flex-grow: 1; background: none; border: none; color: #eee; font-family: 'JetBrains Mono'; font-size: 1.1rem; text-align: right; }
+        .lp-connect-button { width: 100%; background: linear-gradient(135deg, var(--primary-color), #ff6b7a); border: none; color: white; padding: 15px 30px; font-size: 1.2rem; border-radius: 10px; cursor: pointer; }
+        .message-scroll-box { background: rgba(0,0,0,0.7); border: 1px solid #555; border-radius: 10px; padding: 15px; height: 150px; overflow-y: scroll; margin: 20px auto; max-width: 800px; }
+        .message-line { color: #bbb; font-size: 0.9rem; margin-bottom: 5px; }
+        .message-line::before { content: '>'; color: var(--accent-green); margin-right: 8px; }
+        .stats-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 40px auto; }
+        .stat-card { background: rgba(17,17,17,0.9); border: 1px solid var(--secondary-color); border-radius: 15px; padding: 20px; text-align: center; }
+        .stat-card h4 { font-family: 'Orbitron'; color: var(--primary-color); font-size: 1.2rem; }
+        .stat-card .value { font-family: 'Orbitron'; font-size: 1.5rem; color: var(--accent-green); }
+        .void-altar-section { display: none; background: rgba(0,0,0,0.95) url('images/void_pattern.png'); border: 2px solid var(--primary-color); border-radius: 15px; padding: 30px; margin: 40px auto; max-width: 600px; box-shadow: 0 0 40px rgba(230, 57, 70, 0.5); text-align: center; }
+        .void-altar-section h2 { font-family: 'Orbitron'; color: var(--primary-color); text-shadow: 0 0 10px var(--primary-color); font-size: 2.2rem; }
+        .altar-slider-group { margin: 30px 0; }
+        .altar-slider { -webkit-appearance: none; width: 100%; height: 10px; background: #333; border-radius: 5px; outline: none; border: 1px solid #555; }
+        .altar-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 25px; height: 25px; background: var(--primary-color); cursor: pointer; border-radius: 50%; box-shadow: 0 0 10px var(--primary-color); }
+        .altar-info { display: flex; justify-content: space-between; margin-top: 10px; }
+        .altar-gas-fee { color: #aaa; margin-top: 20px; font-size: 0.9rem; }
+        .altar-gas-fee span { color: var(--accent-yellow); }
+        #sacrificeBtn { background: linear-gradient(135deg, #6d001a, var(--primary-color)); font-size: 1.5rem; padding: 20px 40px; margin-top: 20px; width: 100%; }
+        .leaderboards-container { display: grid; grid-template-columns: 1fr; gap: 40px; margin: 40px auto; }
+        @media (min-width: 992px) { .leaderboards-container { grid-template-columns: 1fr 1fr; } }
+        .leaderboard-section { background: rgba(17,17,17,0.9); border: 1px solid var(--accent-yellow); border-radius: 15px; padding: 30px; }
+        .leaderboard-section h2 { font-family: 'Orbitron'; text-align: center; color: var(--accent-yellow); font-size: 2.2rem; }
+        .leaderboard-table { width: 100%; border-collapse: collapse; }
+        .leaderboard-table th, .leaderboard-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #333; }
+        .leaderboard-table th { color: var(--primary-color); }
+        .leaderboard-table .user-row { background-color: rgba(0, 255, 128, 0.1); font-weight: bold; }
+        #void-clickable { position: fixed; width: 50px; height: 50px; background: radial-gradient(circle, var(--void-black) 0%, var(--primary-color) 100%); border-radius: 50%; cursor: pointer; z-index: 9999; box-shadow: 0 0 20px var(--primary-color); animation: pulse 1s infinite; display: none; }
+        @keyframes pulse { 0% { transform: scale(0.95); } 70% { transform: scale(1); } 100% { transform: scale(0.95); } }
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .popup-content { background: var(--dark-background); border: 2px solid var(--primary-color); border-radius: 15px; padding: 30px; text-align: center; max-width: 500px; width: 90%; }
+        #trophyRoomPopup .popup-content { max-width: 800px; max-height: 80vh; overflow-y: auto; border-color: var(--accent-yellow); }
+        .trophy-grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .trophy-card { background: #222; border: 1px solid #444; border-radius: 10px; padding: 15px; text-align: center; }
         .trophy-card.locked { filter: grayscale(1); opacity: 0.6; }
-        .trophy-card .icon { font-size: 2.5rem; }
-        .trophy-card h4 { margin: 10px 0 5px; color: var(--accent-yellow); }
-        .trophy-card p { font-size: 0.8rem; color: #aaa; margin: 0; }
-        .trophy-progress-bar { width: 100%; background: #555; height: 5px; border-radius: 5px; margin-top: 5px; }
-        .trophy-progress-fill { background: var(--accent-yellow); height: 100%; border-radius: 5px; }
-
-
-        /* Other sections styling (Meme Wall, NFT Minting, etc.) remains largely the same */
-        .meme-wall-section {
-            background: rgba(17, 17, 17, 0.9); border: 1px solid var(--primary-color);
-            border-radius: 15px; padding: 30px; margin: 40px auto;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-        }
-        .meme-wall-section h2 { text-align: center; color: var(--primary-color); font-size: 2.2rem; margin-bottom: 30px; }
-        .meme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        
-        .voidpaper-section, .how-to-buy-section { display: none; /* Hidden by default */ }
-        
-        footer {
-            text-align: center; padding: 30px 20px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(0, 0, 0, 0.95));
-            border-top: 2px solid var(--primary-color); margin-top: 50px;
-        }
-
-        /* Toast Notification System */
-        #toast-container {
-            position: fixed; top: 20px; right: 20px; z-index: 2000;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .toast {
-            background-color: #333; color: white; padding: 15px 20px;
-            border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            border-left: 5px solid var(--primary-color); font-family: 'JetBrains Mono', monospace;
-            opacity: 0; transform: translateX(100%); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
+        .trophy-card h4 { color: var(--accent-yellow); }
+        .trophy-progress-bar { width:100%; background:#555; height:5px; border-radius:5px; margin-top:5px; overflow:hidden; }
+        .trophy-progress-fill { background:var(--accent-yellow); height:100%; width:0%; transition:width 0.5s; }
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
+        .toast { background-color: #333; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-left: 5px solid var(--primary-color); opacity: 0; transform: translateX(100%); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
         .toast.show { opacity: 1; transform: translateX(0); }
-        .toast.success { border-left-color: var(--accent-green); }
-        .toast.info { border-left-color: var(--secondary-color); }
-        .toast.error { border-left-color: var(--primary-color); }
         .toast.achievement { border-left-color: var(--accent-yellow); color: var(--accent-yellow); }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
-            .leaderboard-section, .buy-sell-container { padding: 20px; }
-            .leaderboard-table td, .leaderboard-table th { font-size: 0.9rem; padding: 8px; }
-        }
-
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div id="particles"></div>
     <div id="toast-container"></div>
     <div id="void-clickable"></div>
+    <audio id="burnStartSound" src="path/to/burn_start.mp3"></audio>
+    <audio id="burnPendingSound" src="path/to/burn_pending_loop.mp3" loop></audio>
+    <audio id="burnCompleteSound" src="path/to/burn_complete.mp3"></audio>
 
     <header>
         <h1>0xKNOTHING</h1>
-        <p>The anti-utility token. No purpose. No roadmap. Pure, unadulterated nothingness. Invest your hopes and dreams here to see them vanish.</p>
+        <p>The anti-utility token. No purpose. No roadmap. Pure, unadulterated nothingness.</p>
     </header>
 
     <div class="container">
         <section class="web3-section">
-            <button id="connectWalletBtn" class="web3-btn" onclick="connectWallet()">CONNECT WALLET</button>
+            <button id="connectWalletBtn" class="web3-btn">CONNECT WALLET</button>
             <div id="walletInfo" class="web3-status" style="display: none;">
                 Wallet: <span id="walletAddress">...</span><br>
                 Balance: <span id="walletBalance">0.0000</span> ETH<br>
@@ -485,7 +125,7 @@
         </section>
 
         <section class="countdown-section">
-            <h3>Time Until The Void Reshapes Itself</h3>
+            <h3>Time Until The Void Reshapes</h3>
             <div class="countdown-timer" id="countdownDisplay">00:00:00</div>
         </section>
 
@@ -496,512 +136,489 @@
             </div>
             
             <div id="buyContent" class="lp-tab-content active">
-                <div class="lp-header">
-                    <h2>0xKNOTHING</h2>
-                    <div class="stage-box" id="currentStage">Void 1</div>
-                </div>
-
-                <div class="lp-price-info">
-                     <p>1 0xKNOTHING = <span class="highlight" id="knottingPrice">$0.00000000</span></p>
-                </div>
-
+                <div class="lp-header"><h2>0xKNOTHING</h2><div id="buyStage" class="stage-box"></div></div>
+                <div class="lp-price-info"><p>1 0xKNOTHING = <span class="highlight" id="knottingPrice"></span></p></div>
                 <div class="lp-input-group">
-                    <div class="lp-input-row">
-                        <input type="number" id="buyInputAmount" placeholder="0.0" min="0" step="0.000001">
-                        <select id="buyCurrencySelect" class="currency-select">
-                            <option value="ETH">ETH</option>
-                            <option value="USDT">USDT</option>
-                        </select>
-                    </div>
-                    <div class="lp-input-row">
-                        <input type="text" id="receiveTokenAmount" placeholder="0" readonly>
-                        <span class="token-display">0xKNOTHING</span>
-                    </div>
+                    <div class="lp-input-row"><input type="number" id="buyInputAmount" placeholder="0.0"><select id="buyCurrencySelect" class="currency-select"><option value="ETH">ETH</option></select></div>
+                    <div class="lp-input-row"><input type="text" id="receiveTokenAmount" placeholder="0" readonly><span class="token-display">0xKNOTHING</span></div>
                 </div>
-                 <button class="lp-connect-button" id="lpBuyBtn">BUY NOTHING</button>
+                <button id="lpBuyBtn" class="lp-connect-button">BUY NOTHING</button>
             </div>
 
             <div id="sellContent" class="lp-tab-content">
-                 <div class="lp-header">
-                    <h2>0xKNOTHING</h2>
-                    <div class="stage-box" id="currentStageSell">Void 1</div>
+                <div class="lp-header"><h2>0xKNOTHING</h2><div id="sellStage" class="stage-box"></div></div>
+                <div class="lp-price-info"><p>Sell Price is... unpredictable. And probably terrible.</p></div>
+                <div class="lp-input-group">
+                    <div class="lp-input-row"><input type="number" id="sellInputAmount" placeholder="0"><span class="token-display">0xKNOTHING</span></div>
+                    <div class="lp-input-row"><input type="text" id="receiveEthAmount" placeholder="0.0" readonly><select class="currency-select"><option value="ETH">ETH</option></select></div>
                 </div>
-                 <div class="lp-price-info">
-                     <p>Sell Price is... unpredictable. And probably terrible.</p>
-                </div>
-                 <div class="lp-input-group">
-                    <div class="lp-input-row">
-                        <input type="number" id="sellInputAmount" placeholder="0">
-                        <span class="token-display">0xKNOTHING</span>
-                    </div>
-                    <div class="lp-input-row">
-                        <input type="text" id="receiveEthAmount" placeholder="0.0" readonly>
-                        <select class="currency-select"><option value="ETH">ETH</option></select>
-                    </div>
-                </div>
-                <button class="lp-connect-button" id="lpSellBtn" style="background: var(--secondary-color);">SELL TO VOID</button>
-                <p class="sell-info">A portion of every sale is sacrificed (burned) to appease the void. <span>You will lose value. This is guaranteed.</span></p>
+                <button id="lpSellBtn" class="lp-connect-button" style="background: var(--secondary-color);">SELL TO VOID</button>
             </div>
         </section>
         
-        <section class="leaderboard-section">
-            <h2>The Void Leaderboard</h2>
-            <p style="text-align: center; color: #aaa; margin-top: -15px; margin-bottom: 20px;">Ranking the most dedicated pursuers of nothingness.</p>
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th style="width:15%">Rank</th>
-                        <th>Address</th>
-                        <th style="width:30%">Points of Futility (PoF)</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboardBody">
-                    </tbody>
-            </table>
+        <button id="openAltarBtn" class="web3-btn" style="display: block; margin: 30px auto; background-color: #333; border: 1px solid var(--primary-color); width: 80%; max-width:600px; padding: 20px; font-size: 1.5rem; font-family: 'Orbitron';">ENTER THE VOID ALTAR</button>
+        
+        <section id="voidAltarSection" class="void-altar-section">
+            <h2>THE VOID ALTAR</h2>
+            <p>Sacrifice your holdings to the abyss. An irreversible act of pure futility.</p>
+            <div class="altar-slider-group">
+                <input type="range" min="0" value="0" class="altar-slider" id="burnSlider">
+                <div class="altar-info"><span id="burnAmountDisplay">0 0xKNOTHING</span><span id="burnPercentDisplay">0%</span></div>
+            </div>
+             <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+                <button class="web3-btn" onclick="setBurnPercent(25)">25%</button><button class="web3-btn" onclick="setBurnPercent(50)">50%</button><button class="web3-btn" onclick="setBurnPercent(100)">MAX</button>
+            </div>
+            <div class="altar-gas-fee">Estimated Faith (Gas Fee): <span id="gasFeeDisplay">...</span> ETH</div>
+            <button id="sacrificeBtn" class="web3-btn" disabled>SACRIFICE TOKENS</button>
         </section>
 
+        <section class="message-scroll-box" id="messageScrollBox"></section>
+        
+        <div class="leaderboards-container">
+            <section class="leaderboard-section">
+                <h2>The Void Leaderboard</h2>
+                <p style="text-align:center; color:#aaa; margin-top:-15px;">Ranking by Points of Futility (PoF)</p>
+                <table class="leaderboard-table"><thead><tr><th>Rank</th><th>Address</th><th>PoF</th></tr></thead><tbody id="pofLeaderboardBody"></tbody></table>
+            </section>
+            <section class="leaderboard-section" style="border-color: var(--primary-color)">
+                <h2>Top Sacrificers</h2>
+                <p style="text-align:center; color:#aaa; margin-top:-15px;">Ranking by Total Tokens Burned</p>
+                <table class="leaderboard-table"><thead><tr><th>Rank</th><th>Address</th><th>Tokens Burned</th></tr></thead><tbody id="burnLeaderboardBody"></tbody></table>
+            </section>
+        </div>
+        
+        <section class="stats-section">
+             <div class="stat-card"><h4>Market Cap</h4><p class="value">Undefined</p></div>
+             <div class="stat-card"><h4>Holders</h4><p class="value" id="holdersStat">0</p></div>
+             <div class="stat-card"><h4>Total Sacrificed</h4><p id="totalBurnedStat" class="value">0</p></div>
+        </section>
+        
         </div>
 
     <footer>
-        </footer>
+        <p>&copy; 2025 0xKNOTHING. All rights reserved. (Or not. Who cares?)</p>
+    </footer>
 
-    <div id="trophyRoomPopup" class="popup-overlay">
-        <div class="popup-content">
-            <h3>Hall of Nothingness</h3>
-            <p>Total Points of Futility (PoF): <span id="pofDisplay">0</span></p>
-            <div id="trophyGrid" class="trophy-grid-container">
-                </div>
-            <button class="web3-btn" onclick="document.getElementById('trophyRoomPopup').style.display = 'none'" style="margin-top:20px;">CLOSE</button>
-        </div>
-    </div>
-    
-    <div id="actionPopup" class="popup-overlay">
-        <div class="popup-content">
-            <h3 id="popupTitle">Confirm Action</h3>
-            <p id="popupMessage">Are you sure?</p>
-            <div class="popup-buttons" style="display: flex; justify-content: center; gap: 20px;">
-                <button id="popupConfirmBtn" class="web3-btn">Confirm</button>
-                <button onclick="hidePopup()" class="web3-btn" style="background: #555;">Cancel</button>
-            </div>
-        </div>
-    </div>
-
+    <div id="trophyRoomPopup" class="popup-overlay"><div class="popup-content"><h3>Hall of Nothingness</h3><p>Total Points of Futility (PoF): <span id="pofDisplay">0</span></p><div id="trophyGrid" class="trophy-grid-container"></div><button class="web3-btn" onclick="document.getElementById('trophyRoomPopup').style.display = 'none'" style="margin-top:20px;">CLOSE</button></div></div>
+    <div id="actionPopup" class="popup-overlay"><div class="popup-content" id="actionPopupContent"><h3 id="popupTitle">Confirm Action</h3><p id="popupMessage">Are you sure?</p><div id="popupButtons" style="display: flex; justify-content: center; gap: 20px;"><button id="popupConfirmBtn" class="web3-btn">Confirm</button><button onclick="hidePopup()" class="web3-btn" style="background: #555;">Cancel</button></div></div></div>
 
     <script>
-        // --- Simulation & Global State ---
-        let provider, signer, userAddress;
-        let isWalletConnected = false;
-        let currentEthBalance = 0.0;
-        let currentKnotBalance = 0;
-        let currentStage = 1;
-        let knotPrice = 0.00000001;
+    // --- STATE & CONFIG ---
+    let isWalletConnected = false;
+    let userState = { address: '', eth: 0.0, knot: 0, lastBuyTime: 0 };
+    let globalState = { totalBurned: 0, knotPrice: 0.00000001, stage: 1, holders: 1 };
+    let userPlayerData;
+    let currentGasFee = 0;
+    const MOCK_ETH_PRICE_USD = 3000;
 
-        // --- NEW: Gamification Foundation ---
-        const allAchievements = {
-            'welcome_void': { name: 'Welcome to the Void', description: 'Connect your wallet for the first time.', poins: 5 },
-            'first_sacrifice': { name: 'First Sacrifice', description: 'Buy 0xKNOTHING for the first time.', poins: 10 },
-            'into_the_abyss': { name: 'Into The Abyss', description: 'Burn tokens for the first time.', poins: 10 },
-            'paper_hands': { name: 'Paper Hands', description: 'Sell tokens within 5 minutes of buying.', poins: 5 },
-            'void_patron': { name: 'Void Patron', description: 'Successfully mint a Nothing NFT.', poins: 15 },
-            'art_critic': { name: 'Art Critic', description: 'Vote on a meme on the Wall of Nonsense.', poins: 5 },
-            'peeking_curtain': { name: 'Peeking Behind the Curtain', description: 'You saw what you shouldn\'t have (opened dev console).', poins: 15 },
-            'serial_burner_1': { name: 'Serial Burner', description: 'Burn a total of 1,000,000 tokens.', poins: 20, type: 'progress', target: 1000000 },
-            'diamond_hands': { name: 'Diamond Hands of Nothingness', description: 'Hold tokens for 30 consecutive days.', poins: 100, type: 'consecutive', target: 30 },
-        };
+    const allAchievements = {
+        'welcome_void': { name: 'Welcome to the Void', description: 'Connect your wallet for the first time.', poins: 5 },
+        'first_sacrifice': { name: 'First Sacrifice', description: 'Buy 0xKNOTHING for the first time.', poins: 10 },
+        'into_the_abyss': { name: 'Into The Abyss', description: 'Burn tokens for the first time.', poins: 15, type: 'simple' },
+        'all_in': { name: 'All In', description: 'Sacrifice 100% of your tokens in a single burn.', poins: 50, type: 'simple' },
+        'paper_hands': { name: 'Paper Hands', description: 'Sell tokens within 5 minutes of buying.', poins: 5, type: 'simple' },
+        'peeking_curtain': { name: 'Peeking Behind the Curtain', description: 'You saw what you shouldn\'t have (opened dev console).', poins: 20, type: 'simple' },
+        'serial_burner': { name: 'Serial Burner', description: 'Burn a total of 1,000,000 tokens.', poins: 30, type: 'progress', target: 1000000 },
+        'diamond_hands': { name: 'Diamond Hands', description: 'Hold tokens for 3 consecutive days.', poins: 40, type: 'consecutive', target: 3 },
+    };
 
-        let userPlayerData;
+    // --- INITIALIZATION ---
+    document.addEventListener("DOMContentLoaded", () => {
+        loadState();
+        setupEventListeners();
+        updateAllUI();
+        if (isWalletConnected) connectWallet(true);
+        setInterval(updateRealtimeCountdown, 1000);
+        setInterval(startRandomVoidEvent, 20000);
+        createParticles();
+    });
 
-        // --- Main DOMContentLoaded ---
-        document.addEventListener("DOMContentLoaded", function () {
-            createParticles();
-            userPlayerData = initializePlayerData();
-            
-            // Connect wallet if previously connected
-            if (localStorage.getItem('0xknothing_isConnected') === 'true') {
-                 connectWallet(true); // silent connect
-            }
+    function loadState() {
+        isWalletConnected = localStorage.getItem('0xknothing_isConnected') === 'true';
+        userState = JSON.parse(localStorage.getItem('0xknothing_userState')) || { address: '', eth: 0, knot: 0, lastBuyTime: 0 };
+        globalState = JSON.parse(localStorage.getItem('0xknothing_globalState')) || { totalBurned: 0, knotPrice: 0.00000001, stage: 1, holders: 1 };
+        userPlayerData = initializePlayerData();
+    }
 
-            setupEventListeners();
-            updateAllUI();
-            
-            // Check time-based achievements on load
-            checkTimeBasedAchievements();
-            
-            // Start intervals
-            setInterval(updateRealtimeCountdown, 1000);
-            setInterval(startRandomVoidEvent, 20000); // Try to start an event every 20s
-        });
+    function saveState() {
+        localStorage.setItem('0xknothing_isConnected', isWalletConnected);
+        localStorage.setItem('0xknothing_userState', JSON.stringify(userState));
+        localStorage.setItem('0xknothing_globalState', JSON.stringify(globalState));
+        localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
+    }
 
-        function setupEventListeners() {
-            // Wallet buttons
-            document.getElementById('connectWalletBtn').addEventListener('click', () => connectWallet(false));
-            document.getElementById('trophyBtn').addEventListener('click', showTrophyRoom);
-            
-            // Buy/Sell buttons
-            document.getElementById('lpBuyBtn').addEventListener('click', () => showPopup('buy'));
-            document.getElementById('lpSellBtn').addEventListener('click', () => showPopup('sell'));
-
-            // Tab switching
-            document.querySelectorAll('.lp-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.lp-tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.lp-tab-content').forEach(c => c.classList.remove('active'));
-                    tab.classList.add('active');
-                    document.getElementById(tab.dataset.tab + 'Content').classList.add('active');
-                });
+    // --- EVENT LISTENERS & SETUP ---
+    function setupEventListeners() {
+        document.getElementById('connectWalletBtn').addEventListener('click', () => connectWallet(false));
+        document.getElementById('trophyBtn').addEventListener('click', showTrophyRoom);
+        document.getElementById('openAltarBtn').addEventListener('click', toggleVoidAltar);
+        document.getElementById('burnSlider').addEventListener('input', updateBurnDisplay);
+        document.getElementById('sacrificeBtn').addEventListener('click', () => showPopup('burn'));
+        document.getElementById('lpBuyBtn').addEventListener('click', () => showPopup('buy'));
+        document.getElementById('lpSellBtn').addEventListener('click', () => showPopup('sell'));
+        document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
+        document.getElementById('sellInputAmount').addEventListener('input', calculateEthReceiveAmount);
+        document.querySelectorAll('.lp-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.lp-tab, .lp-tab-content').forEach(el => el.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + 'Content').classList.add('active');
             });
+        });
+    }
 
-            // Input calculations
-            document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
-            document.getElementById('sellInputAmount').addEventListener('input', calculateEthReceiveAmount);
+    // --- UI UPDATES ---
+    function updateAllUI() {
+        updateWalletUI();
+        updateBuySellUI();
+        updateLeaderboards();
+        document.getElementById('totalBurnedStat').textContent = globalState.totalBurned.toLocaleString(undefined, {notation: 'compact'});
+        document.getElementById('holdersStat').textContent = globalState.holders.toLocaleString();
+    }
+    
+    function updateWalletUI() {
+        const walletInfo = document.getElementById('walletInfo');
+        const connectBtn = document.getElementById('connectWalletBtn');
+        if (isWalletConnected) {
+            walletInfo.style.display = 'block';
+            connectBtn.style.display = 'none';
+            document.getElementById('walletAddress').textContent = userState.address.slice(0, 6) + "..." + userState.address.slice(-4);
+            document.getElementById('walletBalance').textContent = `${userState.eth.toFixed(4)} ETH`;
+            document.getElementById('knotBalance').textContent = `${userState.knot.toLocaleString()} 0xKNOTHING`;
+        } else {
+            walletInfo.style.display = 'none';
+            connectBtn.style.display = 'block';
         }
+    }
 
-        function updateAllUI() {
-            updateWalletUI();
-            updateBuySellUI();
-            updateLeaderboard();
-        }
+    function updateBuySellUI() {
+        document.getElementById('knottingPrice').textContent = `$${globalState.knotPrice.toFixed(8)}`;
+        document.getElementById('buyStage').textContent = `Void ${globalState.stage}`;
+        document.getElementById('sellStage').textContent = `Void ${globalState.stage}`;
+    }
 
-        // --- Wallet & Connection ---
-        async function connectWallet(isSilent = false) {
-            if (!isSilent) showToast("Connecting to the void...", 'info');
-            
-            setTimeout(() => {
-                isWalletConnected = true;
-                userAddress = localStorage.getItem('0xknothing_userAddress') || "0x" + Math.random().toString(16).substr(2, 40);
-                currentEthBalance = parseFloat(localStorage.getItem('0xknothing_ethBalance') || (Math.random() * 0.5 + 0.01));
-                currentKnotBalance = parseFloat(localStorage.getItem('0xknothing_knotBalance') || 0);
-
-                localStorage.setItem('0xknothing_isConnected', 'true');
-                localStorage.setItem('0xknothing_userAddress', userAddress);
-                
-                if (!isSilent) showToast("Wallet connected to the void.", 'success');
-                
-                checkAllAchievements('walletConnected');
-                updateAllUI();
-            }, isSilent ? 100 : 1500);
-        }
-        
-        function updateWalletUI() {
-            const walletInfo = document.getElementById('walletInfo');
-            if (isWalletConnected) {
-                walletInfo.style.display = 'block';
-                document.getElementById('connectWalletBtn').style.display = 'none';
-                document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
-                document.getElementById("walletBalance").textContent = `${currentEthBalance.toFixed(4)} ETH`;
-                document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`;
-            } else {
-                walletInfo.style.display = 'none';
-                document.getElementById('connectWalletBtn').style.display = 'block';
+    // --- CORE LOGIC (WALLET, BUY, SELL, BURN) ---
+    function connectWallet(isSilent = false) {
+        if (!isSilent) showToast("Connecting to the void...", 'info');
+        setTimeout(() => {
+            isWalletConnected = true;
+            if (!userState.address) { // First time connecting
+                userState.address = "0x" + Math.random().toString(16).substr(2, 40);
+                userState.eth = Math.random() * 0.5 + 0.01;
+                globalState.holders++;
             }
-        }
+            if (!isSilent) showToast("Wallet connected to the void.", 'success');
+            checkAllAchievements('walletConnected');
+            checkTimeBasedAchievements();
+            saveState();
+            updateAllUI();
+        }, isSilent ? 100 : 1500);
+    }
+    
+    function calculateReceiveAmount() {
+        const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
+        if (isNaN(inputAmount) || inputAmount <= 0) { document.getElementById('receiveTokenAmount').value = 0; return; }
+        const usdEquivalent = inputAmount * MOCK_ETH_PRICE_USD;
+        document.getElementById('receiveTokenAmount').value = (usdEquivalent / globalState.knotPrice).toLocaleString(undefined, { maximumFractionDigits: 0 });
+    }
 
-        // --- Buy/Sell Logic ---
-        function updateBuySellUI() {
-             document.getElementById('knottingPrice').textContent = `$${knotPrice.toFixed(8)}`;
-             document.getElementById('currentStage').textContent = `Void ${currentStage}`;
-             document.getElementById('currentStageSell').textContent = `Void ${currentStage}`;
-        }
-        function calculateReceiveAmount() {
-            const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
-            const ethPrice = 3000; // Mock price
-            if (isNaN(inputAmount) || inputAmount <= 0) {
-                document.getElementById('receiveTokenAmount').value = 0; return;
-            }
-            const usdEquivalent = inputAmount * ethPrice;
-            const receivedKnot = usdEquivalent / knotPrice;
-            document.getElementById('receiveTokenAmount').value = receivedKnot.toLocaleString(undefined, { maximumFractionDigits: 0 });
-        }
-        function calculateEthReceiveAmount() {
-            const inputAmount = parseFloat(document.getElementById('sellInputAmount').value);
-            if (isNaN(inputAmount) || inputAmount <= 0) {
-                document.getElementById('receiveEthAmount').value = 0.0; return;
-            }
-            // Sell price is always worse than buy price, embodying the theme
-            const sellPrice = knotPrice * 0.75; // 25% loss
-            const usdEquivalent = inputAmount * sellPrice;
-            const ethPrice = 3000;
-            const receivedEth = usdEquivalent / ethPrice;
-            document.getElementById('receiveEthAmount').value = receivedEth.toFixed(6);
-        }
+    function calculateEthReceiveAmount() {
+        const inputAmount = parseFloat(document.getElementById('sellInputAmount').value);
+        if (isNaN(inputAmount) || inputAmount <= 0) { document.getElementById('receiveEthAmount').value = 0.0; return; }
+        const sellPrice = globalState.knotPrice * 0.75; // 25% loss
+        const usdEquivalent = inputAmount * sellPrice;
+        document.getElementById('receiveEthAmount').value = (usdEquivalent / MOCK_ETH_PRICE_USD).toFixed(6);
+    }
 
-        // --- Popup Logic ---
-        function showPopup(actionType) {
-            if (!isWalletConnected) { showToast("Connect wallet first!", 'error'); return; }
-            let title, message, actionFunction;
-            
-            if (actionType === 'buy') {
-                const amount = parseFloat(document.getElementById('buyInputAmount').value);
-                if (isNaN(amount) || amount <= 0) { showToast('Enter a valid amount.', 'error'); return; }
-                if (currentEthBalance < amount) { showToast('Insufficient ETH balance.', 'error'); return; }
-                title = 'Confirm Buy';
-                message = `Spend ${amount.toFixed(4)} ETH to acquire nothing?`;
-                actionFunction = processBuy;
-            } else if (actionType === 'sell') {
-                const amount = parseFloat(document.getElementById('sellInputAmount').value);
-                 if (isNaN(amount) || amount <= 0) { showToast('Enter a valid amount.', 'error'); return; }
-                if (currentKnotBalance < amount) { showToast('Insufficient 0xKNOTHING balance.', 'error'); return; }
-                title = 'Confirm Sell to Void';
-                message = `Sell ${amount.toLocaleString()} 0xKNOTHING and embrace your loss?`;
-                actionFunction = processSell;
-            }
-
-            document.getElementById('popupTitle').textContent = title;
-            document.getElementById('popupMessage').innerHTML = message;
-            document.getElementById('actionPopup').style.display = 'flex';
-            document.getElementById('popupConfirmBtn').onclick = () => {
-                hidePopup();
-                actionFunction();
-            };
-        }
-        function hidePopup() { document.getElementById('actionPopup').style.display = 'none'; }
-        
-        function processBuy() {
+    function processTransaction(type) {
+        if (type === 'buy') {
             const buyAmountEth = parseFloat(document.getElementById('buyInputAmount').value);
             const receivedKnot = parseFloat(document.getElementById('receiveTokenAmount').value.replace(/,/g, ''));
-
-            currentEthBalance -= buyAmountEth;
-            currentKnotBalance += receivedKnot;
-            localStorage.setItem('0xknothing_lastBuyTime', Date.now());
-
-            showToast(`Acquired ${receivedKnot.toLocaleString()} of nothingness.`, 'success');
-            checkAllAchievements('buy', receivedKnot);
-            saveBalances();
-            updateAllUI();
-        }
-
-        function processSell() {
+            userState.eth -= buyAmountEth;
+            userState.knot += receivedKnot;
+            userState.lastBuyTime = Date.now();
+            checkAllAchievements('buy');
+        } else if (type === 'sell') {
             const sellAmountKnot = parseFloat(document.getElementById('sellInputAmount').value);
             const receivedEth = parseFloat(document.getElementById('receiveEthAmount').value);
-            
-            currentKnotBalance -= sellAmountKnot;
-            currentEthBalance += receivedEth;
-            
-            const lastBuyTime = parseInt(localStorage.getItem('0xknothing_lastBuyTime') || 0);
-            if(Date.now() - lastBuyTime < 5 * 60 * 1000) { // 5 minutes
-                checkAllAchievements('paper_hands');
-            }
+            userState.knot -= sellAmountKnot;
+            userState.eth += receivedEth;
+            if (Date.now() - userState.lastBuyTime < 5 * 60 * 1000) checkAllAchievements('paper_hands');
+        }
+        hidePopup();
+        showToast(`Transaction successful. The void is pleased.`, 'success');
+        saveState();
+        updateAllUI();
+    }
 
-            showToast(`Successfully sold ${sellAmountKnot.toLocaleString()} to the void.`, 'info');
-            checkAllAchievements('sell', sellAmountKnot); // you can add achievements for selling
-            saveBalances();
+    // --- VOID ALTAR ---
+    function toggleVoidAltar() {
+        if (!isWalletConnected) { showToast('Connect your wallet to enter the altar.', 'error'); return; }
+        const altar = document.getElementById('voidAltarSection');
+        const isOpen = altar.style.display === 'block';
+        altar.style.display = isOpen ? 'none' : 'block';
+        if (!isOpen) {
+            currentGasFee = parseFloat((Math.random() * 0.005 + 0.001).toFixed(5));
+            document.getElementById('gasFeeDisplay').textContent = currentGasFee;
+            document.getElementById('burnSlider').max = userState.knot;
+            updateBurnDisplay();
+            altar.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    
+    function updateBurnDisplay() {
+        const slider = document.getElementById('burnSlider');
+        const amount = parseFloat(slider.value);
+        const percent = (userState.knot > 0) ? (amount / userState.knot) * 100 : 0;
+        document.getElementById('burnAmountDisplay').textContent = `${amount.toLocaleString()} 0xKNOTHING`;
+        document.getElementById('burnPercentDisplay').textContent = `${percent.toFixed(0)}%`;
+        document.getElementById('sacrificeBtn').disabled = amount <= 0;
+    }
+
+    function setBurnPercent(percent) {
+        document.getElementById('burnSlider').value = (userState.knot * percent) / 100;
+        updateBurnDisplay();
+    }
+
+    function initiateSacrifice() {
+        const burnAmount = parseFloat(document.getElementById('burnSlider').value);
+        hidePopup();
+        document.body.classList.add('screen-shake');
+        document.getElementById('burnStartSound').play().catch(e => console.error("Audio play failed:", e));
+        
+        const popupContent = document.getElementById('actionPopupContent');
+        const originalContent = popupContent.innerHTML;
+        popupContent.innerHTML = `<h3 style="color:var(--primary-color);">SENDING SACRIFICE...</h3><p>Awaiting confirmation from the abyss...</p>`;
+        document.getElementById('actionPopup').style.display = 'flex';
+        const pendingSound = document.getElementById('burnPendingSound');
+        pendingSound.play().catch(e => console.error("Audio play failed:", e));
+        
+        setTimeout(() => {
+            pendingSound.pause(); pendingSound.currentTime = 0;
+            document.getElementById('burnCompleteSound').play().catch(e => console.error("Audio play failed:", e));
+            document.body.classList.remove('screen-shake');
+            
+            userState.knot -= burnAmount;
+            userState.eth -= currentGasFee;
+            globalState.totalBurned += burnAmount;
+            userPlayerData.totalBurned += burnAmount;
+
+            checkAllAchievements('burn', burnAmount);
+            if (burnAmount > 0 && burnAmount.toFixed(0) === userState.knot.toFixed(0) + burnAmount.toFixed(0)) { // Check if it was 100%
+                 checkAllAchievements('all_in');
+            }
+            
+            saveState();
             updateAllUI();
-        }
-
-        function saveBalances() {
-            localStorage.setItem('0xknothing_ethBalance', currentEthBalance);
-            localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
-        }
-
-
-        // --- NEW: Gamification Implementation ---
-        function initializePlayerData() {
-            let data = JSON.parse(localStorage.getItem('0xknothing_playerData'));
-            if (!data) {
-                data = { pof: 0, lastLogin: '1970-01-01', consecutiveDays: 0, achievements: {} };
-                for (const id in allAchievements) {
-                    data.achievements[id] = { unlocked: false, progress: 0 };
-                }
-                localStorage.setItem('0xknothing_playerData', JSON.stringify(data));
-            }
-            return data;
-        }
-
-        function unlockAchievement(id) {
-            if (!userPlayerData.achievements[id].unlocked) {
-                userPlayerData.achievements[id].unlocked = true;
-                userPlayerData.pof += allAchievements[id].poins;
-                localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
-                showToast(`🏆 ${allAchievements[id].name}`, 'achievement');
-                updateLeaderboard(); // Update leaderboard on new achievement
-                // Chance to broadcast message
-                if (Math.random() < 0.5) {
-                    broadcastMessage(`A void-dweller just unlocked '${allAchievements[id].name}'`);
-                }
-            }
-        }
-
-        function checkAllAchievements(actionType, value = null) {
-            if (actionType === 'walletConnected') unlockAchievement('welcome_void');
-            if (actionType === 'buy') unlockAchievement('first_sacrifice');
-            if (actionType === 'paper_hands') unlockAchievement('paper_hands');
             
-            // Progress-based achievement
-            if (actionType === 'burn') {
-                 const achId = 'serial_burner_1';
-                 if (!userPlayerData.achievements[achId].unlocked) {
-                     userPlayerData.achievements[achId].progress += value;
-                     if (userPlayerData.achievements[achId].progress >= allAchievements[achId].target) {
-                         unlockAchievement(achId);
-                     }
-                 }
-            }
-             localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
+            popupContent.innerHTML = originalContent;
+            hidePopup();
+            showToast(`Sacrifice Complete. Void Hash: 0xvoid${Math.random().toString(16).substr(2)}`, 'success');
+            showEchoFromTheVoid();
+        }, 5000);
+    }
+
+    function showEchoFromTheVoid() {
+        const echoes = ["The void acknowledges... and is unimpressed.", "You have less. Good.", "An echo returns. It sounds like... nothing."];
+        broadcastMessage(echoes[Math.floor(Math.random() * echoes.length)]);
+    }
+
+    // --- GAMIFICATION ---
+    function initializePlayerData() {
+        let data = JSON.parse(localStorage.getItem('0xknothing_playerData'));
+        if (!data) {
+            data = { pof: 0, lastLogin: '1970-01-01', consecutiveDays: 0, totalBurned: 0, achievements: {} };
+            Object.keys(allAchievements).forEach(id => { data.achievements[id] = { unlocked: false, progress: 0 }; });
         }
+        return data;
+    }
 
-        function checkTimeBasedAchievements() {
-            const todayStr = new Date().toISOString().slice(0, 10);
-            const lastLoginStr = userPlayerData.lastLogin;
-            
-            if (todayStr === lastLoginStr) return; // Already logged in today
+    function unlockAchievement(id) {
+        if (!userPlayerData.achievements[id] || userPlayerData.achievements[id].unlocked) return;
+        userPlayerData.achievements[id].unlocked = true;
+        userPlayerData.pof += allAchievements[id].poins;
+        showToast(`🏆 ${allAchievements[id].name}`, 'achievement');
+        updateLeaderboards();
+        if (Math.random() < 0.5) broadcastMessage(`A void-dweller just unlocked '${allAchievements[id].name}'`);
+    }
 
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            
-            if (lastLoginStr === yesterday.toISOString().slice(0, 10)) {
-                userPlayerData.consecutiveDays++;
-            } else {
-                userPlayerData.consecutiveDays = 1; // Reset streak
-            }
-            userPlayerData.lastLogin = todayStr;
-
-            const achId = 'diamond_hands';
-            if (userPlayerData.consecutiveDays >= allAchievements[achId].target) {
-                unlockAchievement(achId);
-            }
-            localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
-        }
-        
-        // --- NEW: Trophy Room UI ---
-        function showTrophyRoom() {
-            const grid = document.getElementById('trophyGrid');
-            const pofDisplay = document.getElementById('pofDisplay');
-            grid.innerHTML = '';
-            pofDisplay.textContent = userPlayerData.pof;
-
-            for (const id in allAchievements) {
-                const ach = allAchievements[id];
-                const data = userPlayerData.achievements[id];
-                const card = document.createElement('div');
-                card.className = 'trophy-card ' + (data.unlocked ? 'unlocked' : 'locked');
-
-                let progressHTML = '';
-                if (ach.type === 'progress' && !data.unlocked) {
-                    const percent = Math.min(100, (data.progress / ach.target) * 100);
-                    progressHTML = `<div class="trophy-progress-bar"><div class="trophy-progress-fill" style="width: ${percent}%;"></div></div>`;
-                }
-                 if (ach.type === 'consecutive' && !data.unlocked) {
-                    const percent = Math.min(100, (userPlayerData.consecutiveDays / ach.target) * 100);
-                     progressHTML = `<div class="trophy-progress-bar"><div class="trophy-progress-fill" style="width: ${percent}%;"></div></div>`;
-                }
-
-                card.innerHTML = `
-                    <div class="icon">${data.unlocked ? '🏆' : '❓'}</div>
-                    <h4>${ach.name}</h4>
-                    <p>${ach.description}</p>
-                    ${progressHTML}
-                `;
-                grid.appendChild(card);
-            }
-            document.getElementById('trophyRoomPopup').style.display = 'flex';
-        }
-
-        // --- NEW: Leaderboard UI ---
-        function updateLeaderboard() {
-            // Simulate a leaderboard with some fake users
-            let fakeLeaderboard = [
-                { address: '0xDeaD...', pof: 210 },
-                { address: '0xAbYss...', pof: 155 },
-                { address: '0x1337...', pof: 95 },
-                { address: '0x404F...', pof: 50 },
-                { address: '0x0000...', pof: 5 },
-            ];
-
-            // Add the current user's data
-            if (isWalletConnected) {
-                // Remove any existing entry for the user to prevent duplicates
-                fakeLeaderboard = fakeLeaderboard.filter(u => u.address !== userAddress.slice(0, 6) + "...");
-                fakeLeaderboard.push({ address: userAddress, pof: userPlayerData.pof, isUser: true });
-            }
-
-            // Sort by PoF score
-            fakeLeaderboard.sort((a, b) => b.pof - a.pof);
-
-            const tbody = document.getElementById('leaderboardBody');
-            tbody.innerHTML = '';
-            fakeLeaderboard.forEach((user, index) => {
-                const tr = document.createElement('tr');
-                if (user.isUser) tr.classList.add('user-row');
-                
-                tr.innerHTML = `
-                    <td class="rank">#${index + 1}</td>
-                    <td>${user.isUser ? user.address.slice(0, 6) + "..." + user.address.slice(-4) : user.address}</td>
-                    <td>${user.pof}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // --- NEW: Interactive Void Events ---
-        function startRandomVoidEvent() {
-            if(Math.random() < 0.1) { // 10% chance every 20 seconds
-                const events = ['clickTheVoid', 'uiScramble'];
-                const randomEvent = events[Math.floor(Math.random() * events.length)];
-                if (randomEvent === 'clickTheVoid') startClickTheVoidEvent();
-                if (randomEvent === 'uiScramble') startUiScrambleEvent();
+    function checkAllAchievements(actionType, value = null) {
+        if (actionType === 'walletConnected') unlockAchievement('welcome_void');
+        if (actionType === 'buy') unlockAchievement('first_sacrifice');
+        if (actionType === 'paper_hands') unlockAchievement('paper_hands');
+        if (actionType === 'all_in') unlockAchievement('all_in');
+        if (actionType === 'burn') {
+            unlockAchievement('into_the_abyss');
+            const achId = 'serial_burner';
+            let achData = userPlayerData.achievements[achId];
+            if (!achData.unlocked) {
+                achData.progress = userPlayerData.totalBurned;
+                if (achData.progress >= allAchievements[achId].target) unlockAchievement(achId);
             }
         }
+        saveState();
+    }
 
-        function startClickTheVoidEvent() {
-            showToast("The void beckons...", 'info');
-            const clickable = document.getElementById('void-clickable');
-            clickable.style.top = `${Math.random() * 80 + 10}vh`;
-            clickable.style.left = `${Math.random() * 80 + 10}vw`;
-            clickable.style.display = 'block';
+    function checkTimeBasedAchievements() {
+        const todayStr = new Date().toISOString().slice(0, 10);
+        const lastLoginStr = userPlayerData.lastLogin;
+        if (todayStr === lastLoginStr) return;
 
-            const handleClick = () => {
-                showToast("You touched the void... and nothing happened.", 'info');
-                clickable.style.display = 'none';
-                clearTimeout(timeoutId);
-                clickable.removeEventListener('click', handleClick);
-            };
-            clickable.addEventListener('click', handleClick);
-
-            const timeoutId = setTimeout(() => {
-                clickable.style.display = 'none';
-                clickable.removeEventListener('click', handleClick);
-            }, 5000); // Disappears after 5 seconds
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (lastLoginStr === yesterday.toISOString().slice(0, 10)) {
+            userPlayerData.consecutiveDays++;
+        } else {
+            userPlayerData.consecutiveDays = 1;
         }
+        userPlayerData.lastLogin = todayStr;
 
-        function startUiScrambleEvent() {
-            showToast("Reality destabilizing...", 'error');
-            document.body.classList.add('chaos-mode');
-            setTimeout(() => {
-                document.body.classList.remove('chaos-mode');
-            }, 3000); // Lasts for 3 seconds
-        }
-        
-        // --- Utility Functions (Toast, Particles, etc.) ---
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            container.appendChild(toast);
-            setTimeout(() => { toast.classList.add('show'); }, 10);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                toast.addEventListener('transitionend', () => toast.remove());
-            }, 5000);
-        }
-        
-        // This function is just a placeholder to add messages to a scroll box if you implement one
-        function broadcastMessage(message) {
-            console.log(`BROADCAST: ${message}`);
-            // Example: document.getElementById('messageScroll').innerHTML += `<div>> ${message}</div>`;
-        }
-
-        function createParticles() { /* ... particle creation logic ... */ }
-        function updateRealtimeCountdown() { /* ... countdown logic ... */ }
-        
-        // DevTools detection for achievement
-        const devtools = /./;
-        devtools.toString = function() {
-            if (userPlayerData) { // Ensure player data is initialized
-                 unlockAchievement('peeking_curtain');
+        const achId = 'diamond_hands';
+        if (userPlayerData.consecutiveDays >= allAchievements[achId].target) unlockAchievement(achId);
+        saveState();
+    }
+    
+    function showTrophyRoom() {
+        const grid = document.getElementById('trophyGrid');
+        grid.innerHTML = '';
+        document.getElementById('pofDisplay').textContent = userPlayerData.pof;
+        for (const id in allAchievements) {
+            const ach = allAchievements[id];
+            const data = userPlayerData.achievements[id];
+            const card = document.createElement('div');
+            card.className = `trophy-card ${data.unlocked ? 'unlocked' : 'locked'}`;
+            let progressHTML = '';
+            if (ach.type === 'progress' && !data.unlocked) {
+                const percent = Math.min(100, (userPlayerData.totalBurned / ach.target) * 100);
+                progressHTML = `<div class="trophy-progress-bar"><div class="trophy-progress-fill" style="width:${percent}%;"></div></div>`;
+            } else if (ach.type === 'consecutive' && !data.unlocked) {
+                const percent = Math.min(100, (userPlayerData.consecutiveDays / ach.target) * 100);
+                progressHTML = `<div class="trophy-progress-bar"><div class="trophy-progress-fill" style="width:${percent}%;"></div></div>`;
             }
-        };
-        console.log('%c', devtools);
+            card.innerHTML = `<div class="icon">${data.unlocked ? '🏆' : '❓'}</div><h4>${ach.name}</h4><p>${ach.description}</p>${progressHTML}`;
+            grid.appendChild(card);
+        }
+        document.getElementById('trophyRoomPopup').style.display = 'flex';
+    }
+
+    // --- LEADERBOARDS ---
+    function updateLeaderboards() {
+        // Simulate leaderboards with fake users + real user
+        const pofLeaderboard = [ { address: '0xDeaD...', pof: 210 }, { address: '0xAbYss...', pof: 155 }, { address: '0x1337...', pof: 95 } ];
+        const burnLeaderboard = [ { address: '0xDeaD...', burned: 15000000 }, { address: '0xAbYss...', burned: 9800000 }, { address: '0x404F...', burned: 5000000 } ];
+        if (isWalletConnected) {
+            pofLeaderboard.push({ address: userState.address, pof: userPlayerData.pof, isUser: true });
+            burnLeaderboard.push({ address: userState.address, burned: userPlayerData.totalBurned, isUser: true });
+        }
+        pofLeaderboard.sort((a, b) => b.pof - a.pof);
+        burnLeaderboard.sort((a, b) => b.burned - a.burned);
+        renderLeaderboard('pofLeaderboardBody', pofLeaderboard, 'pof');
+        renderLeaderboard('burnLeaderboardBody', burnLeaderboard, 'burned');
+    }
+    
+    function renderLeaderboard(bodyId, data, key) {
+        const tbody = document.getElementById(bodyId);
+        tbody.innerHTML = '';
+        data.forEach((user, index) => {
+            const tr = document.createElement('tr');
+            if (user.isUser) tr.classList.add('user-row');
+            tr.innerHTML = `<td>#${index + 1}</td><td>${user.isUser ? user.address.slice(0, 6) + "..." + user.address.slice(-4) : user.address}</td><td>${user[key].toLocaleString()}</td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // --- DYNAMIC & UTILITY FUNCTIONS ---
+    function showPopup(actionType) {
+        if (!isWalletConnected) { showToast('Connect wallet first!', 'error'); return; }
+        let title, message, actionFunction;
+        if (actionType === 'burn') {
+            const burnAmount = parseFloat(document.getElementById('burnSlider').value);
+            if (burnAmount <= 0) { showToast('Select an amount to sacrifice.', 'error'); return; }
+            if (userState.eth < currentGasFee) { showToast('Insufficient ETH for gas fee.', 'error'); return; }
+            title = 'Confirm Sacrifice';
+            message = `You are about to destroy ${burnAmount.toLocaleString()} 0xKNOTHING. This costs ${currentGasFee} ETH. This is irreversible.`;
+            actionFunction = initiateSacrifice;
+        } else if (actionType === 'buy' || actionType === 'sell') {
+            title = `Confirm ${actionType.charAt(0).toUpperCase() + actionType.slice(1)}`;
+            message = `Proceed with this transaction?`;
+            actionFunction = () => processTransaction(actionType);
+        }
+        document.getElementById('popupTitle').textContent = title;
+        document.getElementById('popupMessage').innerHTML = message;
+        document.getElementById('actionPopup').style.display = 'flex';
+        document.getElementById('popupConfirmBtn').onclick = actionFunction;
+    }
+    function hidePopup() { document.getElementById('actionPopup').style.display = 'none'; }
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => { toast.classList.remove('show'); toast.addEventListener('transitionend', () => toast.remove()); }, 5000);
+    }
+    function broadcastMessage(message) {
+        const container = document.getElementById("messageScrollBox");
+        const msg = document.createElement("div");
+        msg.className = "message-line";
+        msg.textContent = message;
+        container.appendChild(msg);
+        container.scrollTop = container.scrollHeight;
+    }
+    function startRandomVoidEvent() {
+        if (Math.random() < 0.1) {
+            const events = ['clickTheVoid', 'uiScramble'];
+            const randomEvent = events[Math.floor(Math.random() * events.length)];
+            if (randomEvent === 'clickTheVoid') {
+                showToast("The void beckons...", 'info');
+                const clickable = document.getElementById('void-clickable');
+                clickable.style.top = `${Math.random() * 80 + 10}vh`;
+                clickable.style.left = `${Math.random() * 80 + 10}vw`;
+                clickable.style.display = 'block';
+                const handleClick = () => { showToast("You touched the void... and nothing happened.", 'info'); clickable.style.display = 'none'; clearTimeout(timeoutId); clickable.removeEventListener('click', handleClick); };
+                clickable.addEventListener('click', handleClick);
+                const timeoutId = setTimeout(() => { clickable.style.display = 'none'; clickable.removeEventListener('click', handleClick); }, 5000);
+            } else if (randomEvent === 'uiScramble') {
+                showToast("Reality destabilizing...", 'error');
+                document.body.classList.add('chaos-mode');
+                setTimeout(() => document.body.classList.remove('chaos-mode'), 3000);
+            }
+        }
+    }
+    function createParticles() {
+        const container = document.createElement('div');
+        container.id = 'particles';
+        document.body.prepend(container);
+        for (let i = 0; i < 50; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = `${Math.random() * 100}%`;
+            p.style.animationDelay = `${Math.random() * 20}s`;
+            p.style.animationDuration = `${15 + Math.random() * 10}s`;
+            container.appendChild(p);
+        }
+    }
+    function updateRealtimeCountdown() {
+        const now = new Date();
+        const endOfDay = new Date(now);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+        let timeLeft = endOfDay.getTime() - now.getTime();
+        if (timeLeft <= 0) {
+            globalState.stage++;
+            globalState.knotPrice *= (1 + Math.random());
+            saveState();
+            showToast(`The Void has reshaped into Void ${globalState.stage}!`, 'info');
+            timeLeft += 24 * 60 * 60 * 1000;
+        }
+        let h = String(Math.floor(timeLeft / 3600000)).padStart(2, '0');
+        let m = String(Math.floor((timeLeft % 3600000) / 60000)).padStart(2, '0');
+        let s = String(Math.floor((timeLeft % 60000) / 1000)).padStart(2, '0');
+        document.getElementById("countdownDisplay").textContent = `${h}:${m}:${s}`;
+    }
+    const devtools = /./;
+    devtools.toString = function() { if (userPlayerData) unlockAchievement('peeking_curtain'); };
+    console.log('%c', devtools);
     </script>
 </body>
 </html>
