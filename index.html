@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>0xKNOTHING - The Ultimate Meme Token of Nothingness</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://placehold.co/32x32/e63946/f1faee?text=0x">
     <style>
         :root {
             --primary-color: #e63946; /* A vibrant red */
@@ -24,9 +24,8 @@
             padding: 0;
             overflow-x: hidden;
             line-height: 1.6;
-            background-image: url('images/void_pattern.png'); /* Subtle void pattern */
+            background-image: url('https://www.transparenttextures.com/patterns/black-felt.png'); /* Subtle void pattern */
             background-repeat: repeat;
-            background-size: 100px 100px;
         }
 
         /* Global animations for chaos mode */
@@ -150,17 +149,18 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .web3-status, .web3-balance {
+        .web3-status {
             background-color: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--primary-color);
             border-radius: 10px;
             padding: 10px 20px;
             font-size: 1rem;
             color: var(--light-text);
-            text-align: center;
+            text-align: left;
+            line-height: 1.8;
         }
 
-        .web3-status span, .web3-balance span {
+        .web3-status span {
             color: var(--accent-green);
             font-weight: bold;
         }
@@ -178,7 +178,7 @@
             box-shadow: 0 4px 10px rgba(230, 57, 70, 0.4);
         }
 
-        .web3-btn:hover {
+        .web3-btn:hover:not(:disabled) {
             background-color: #ff6b7a;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(230, 57, 70, 0.6);
@@ -189,6 +189,7 @@
             cursor: not-allowed;
             box-shadow: none;
             transform: none;
+            opacity: 0.7;
         }
 
         /* Countdown Timer */
@@ -392,16 +393,15 @@
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
             margin-bottom: 20px;
         }
-        .lp-connect-button:hover {
+        .lp-connect-button:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
         }
         .lp-connect-button.connected {
             background: linear-gradient(135deg, #007bff, #0056b3); /* Blue for connected state */
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-            cursor: default;
         }
-        .lp-connect-button.connected:hover {
+        .lp-connect-button.connected:hover:not(:disabled) {
             transform: none;
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
@@ -425,7 +425,7 @@
             font-size: 0.95rem;
             transition: all 0.2s ease;
         }
-        .lp-footer-buttons button:hover {
+        .lp-footer-buttons button:hover:not(:disabled) {
             background: var(--primary-color);
             border-color: var(--primary-color);
             color: white;
@@ -451,7 +451,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('images/space_void.jpg'); /* Your space void image */
+            background-image: url('https://placehold.co/800x400/000000/1a1a1a?text=Void'); /* Your space void image */
             background-size: cover;
             background-position: center;
             opacity: 0.2; /* Subtle background */
@@ -666,7 +666,7 @@
             transition: background-color 0.2s ease;
         }
 
-        .meme-actions button:hover {
+        .meme-actions button:hover:not(:disabled) {
             background-color: var(--primary-color);
         }
 
@@ -855,7 +855,7 @@
             border-radius: 15px;
             padding: 30px;
             text-align: center;
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             box-shadow: 0 0 30px rgba(230, 57, 70, 0.5);
             position: relative; /* For close button */
@@ -874,7 +874,7 @@
             margin-bottom: 30px;
         }
 
-        .popup-buttons button {
+        .popup-buttons button, .burn-percentage-buttons button {
             background-color: var(--primary-color);
             color: white;
             border: none;
@@ -887,10 +887,46 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .popup-buttons button:hover {
+        .popup-buttons button:hover:not(:disabled), .burn-percentage-buttons button:hover:not(:disabled) {
             background-color: #ff6b7a;
             transform: translateY(-2px);
         }
+
+        /* NEW: Styles for Burn Popup */
+        .burn-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .burn-percentage-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .burn-percentage-buttons button {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            background-color: #444;
+        }
+        .burn-input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .burn-input-container input {
+            background: #0d0d0d;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #eee;
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            text-align: right;
+            width: 70%;
+        }
+
 
         /* Message Scroll Box */
         .message-scroll-box {
@@ -1096,9 +1132,12 @@
     <div class="container">
         <section class="web3-section">
             <button id="connectWalletBtn" class="web3-btn" onclick="connectWallet()">CONNECT WALLET</button>
+            <!-- FIXED: Changed balance display structure -->
             <div id="walletInfo" class="web3-status" style="display: none;">
                 Wallet: <span id="walletAddress">Not Connected</span><br>
-                Balance: <span id="walletBalance">0.0000</span> ETH<br>
+                Balance: <span id="ethBalanceDisplay">0.0000 ETH</span><br>
+                Balance: <span id="usdtBalanceDisplay">0.00 USDT</span><br>
+                Balance: <span id="cardBalanceDisplay">0.00 CARD</span><br>
                 0xKNOTHING: <span id="knotBalance">0 0xKNOTHING</span>
             </div>
             <button id="trophyBtn" class="web3-btn" style="background-color: #ffc107; color: black; padding: 12px 15px;">🏆</button>
@@ -1117,7 +1156,7 @@
             </div>
 
             <div class="lp-price-info">
-                <p>Next Stage Price: <span class="highlight stage-price" id="nextStagePrice">$0.00000000</span></p>
+                <p>Next Void level: <span class="highlight stage-price" id="nextStagePrice">$0.00000000</span></p>
                 <p>1 0xKNOTHING = <span class="highlight" id="knottingPrice">$0.00000000</span></p>
             </div>
 
@@ -1180,7 +1219,7 @@
             <p style="text-align: center; font-style: italic;">Congratulations! You've successfully acquired nothing. We told you so.</p>
         </section>
         
-        <button id="burnToVoidBtn" title="Burn all your 0xKNOTHING tokens to achieve ultimate nothingness. This action is irreversible." class="web3-btn" style="display: block; margin: 30px auto; background-color: #333; border: 1px solid #555;">BURN TO VOID</button>
+        <button id="burnToVoidBtn" title="Burn all your 0xKNOTHING tokens to achieve ultimate nothingness. This action is irreversible." class="web3-btn" style="display: block; margin: 30px auto; background-color: #333; border: 1px solid #555;" disabled>BURN TO VOID</button>
         
 
         <section class="message-scroll-box" id="messageScroll">
@@ -1188,7 +1227,7 @@
 
         <section class="price-chart-section">
             <div class="price-chart-header">
-                <h3>0xKNOTHING Price Chart (Totally Real & Not Fake)</h3>
+                <h3>0xKNOTHING Price Chart</h3>
                 <div class="current-price-display">
                     Current Price: <span id="currentKnotPrice">$0.00000068</span>
                     <span id="priceChangePercent" class="price-change">+∞%</span>
@@ -1243,7 +1282,7 @@
             <p>Embrace the void. Own a piece of digital non-existence. Each NFT is a unique representation of futility.</p>
             <button id="mintNftBtn" class="web3-btn" onclick="mintNft()" disabled>Mint A Nothing NFT (Cost: Gas Fees + Your Sanity)</button>
             <div class="current-nft-display">
-                <img id="currentNftImage" src="https://via.placeholder.com/100/333333/FFFFFF?text=NFT" alt="Your Minted NFT">
+                <img id="currentNftImage" src="https://placehold.co/150x150/333333/FFFFFF?text=NFT" alt="Your Minted NFT" onerror="this.onerror=null;this.src='https://placehold.co/150x150/333333/FFFFFF?text=Error';">
                 <p id="currentNftText">Your NFT: Nothing yet. Connect wallet to see your future regret.</p>
             </div>
             <p id="nftMintStatus" class="nft-status">Ready to waste your gas...</p>
@@ -1297,19 +1336,14 @@
     </footer>
 
     <div id="actionPopup" class="popup-overlay">
-        <div class="popup-content">
-            <h3 id="popupTitle">Confirm Action</h3>
-            <p id="popupMessage">Are you sure you want to perform this action?</p>
-            <div class="popup-buttons">
-                <button id="popupConfirmBtn">Confirm</button>
-                <button onclick="hidePopup()">Cancel</button>
-            </div>
+        <div class="popup-content" id="popupContent">
+            <!-- Content is dynamically generated by JS -->
         </div>
     </div>
     
     <div id="trophyRoomPopup" class="popup-overlay" style="align-items: flex-start; padding-top: 5vh; display: none;">
         <div class="popup-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
-            <h3>Hall of Nothingness</h3>
+            <h3>🏆 Achievement</h3>
             <p>Total Points of Futility (PoF): <span id="pofDisplay">0</span></p>
             <div id="trophyGrid" class="trophy-grid-container">
                 </div>
@@ -1319,18 +1353,31 @@
 
 
     <script>
-        // --- Achievements System: Step 1.1 ---
+        /**
+         * NOTE ON FINANCIAL CALCULATIONS:
+         * This simulation uses standard JavaScript numbers for calculations. In a real-world financial application (DApp),
+         * this is risky due to potential floating-point precision errors (e.g., 0.1 + 0.2 !== 0.3).
+         * Production DApps use libraries like BigNumber.js to handle mathematical operations on currency values
+         * safely and accurately, often by working with values as large integers (e.g., wei instead of ETH).
+         * For this simulation, standard numbers are sufficient.
+         */
+
+        // --- NEW: Achievements System ---
         const allAchievements = {
-            'welcome_void': { name: 'Welcome to the Void', description: 'เชื่อมต่อ Wallet สำเร็จเป็นครั้งแรก', poins: 5, unlocked: false },
-            'first_sacrifice': { name: 'First Sacrifice', description: 'ซื้อ 0xKNOTHING ครั้งแรก', poins: 10, unlocked: false },
-            'into_the_abyss': { name: 'Into The Abyss', description: 'เผาโทเคนครั้งแรก', poins: 10, unlocked: false },
-            'serial_burner_1': { name: 'Serial Burner I', description: 'เผาโทเคนครบ 10,000', poins: 20, unlocked: false, type: 'progress', target: 10000 },
-            'the_regular_7': { name: 'Why Are You Still Here?', description: 'ล็อกอินเข้ามาดูเว็บครบ 7 วันติดต่อกัน', poins: 50, unlocked: false, type: 'consecutive', target: 7 },
-            'peeking_curtain': { name: 'Peeking Behind the Curtain', description: 'คุณมองเห็นในสิ่งที่ไม่ควรมอง (เปิด Developer Console)', poins: 15, unlocked: false },
+            'just_clicked': { name: 'Just Clicked Something', description: "You clicked 'HOW TO BUY 0xKNOTHING' without knowing what it is.", points: 3 },
+            'popup_addict': { name: 'Popup Addict', description: "Opened any popup 2 times within 2 minutes.", points: 7, type: 'counter', target: 2 },
+            'reading_nothing': { name: 'Reading Into Nothing', description: "You opened the VOIDPAPER knowing full well there's nothing in it.", points: 5 },
+            'mint_a_nothing': { name: 'Mint A Nothing', description: "You intentionally minted a Nothing NFT.", points: 5 },
+            'claimed_nothing': { name: 'Claimed Nothing', description: "You clicked the '+777K GIVEAWAY' and got nothing, as promised.", points: 8 },
+            'burning_curiosity': { name: 'Burning Curiosity', description: "You tried to burn tokens even when you had none to burn.", points: 6 },
+            'minting_in_vain': { name: 'Minting in Vain', description: "Tried to mint an NFT from the Wall of Nonsense.", points: 10 },
+            'voting_for_nonsense': { name: 'Voting for Nonsense', description: "You voted 'This means NOTHING' on any meme.", points: 4 },
+            'hall_of_futility': { name: 'Hall of Futility', description: "You opened the Hall of Nothingness to view your pointless rewards.", points: 5 },
+            'void_whisperer': { name: 'Void Whisperer', description: "Scrolled to the bottom of the message scroll box.", points: 3 },
         };
 
-        // --- NEW: Toast Notification Function ---
-        function showToast(message, type = 'info') { // types: info, success, error
+        // Function to show toast notifications for better user feedback
+        function showToast(message, type = 'info', duration = 5000) { // types: info, success, error
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -1344,55 +1391,70 @@
                 toast.addEventListener('transitionend', () => {
                     if (toast.parentElement) container.removeChild(toast);
                 });
-            }, 5000);
+            }, duration);
         }
+
+        // --- Simulation Constants ---
+        const SIMULATED_PRICES = {
+            ETH: 3000, // USD per ETH
+            USDT: 1,   // USD per USDT
+            CARD: 0.45 // USD per CARD
+        };
 
         // Global Web3 variables
         let provider, signer, userAddress;
         let isWalletConnected = false;
-        
-        function getInitialBalance(key, defaultValue) {
+        let isTransactionPending = false; 
+
+        // Helper to get numbers from localStorage safely
+        function getStoredNumber(key, defaultValue) {
             const storedValue = localStorage.getItem(key);
-            return storedValue !== null ? parseFloat(storedValue) : defaultValue;
+            if (storedValue !== null && storedValue !== undefined && !isNaN(parseFloat(storedValue))) {
+                return parseFloat(storedValue);
+            }
+            return defaultValue;
         }
         
-        let currentKnotBalance = getInitialBalance('0xknothing_knotBalance', 0); 
-        let currentEthBalance = getInitialBalance('0xknothing_ethBalance', -1);
+        // --- FIXED: Independent balance variables ---
+        let currentKnotBalance = getStoredNumber('0xknothing_knotBalance', 0); 
+        let currentEthBalance = getStoredNumber('0xknothing_ethBalance_v2', -1);
+        let currentUsdtBalance = getStoredNumber('0xknothing_usdtBalance_v2', -1);
+        let currentCardBalance = getStoredNumber('0xknothing_cardBalance_v2', -1);
 
-        let totalUsdRaised = getInitialBalance('0xknothing_usdRaised', 0);
-        let totalTokensSold = getInitialBalance('0xknothing_tokensSold', 0);
-        let currentStage = getInitialBalance('0xknothing_currentStage', 1);
+        let totalUsdRaised = getStoredNumber('0xknothing_usdRaised', 123456.78);
+        let totalTokensSold = getStoredNumber('0xknothing_tokensSold', 987654321);
+        let currentStage = getStoredNumber('0xknothing_currentStage', 1);
         let knotPrice = calculateKnotPrice(currentStage);
         
-        // --- Achievements System: Step 1.2 ---
-        let userPlayerData; // Will be initialized in DOMContentLoaded
+        // --- Achievements System ---
+        let userPlayerData; 
+        let popupOpenTimestamps = []; // For 'Popup Addict' achievement
         
         function initializePlayerData() {
-            let playerData = JSON.parse(localStorage.getItem('0xknothing_playerData'));
-            if (!playerData) {
+            let playerData;
+            try {
+                playerData = JSON.parse(localStorage.getItem('0xknothing_playerData_v2')); // Use new key for new structure
+                if (!playerData || typeof playerData.pof === 'undefined') { 
+                    throw new Error("Invalid player data");
+                }
+            } catch (e) {
                 playerData = {
                     pof: 0, // Points of Futility
-                    lastLogin: new Date().toISOString().slice(0, 10), // 'YYYY-MM-DD'
-                    consecutiveDays: 1,
                     achievements: {}
                 };
                 for (const id in allAchievements) {
-                    playerData.achievements[id] = {
-                        unlocked: false,
-                        progress: 0
-                    };
+                    playerData.achievements[id] = { unlocked: false, progress: 0 };
                 }
-                localStorage.setItem('0xknothing_playerData', JSON.stringify(playerData));
             }
+            localStorage.setItem('0xknothing_playerData_v2', JSON.stringify(playerData));
             return playerData;
         }
 
-        // --- Achievements System: Step 2.1 ---
         function unlockAchievement(id) {
             if (userPlayerData && userPlayerData.achievements[id] && !userPlayerData.achievements[id].unlocked) {
                 userPlayerData.achievements[id].unlocked = true;
-                userPlayerData.pof += allAchievements[id].poins;
-                localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
+                userPlayerData.pof += allAchievements[id].points;
+                localStorage.setItem('0xknothing_playerData_v2', JSON.stringify(userPlayerData));
                 showToast(`🏆 Achievement Unlocked: ${allAchievements[id].name}`, 'success');
                 updatePofDisplay();
             }
@@ -1400,39 +1462,15 @@
 
         function updatePofDisplay() {
             const pofElement = document.getElementById('pofDisplay');
-            if(pofElement) pofElement.textContent = userPlayerData.pof;
+            if(pofElement && userPlayerData) pofElement.textContent = userPlayerData.pof;
         }
 
-        // --- Achievements System: Step 2.2 ---
-        function checkAllAchievements(actionType = null, value = null) {
-            if (!userPlayerData) return;
-            // 1. Wallet Connection
-            if (actionType === 'walletConnected' && isWalletConnected) {
-                unlockAchievement('welcome_void');
-            }
-            // 2. First Buy
-            if (actionType === 'buy' && value > 0) {
-                unlockAchievement('first_sacrifice');
-            }
-            // 3. Burn (with progress)
-            if (actionType === 'burn' && value > 0) {
-                unlockAchievement('into_the_abyss');
-                const achId = 'serial_burner_1';
-                let progressData = userPlayerData.achievements[achId];
-                if (progressData && !progressData.unlocked) {
-                    progressData.progress += value;
-                    if (progressData.progress >= allAchievements[achId].target) {
-                        unlockAchievement(achId);
-                    }
-                }
-            }
-            localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
-        }
-
-        // --- Achievements System: Step 4 (DevTools) ---
+        // --- Achievements System: DevTools Check ---
         const devtools = /./;
         devtools.toString = function() {
-            if(userPlayerData) unlockAchievement('peeking_curtain');
+            // This is a clever trick; this function is only called when devtools are opened.
+            // We can place achievement logic here.
+            return ' ';
         }
         console.log('%c', devtools);
 
@@ -1444,62 +1482,43 @@
             const randomFactor = Math.random();
             if (randomFactor < 0.3) return basePrice * (1 + Math.random() * 0.5);
             if (randomFactor < 0.6) return basePrice * (0.5 + Math.random() * 0.5);
-            if (randomFactor < 0.8) return Math.random() * 0.00001;
+            if (randomFactor < 0.8) return Math.random() * 0.0001;
             return Infinity;
         }
 
         const memes = [
-             { id: 'nft404_1', collection: 'The Void Collection', number: '#4?4', price: '∞ 0xKNOTHING (Coming Never)', mintText: 'Mint Confusion', img: 'images/nft_placeholder.png', votes: 0 },
-             { id: 'misspelled_∞', collection: 'Misspelled Dreams', number: '#∞', price: 'Your Soul (Sold Out)', mintText: 'Soul Not Found', img: 'images/nft_placeholder_alert.png', votes: 0 },
-             { id: 'oxknothing_0', collection: '0xKNOTHING Original', number: '#0000', price: '0.000 ETH (Not for sale)', mintText: 'Mint Nothing (Unavailable)', img: 'images/nft_placeholder_void.png', votes: 0 },
-             { id: 'nft404_2', collection: 'The Void Collection', number: '#404', price: 'Ξ ??? (Maybe)', mintText: 'Attempt Mint?', img: 'images/nft_placeholder_question.png', votes: 0 },
-             { id: 'lost_cause', collection: 'Lost Cause Series', number: '#500', price: '1.000 ETH (Not For You)', mintText: 'Mint Disappointment', img: 'images/nft_placeholder_cross.png', votes: 0 },
-             { id: 'digital_dust', collection: 'Digital Dust', number: '#999', price: 'FREE (But Costly)', mintText: 'Claim Your Dust', img: 'images/nft_placeholder_dust.png', votes: 0 }
+             { id: 'nft404_1', collection: 'The Void Collection', number: '#4?4', price: '∞ 0xKNOTHING (Coming Never)', mintText: 'Mint Confusion', img: 'https://placehold.co/250x250/111111/e63946?text=4?4', votes: 0 },
+             { id: 'misspelled_∞', collection: 'Misspelled Dreams', number: '#∞', price: 'Your Soul (Sold Out)', mintText: 'Soul Not Found', img: 'https://placehold.co/250x250/111111/e63946?text=INFINTY', votes: 0 },
+             { id: 'oxknothing_0', collection: '0xKNOTHING Original', number: '#0000', price: '0.000 ETH (Not for sale)', mintText: 'Mint Nothing (Unavailable)', img: 'https://placehold.co/250x250/000000/1a1a1a?text=VOID', votes: 0 },
+             { id: 'nft404_2', collection: 'The Void Collection', number: '#404', price: 'Ξ ??? (Maybe)', mintText: 'Attempt Mint?', img: 'https://placehold.co/250x250/111111/e63946?text=404', votes: 0 },
+             { id: 'lost_cause', collection: 'Lost Cause Series', number: '#500', price: '1.000 ETH (Not For You)', mintText: 'Mint Disappointment', img: 'https://placehold.co/250x250/111111/e63946?text=NOPE', votes: 0 },
+             { id: 'digital_dust', collection: 'Digital Dust', number: '#999', price: 'FREE (But Costly)', mintText: 'Claim Your Dust', img: 'https://placehold.co/250x250/111111/e63946?text=DUST', votes: 0 }
         ];
 
         let priceChart;
 
+        const messages = ["There is no plan. There never was.", "You're waiting for something that will never come.", "No utility. No purpose. Just vibes of emptiness.", "Even this message means nothing.", "Stay unready. Stay unknowing.", "You came here for meaning? That's cute.", "The real value is in the absolute void.", "We 0xKNOT what we're doing. Do you?", "Imagine a meme. Now delete it. That's us.", "0xKNOTHING: not even trying since never."];
+
+        function appendRandomMessage() {
+            const container = document.getElementById("messageScroll");
+            if(!container) return;
+            const msg = document.createElement("div");
+            msg.className = "message-line";
+            msg.textContent = messages[Math.floor(Math.random() * messages.length)];
+            container.appendChild(msg);
+            while (container.children.length > 20) {
+                container.removeChild(container.firstChild);
+            }
+            container.scrollTop = container.scrollHeight;
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             userPlayerData = initializePlayerData(); // Load player data
-            
-            // --- Achievements System: Step 2.3 (Time-based check) ---
-            const today = new Date().toISOString().slice(0, 10);
-            const lastLoginDate = userPlayerData.lastLogin;
-
-            if (today !== lastLoginDate) {
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                if (lastLoginDate === yesterday.toISOString().slice(0, 10)) {
-                    userPlayerData.consecutiveDays++;
-                } else {
-                    userPlayerData.consecutiveDays = 1;
-                }
-                userPlayerData.lastLogin = today;
-
-                if (userPlayerData.consecutiveDays >= allAchievements['the_regular_7'].target) {
-                    unlockAchievement('the_regular_7');
-                }
-                localStorage.setItem('0xknothing_playerData', JSON.stringify(userPlayerData));
-            }
             
             createParticles();
             setInterval(updateRealtimeCountdown, 1000);
             updateRealtimeCountdown();
 
-            const messages = ["There is no plan. There never was.", "You're waiting for something that will never come.", "No utility. No purpose. Just vibes of emptiness.", "Even this message means nothing.", "Stay unready. Stay unknowing.", "You came here for meaning? That's cute.", "The real value is in the absolute void.", "We 0xKNOT what we're doing. Do you?", "Imagine a meme. Now delete it. That's us.", "0xKNOTHING: not even trying since never."];
-
-            function appendRandomMessage() {
-                const container = document.getElementById("messageScroll");
-                if(!container) return;
-                const msg = document.createElement("div");
-                msg.className = "message-line";
-                msg.textContent = messages[Math.floor(Math.random() * messages.length)];
-                container.appendChild(msg);
-                while (container.children.length > 20) {
-                    container.removeChild(container.firstChild);
-                }
-                container.scrollTop = container.scrollHeight;
-            }
             for (let i = 0; i < 3; i++) { setTimeout(appendRandomMessage, i * 1000); }
             setInterval(appendRandomMessage, 4000);
 
@@ -1511,33 +1530,46 @@
             setInterval(updateMostNonsensicalMeme, 30000);
 
             updateLPInterface();
-            setInterval(updateUsdTokensRaised, 60000); 
 
             document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
             document.getElementById('buyCurrencySelect').addEventListener('change', calculateReceiveAmount);
             document.getElementById('maxAmountBtn').addEventListener('click', setMaxBuyAmount);
 
-            document.getElementById('howToBuyBtn').addEventListener('click', toggleHowToBuySection);
+            document.getElementById('howToBuyBtn').addEventListener('click', () => {
+                unlockAchievement('just_clicked');
+                toggleHowToBuySection();
+            });
             document.getElementById('giveawayBtn').addEventListener('click', () => {
+                unlockAchievement('claimed_nothing');
                 showToast("🎉 Congratulations! You just won... nothing! As expected.", 'success');
                 appendRandomMessage();
             });
             document.getElementById('burnToVoidBtn').addEventListener('click', () => {
-                if (!isWalletConnected) {
-                    showToast("Connect wallet first to burn your nothing!", 'error');
+                if (!isWalletConnected || isTransactionPending) {
+                    if (currentKnotBalance <= 0) {
+                        unlockAchievement('burning_curiosity');
+                        showToast("You have nothing to burn. It's already perfect nothingness.", 'info');
+                    }
                     return;
-                }
+                };
                 showPopup('burn');
             });
             
-            // --- Achievements System: Step 3.2 ---
             document.getElementById('trophyBtn').addEventListener('click', () => {
+                unlockAchievement('hall_of_futility');
                 renderTrophyRoom();
                 document.getElementById('trophyRoomPopup').style.display = 'flex';
             });
             
+            document.getElementById('messageScroll').addEventListener('scroll', (event) => {
+                const { scrollHeight, scrollTop, clientHeight } = event.target;
+                if (scrollHeight - scrollTop - clientHeight < 1) { // Check if scrolled to the bottom
+                    unlockAchievement('void_whisperer');
+                }
+            });
+
             initializeChart();
-            setInterval(updateChartData, 1000);
+            setInterval(updateChartData, 2000);
             
             if (localStorage.getItem('0xknothing_isConnected') === 'true') {
                  connectWallet(true); // silent connect
@@ -1546,15 +1578,25 @@
 
         // Web3 Functions
         async function connectWallet(isSilent = false) {
-            if (!isSilent) showToast("Connecting to the void...", 'info');
+            if (isWalletConnected || isTransactionPending) return;
+            
+            const connectBtn = document.getElementById('connectWalletBtn');
+            connectBtn.disabled = true;
+            connectBtn.textContent = 'CONNECTING...';
+
+            if (!isSilent) showToast("Awaiting connection from wallet...", 'info');
             
             setTimeout(() => {
                 isWalletConnected = true;
                 localStorage.setItem('0xknothing_isConnected', 'true');
-                userAddress = "0xDummyWalletAddressXXXXXXXXXXXXXXXX";
+                userAddress = localStorage.getItem('0xknothing_userAddress') || "0x" + [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+                localStorage.setItem('0xknothing_userAddress', userAddress);
 
+                // FIXED: Set independent initial balances if they don't exist
                 if (currentEthBalance === -1) {
-                    currentEthBalance = Math.random() * 0.5 + 0.01;
+                    currentEthBalance = 0.5 + (Math.random() * 0.1 - 0.05); // ~0.5 ETH
+                    currentUsdtBalance = 900 + Math.random() * 200; // ~1000 USDT
+                    currentCardBalance = 900 + Math.random() * 200; // ~1000 CARD
                 }
                 
                 updateWalletUI();
@@ -1568,22 +1610,35 @@
                 enableLPButtons();
                 if (!isSilent) showToast("Wallet connected to the void.", 'success');
                 
-                // --- Achievements System: Step 4 ---
-                checkAllAchievements('walletConnected');
+                connectBtn.textContent = 'CONNECTED';
+                
                 appendRandomMessage();
 
-            }, isSilent ? 0 : 1500);
+            }, isSilent ? 0 : 2500);
         }
         
         function updateWalletUI() {
             if(!document.getElementById("walletAddress")) return;
+
             document.getElementById("walletAddress").textContent = userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
-            document.getElementById("walletBalance").textContent = `${currentEthBalance.toFixed(4)} ETH`;
+            
+            // FIXED: Update separate balance displays
+            document.getElementById("ethBalanceDisplay").textContent = `${currentEthBalance.toFixed(4)} ETH`;
+            document.getElementById("usdtBalanceDisplay").textContent = `${currentUsdtBalance.toFixed(2)} USDT`;
+            document.getElementById("cardBalanceDisplay").textContent = `${currentCardBalance.toFixed(2)} CARD`;
             document.getElementById("knotBalance").textContent = `${currentKnotBalance.toLocaleString()} 0xKNOTHING`;
+            
             document.getElementById("walletInfo").style.display = "block";
             
+            // FIXED: Save all balances to localStorage
             localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
-            localStorage.setItem('0xknothing_ethBalance', currentEthBalance);
+            localStorage.setItem('0xknothing_ethBalance_v2', currentEthBalance);
+            localStorage.setItem('0xknothing_usdtBalance_v2', currentUsdtBalance);
+            localStorage.setItem('0xknothing_cardBalance_v2', currentCardBalance);
+
+
+            const burnBtn = document.getElementById('burnToVoidBtn');
+            burnBtn.disabled = currentKnotBalance <= 0;
         }
 
         function enableLPButtons() {
@@ -1608,18 +1663,11 @@
 
             document.getElementById("usdRaised").textContent = `$${totalUsdRaised.toLocaleString(undefined, { maximumFractionDigits: 0 })} / $∞`;
             document.getElementById("tokensSold").textContent = `${totalTokensSold.toLocaleString(undefined, { maximumFractionDigits: 0 })} / ∞`;
-            document.getElementById("progressFill").style.width = `${(Math.random() * 100).toFixed(2)}%`;
+            
+            const progress = (totalTokensSold % 1000000000) / 1000000000 * 100;
+            document.getElementById("progressFill").style.width = `${progress}%`;
+            
             calculateReceiveAmount();
-        }
-
-        function updateUsdTokensRaised() {
-            const usdIncrease = Math.random() * 1000 + 50;
-            const tokensIncrease = Math.random() * 5000000 + 100000;
-            totalUsdRaised += usdIncrease;
-            totalTokensSold += tokensIncrease;
-            localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
-            localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
-            updateLPInterface();
         }
 
         function calculateReceiveAmount() {
@@ -1629,51 +1677,88 @@
                 return;
             }
             const selectedCurrency = document.getElementById('buyCurrencySelect').value;
-            let usdEquivalent = 0;
-            switch (selectedCurrency) {
-                case 'ETH': usdEquivalent = inputAmount * 2000; break;
-                case 'USDT': usdEquivalent = inputAmount * 1; break;
-                case 'CARD': usdEquivalent = inputAmount * 0.5; break;
-            }
+            let usdEquivalent = inputAmount * SIMULATED_PRICES[selectedCurrency];
+            
             let receivedKnot = (knotPrice === Infinity || knotPrice <= 0) ? 0 : usdEquivalent / knotPrice;
             document.getElementById('receiveTokenAmount').value = receivedKnot.toLocaleString(undefined, { maximumFractionDigits: 0 });
         }
 
         function setMaxBuyAmount() {
+            if (!isWalletConnected) return;
             const selectedCurrency = document.getElementById('buyCurrencySelect').value;
             let maxAmount = 0;
+            
+            // FIXED: Use the correct independent balance for each currency
             switch (selectedCurrency) {
-                case 'ETH': maxAmount = currentEthBalance; break;
-                case 'USDT': maxAmount = currentEthBalance * 2000; break;
-                case 'CARD': maxAmount = currentEthBalance * 4000; break;
+                case 'ETH': 
+                    maxAmount = currentEthBalance > 0.005 ? currentEthBalance - 0.005 : 0; // Leave a bit for gas
+                    break;
+                case 'USDT': 
+                    maxAmount = currentUsdtBalance;
+                    break;
+                case 'CARD': 
+                    maxAmount = currentCardBalance;
+                    break;
             }
-            document.getElementById('buyInputAmount').value = maxAmount.toFixed(4);
+            
+            document.getElementById('buyInputAmount').value = maxAmount > 0 ? maxAmount.toFixed(4) : 0;
             calculateReceiveAmount();
         }
 
+        function setPendingState(isPending) {
+            isTransactionPending = isPending;
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                if (btn.id !== 'popupCancelBtn' && !btn.onclick?.toString().includes('hideTrophyRoom')) {
+                    btn.disabled = isPending;
+                }
+            });
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => input.disabled = isPending);
+
+            if (!isPending && isWalletConnected) {
+                enableLPButtons();
+                document.getElementById('lpConnectWalletBtn').disabled = false;
+                document.getElementById('connectWalletBtn').disabled = true;
+                if (currentKnotBalance > 0) document.getElementById('burnToVoidBtn').disabled = false;
+            } else if (!isPending && !isWalletConnected) {
+                document.getElementById('connectWalletBtn').disabled = false;
+            }
+        }
+
         async function mintNft() {
-            if (!isWalletConnected) {
-                showToast("Connect wallet first to mint a Nothing NFT!", 'error');
+            if (!isWalletConnected || isTransactionPending) {
+                showToast("Connect wallet first or wait for the current transaction.", 'error');
                 return;
             }
+            unlockAchievement('mint_a_nothing');
             const gasFee = 0.008 + Math.random() * 0.005;
             if (currentEthBalance < gasFee) {
                 showToast(`Insufficient ETH for gas! Need ~${gasFee.toFixed(4)} ETH.`, 'error');
                 return;
             }
-            showToast("Minting Nothing NFT... Wasting your gas...", 'info');
+            
+            setPendingState(true);
+            showToast("Submitting mint transaction to the void...", 'info', 10000);
             
             setTimeout(() => {
+                if (Math.random() < 0.15) { 
+                    showToast("Minting failed. The void is not impressed.", 'error');
+                    setPendingState(false);
+                    return;
+                }
+
                 currentEthBalance -= gasFee;
                 const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 const nftNames = ["Void Fragment", "Eternal Echo", "Quantum Blankness", "Unseen Horizon", "Zero Point Entity", "The Invisible Pixel"];
                 const randomNftName = nftNames[Math.floor(Math.random() * nftNames.length)];
                 document.getElementById('currentNftText').textContent = `Your NFT: "${randomNftName}"`;
-                document.getElementById('currentNftImage').src = `https://via.placeholder.com/150/000000/FFFFFF?text=${encodeURIComponent(randomNftName.split(' ')[0])}`;
+                document.getElementById('currentNftImage').src = `https://placehold.co/150x150/00ff80/000000?text=${encodeURIComponent(randomNftName.split(' ')[0])}`;
                 
                 updateWalletUI();
                 showToast(`✔️ Nothing NFT minted! TX: ${txHash.slice(0, 10)}...`, 'success');
-            }, 2500);
+                setPendingState(false);
+            }, 5000 + Math.random() * 5000);
         }
 
         function updateStats() {
@@ -1699,7 +1784,10 @@
             if (activityEl) activityEl.textContent = `Block ${randomBlock} - ${randomActivity} (0x${randomTxHashPart}...)`;
         }
         
-        function toggleVoidpaper() { toggleSection(document.getElementById('voidpaperSection')); }
+        function toggleVoidpaper() {
+            unlockAchievement('reading_nothing');
+            toggleSection(document.getElementById('voidpaperSection'));
+        }
         function toggleHowToBuySection() { toggleSection(document.getElementById('howToBuySection')); }
         function toggleSection(sectionElement) {
             if (sectionElement.style.display === 'block') {
@@ -1719,7 +1807,7 @@
                 memeCard.className = 'meme-card';
                 memeCard.innerHTML = `
                     <div class="nft-card-content">
-                        <div class="nft-image-container"> <img src="${meme.img}" alt="${meme.collection} ${meme.number}"> <div class="nft-overlay">${meme.number}</div> </div>
+                        <div class="nft-image-container"> <img src="${meme.img}" alt="${meme.collection} ${meme.number}" onerror="this.onerror=null;this.src='https://placehold.co/250x250/111111/e63946?text=Error';"> <div class="nft-overlay">${meme.number}</div> </div>
                         <div class="nft-info">
                             <div class="nft-collection">${meme.collection}</div> <div class="nft-price">Price: <span class="price-value">${meme.price}</span></div>
                             <div class="meme-actions"> <button onclick="voteMeme('${meme.id}')">This means NOTHING</button> <button onclick="mintMemeNft('${meme.id}')">${meme.mintText}</button> </div>
@@ -1731,6 +1819,8 @@
         }
         
         function voteMeme(memeId) {
+            if (isTransactionPending) return;
+            unlockAchievement('voting_for_nonsense');
             const meme = memes.find(m => m.id === memeId);
             if (meme) {
                 meme.votes++;
@@ -1739,7 +1829,10 @@
             }
         }
 
-        function mintMemeNft(memeId) { showToast("This feature also leads to nothing... Try minting from the main section.", 'info'); }
+        function mintMemeNft(memeId) { 
+            unlockAchievement('minting_in_vain');
+            showToast("This feature also leads to nothing... Try minting from the main section.", 'info'); 
+        }
 
         function updateMostNonsensicalMeme() {
             const topMemeDisplay = document.getElementById('mostNonsensicalMeme');
@@ -1756,23 +1849,34 @@
 
         let currentSimulatedPrice = 0.00000068;
         function updateChartData() {
-            const fluctuationFactor = (Math.random() - 0.5) * 0.00000002;
+            const fluctuationFactor = (Math.random() - 0.48) * 0.0000001;
             currentSimulatedPrice += fluctuationFactor;
-            currentSimulatedPrice = Math.max(0.00000001, Math.min(0.00000150, currentSimulatedPrice));
+            currentSimulatedPrice = Math.max(0.00000001, currentSimulatedPrice);
             if(document.getElementById("currentKnotPrice")) document.getElementById("currentKnotPrice").textContent = `$${currentSimulatedPrice.toFixed(8)}`;
             if(document.getElementById("currentPrice")) document.getElementById("currentPrice").textContent = `$${currentSimulatedPrice.toFixed(8)}`;
             if (priceChart) {
                 const data = priceChart.data.datasets[0].data;
                 data.push(currentSimulatedPrice);
-                if (data.length > 50) data.shift();
+                if (data.length > 100) data.shift();
+                priceChart.data.labels.push('');
+                if (priceChart.data.labels.length > 100) priceChart.data.labels.shift();
                 priceChart.update('none');
             }
         }
 
-        let currentAction = '';
         function showPopup(actionType) {
-            let title, message, actionFunction;
-            currentAction = actionType;
+            if (isTransactionPending) return;
+            
+            // Logic for Popup Addict achievement
+            const now = Date.now();
+            popupOpenTimestamps.push(now);
+            popupOpenTimestamps = popupOpenTimestamps.filter(ts => now - ts < 120000); // Keep last 2 mins
+            if (popupOpenTimestamps.length >= 2) {
+                unlockAchievement('popup_addict');
+            }
+
+            const popupContent = document.getElementById('popupContent');
+            popupContent.innerHTML = ''; // Clear previous content
 
             if (actionType === 'lpBuy') {
                 const inputAmount = parseFloat(document.getElementById('buyInputAmount').value);
@@ -1783,29 +1887,79 @@
                 if (isNaN(inputAmount) || inputAmount <= 0) { showToast(`Please enter a valid amount to buy.`, 'error'); return; }
                 if (isNaN(receiveKnot) || receiveKnot <= 0) { showToast(`Cannot calculate 0xKNOTHING received. Price might be infinite.`, 'error'); return; }
                 
-                let costInEth = currency === 'ETH' ? inputAmount : (currency === 'USDT' ? inputAmount / 2000 : inputAmount / 4000);
-                if (currentEthBalance < costInEth) { showToast(`Insufficient ETH balance to perform this transaction.`, 'error'); return; }
+                // FIXED: Check against the correct independent balance
+                let hasSufficientBalance = false;
+                switch(currency) {
+                    case 'ETH':
+                        hasSufficientBalance = currentEthBalance >= inputAmount;
+                        break;
+                    case 'USDT':
+                        hasSufficientBalance = currentUsdtBalance >= inputAmount;
+                        break;
+                    case 'CARD':
+                        hasSufficientBalance = currentCardBalance >= inputAmount;
+                        break;
+                }
+
+                if (!hasSufficientBalance) { showToast(`Insufficient ${currency} balance to perform this transaction.`, 'error'); return; }
                 
-                title = 'Confirm Buy 0xKNOTHING';
-                message = `Are you sure you want to spend <span style="color:#00ff80;">${inputAmount.toLocaleString()} ${currency}</span> to buy <span style="color:#00ff80;">${receiveKnot.toLocaleString()} 0xKNOTHING</span>?`;
-                actionFunction = () => processLPBuy(inputAmount, currency, receiveKnot);
+                popupContent.innerHTML = `
+                    <h3>Confirm Buy 0xKNOTHING</h3>
+                    <p>Are you sure you want to spend <span style="color:#00ff80;">${inputAmount.toLocaleString()} ${currency}</span> to buy <span style="color:#00ff80;">${receiveKnot.toLocaleString()} 0xKNOTHING</span>?</p>
+                    <div class="popup-buttons">
+                        <button id="popupConfirmBtn">Confirm</button>
+                        <button id="popupCancelBtn" onclick="hidePopup()">Cancel</button>
+                    </div>
+                `;
+                document.getElementById('popupConfirmBtn').onclick = () => { hidePopup(); processLPBuy(inputAmount, currency, receiveKnot); };
+
             } else if (actionType === 'burn') {
-                if (currentKnotBalance <= 0) { showToast("You have no 0xKNOTHING to burn. It's already nothing.", 'info'); return; }
-                title = 'Burn 0xKNOTHING to the Void';
-                message = `Are you sure you want to burn all <span style="color:#e63946;">${currentKnotBalance.toLocaleString()}</span> 0xKNOTHING? This action is irreversible.`;
-                actionFunction = () => burnToVoid();
+                if (currentKnotBalance <= 0) { return; }
+                popupContent.innerHTML = `
+                    <h3>Burn 0xKNOTHING to the Void</h3>
+                    <p>Select amount to burn. This action is irreversible.</p>
+                    <div class="burn-controls">
+                        <div class="burn-percentage-buttons">
+                            <button onclick="setBurnAmount(0.25)">25%</button>
+                            <button onclick="setBurnAmount(0.50)">50%</button>
+                            <button onclick="setBurnAmount(0.75)">75%</button>
+                            <button onclick="setBurnAmount(1.00)">100%</button>
+                        </div>
+                        <div class="burn-input-container">
+                            <input type="number" id="burnAmountInput" placeholder="0.0" min="0" max="${currentKnotBalance}">
+                        </div>
+                    </div>
+                    <div class="popup-buttons">
+                        <button id="popupConfirmBtn">Confirm Burn</button>
+                        <button id="popupCancelBtn" onclick="hidePopup()">Cancel</button>
+                    </div>
+                `;
+                document.getElementById('popupConfirmBtn').onclick = () => {
+                    const amountToBurn = parseFloat(document.getElementById('burnAmountInput').value);
+                    if (isNaN(amountToBurn) || amountToBurn <= 0 || amountToBurn > currentKnotBalance) {
+                        showToast('Please enter a valid amount to burn.', 'error');
+                        return;
+                    }
+                    hidePopup(); 
+                    burnToVoid(amountToBurn); 
+                };
             } else { return; }
 
-            document.getElementById('popupTitle').textContent = title;
-            document.getElementById('popupMessage').innerHTML = message;
             document.getElementById('actionPopup').style.display = 'flex';
-            document.getElementById('popupConfirmBtn').onclick = () => { hidePopup(); actionFunction(); };
         }
 
         function hidePopup() { document.getElementById('actionPopup').style.display = 'none'; }
         
-        // --- Achievements System: Step 3.2 ---
         function hideTrophyRoom() { document.getElementById('trophyRoomPopup').style.display = 'none'; }
+
+        // NEW: Function to set burn amount from percentage buttons
+        function setBurnAmount(percentage) {
+            const burnInput = document.getElementById('burnAmountInput');
+            if (burnInput) {
+                const amount = currentKnotBalance * percentage;
+                burnInput.value = amount.toFixed(0); // No decimals for the token
+            }
+        }
 
         function renderTrophyRoom() {
             const grid = document.getElementById('trophyGrid');
@@ -1821,7 +1975,7 @@
 
                 let progressHTML = '';
                 if (ach.type === 'progress' && !data.unlocked) {
-                    const percent = (data.progress / ach.target) * 100;
+                    const percent = Math.min(100, (data.progress / ach.target) * 100);
                     progressHTML = `<div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>`;
                 }
                 
@@ -1835,16 +1989,34 @@
             }
         }
 
-
-        async function processLPBuy(amount, currency, receivedKnot) {
-            showToast(`Processing purchase...`, 'info');
+        async function processLPBuy(amountSpent, currencySpent, receivedKnot) {
+            setPendingState(true);
+            showToast(`Submitting purchase to the void...`, 'info', 10000);
 
             setTimeout(() => {
-                let costInEth = currency === 'ETH' ? amount : (currency === 'USDT' ? amount / 2000 : amount / 4000);
-                currentEthBalance -= costInEth;
+                if (Math.random() < 0.1) {
+                    showToast("Purchase failed. The void rejected your funds.", 'error');
+                    setPendingState(false);
+                    return;
+                }
+
+                // FIXED: Deduct from the correct independent balance
+                switch(currencySpent) {
+                    case 'ETH':
+                        currentEthBalance -= amountSpent;
+                        break;
+                    case 'USDT':
+                        currentUsdtBalance -= amountSpent;
+                        break;
+                    case 'CARD':
+                        currentCardBalance -= amountSpent;
+                        break;
+                }
+
                 currentKnotBalance += receivedKnot;
                 
-                totalUsdRaised += (costInEth * 2000);
+                const usdValue = amountSpent * SIMULATED_PRICES[currencySpent];
+                totalUsdRaised += usdValue;
                 totalTokensSold += receivedKnot;
                 localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
                 localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
@@ -1854,23 +2026,29 @@
                 const txHash = "0x" + Math.random().toString(16).substr(2, 64);
                 showToast(`✔️ Successfully bought ${receivedKnot.toLocaleString()} 0xKNOTHING!`, 'success');
 
-                // --- Achievements System: Step 4 ---
-                checkAllAchievements('buy', receivedKnot);
-            }, 2500);
+                setPendingState(false);
+            }, 5000 + Math.random() * 5000);
         }
 
-        async function burnToVoid() {
-            showToast(`Sending your tokens to the void...`, 'info');
+        // MODIFIED: burnToVoid now accepts an amount
+        async function burnToVoid(amountToBurn) {
+            setPendingState(true);
+            showToast(`Sending your tokens to the void...`, 'info', 10000);
+            
             setTimeout(() => {
-                const burnedAmount = currentKnotBalance;
-                currentKnotBalance = 0;
+                if (Math.random() < 0.1) {
+                    showToast("Burn failed. The void refuses your sacrifice.", 'error');
+                    setPendingState(false);
+                    return;
+                }
+
+                currentKnotBalance -= amountToBurn;
                 updateWalletUI();
                 const txHash = "0x" + Math.random().toString(16).substr(2, 64);
-                showToast(`✔️ Successfully burned ${burnedAmount.toLocaleString()} 0xKNOTHING!`, 'success');
+                showToast(`✔️ Successfully burned ${amountToBurn.toLocaleString()} 0xKNOTHING!`, 'success');
                 
-                // --- Achievements System: Step 4 ---
-                checkAllAchievements('burn', burnedAmount);
-            }, 2500);
+                setPendingState(false);
+            }, 5000 + Math.random() * 5000);
         }
         
         function createParticles() {
@@ -1914,9 +2092,9 @@
             priceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: Array(50).fill(''),
+                    labels: Array(100).fill(''),
                     datasets: [{
-                        label: '0xKNOTHING/USDT', data: Array(50).fill(0.00000068),
+                        label: '0xKNOTHING/USDT', data: Array(100).fill(0.00000068),
                         borderColor: '#00ff80', backgroundColor: 'rgba(0, 255, 128, 0.2)',
                         borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0
                     }]
