@@ -1255,7 +1255,7 @@
         </section>
 
         <section class="countdown-section">
-            <h3>Time Until Meaningless Reset</h3>
+            <h3 id="countdownStageName">Time Until Meaningless Reset</h3>
             <div class="countdown-timer" id="countdownDisplay">00:00:00</div>
             <p>Every day, the void reshapes itself. Don't expect anything different.</p>
         </section>
@@ -1460,6 +1460,7 @@
             <a href="#" target="_blank">Telegram</a> |
             <a href="#" target="_blank">Discord</a>
         </div>
+         <button id="darkModeToggle" onclick="toggleDarkMode()" style="margin-top: 15px; background-color: #333; border: 1px solid #555;">Darkmode</button>
     </footer>
 
     <!-- Main Action Popup -->
@@ -1472,10 +1473,11 @@
     <!-- Trophy Room Popup -->
     <div id="trophyRoomPopup" class="popup-overlay" style="align-items: flex-start; padding-top: 5vh; display: none;">
         <div class="popup-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
-            <h3>🏆 Achievement</h3>
+            <h3>🏆 Hall of Nothingness</h3>
             <p>Total Points of Futility (PoF): <span id="pofDisplay">0</span></p>
             <div id="trophyGrid" class="trophy-grid-container">
-                </div>
+                <!-- Dynamically populated by JS -->
+            </div>
             <button class="web3-btn" style="margin-top: 20px;" onclick="hideTrophyRoom()">Close</button>
         </div>
     </div>
@@ -1504,18 +1506,18 @@
 
         // --- NEW: Achievements System ---
         const allAchievements = {
-            'just_clicked': { name: 'Just Clicked Something', description: "You clicked 'HOW TO BUY 0xKNOTHING' without knowing what it is.", points: 3 },
-            'popup_addict': { name: 'Popup Addict', description: "Opened any popup 2 times within 2 minutes.", points: 7, type: 'counter', target: 2 },
-            'reading_nothing': { name: 'Reading Into Nothing', description: "You opened the VOIDPAPER knowing full well there's nothing in it.", points: 5 },
-            'mint_a_nothing': { name: 'Mint A Nothing', description: "You intentionally minted a Nothing NFT.", points: 5 },
+            'first_buy': { name: 'Swapped Nothing for Nothing', description: "You made your first, questionable purchase of 0xKNOTHING.", points: 10 },
+            'first_burn': { name: 'Burned For No Reason', description: "You sent tokens to the void, achieving peak nothingness.", points: 15 },
+            'read_the_void': { name: 'Reading Into Nothing', description: "You opened the VOIDPAPER knowing full well there's nothing in it.", points: 5 },
+            'mint_a_nothing': { name: 'Mint A Nothing', description: "You intentionally minted a Nothing NFT.", points: 10 },
             'claimed_nothing': { name: 'Claimed Nothing', description: "You clicked the '+777K GIVEAWAY' and got nothing, as promised.", points: 8 },
             'burning_curiosity': { name: 'Burning Curiosity', description: "You tried to burn tokens even when you had none to burn.", points: 6 },
-            'minting_in_vain': { name: 'Minting in Vain', description: "Tried to mint an NFT from the Wall of Nonsense.", points: 10 },
-            'voting_for_nonsense': { name: 'Voting for Nonsense', description: "You voted 'This means NOTHING' on any meme.", points: 4 },
+            'voted_in_void': { name: 'Voted in Void DAO', description: "You voted on a meme, influencing the collective meaninglessness.", points: 7 },
             'hall_of_futility': { name: 'Hall of Futility', description: "You opened the Hall of Nothingness to view your pointless rewards.", points: 5 },
-            'void_whisperer': { name: 'Void Whisperer', description: "Scrolled to the bottom of the message scroll box.", points: 3 },
             'fud_initiator': { name: 'FUD Initiator', description: "You clicked the 'Spread FUD' button. Welcome to the dark side.", points: 10 },
-            'devtools_detective': { name: 'DevTools Detective', description: "You tried to look under the hood. There's nothing here either.", points: 15 }
+            'devtools_detective': { name: 'DevTools Detective', description: "You tried to look under the hood. There's nothing here either.", points: 15 },
+            'dark_mode_connoisseur': { name: 'Dark Mode Connoisseur', description: "You tried to change the theme. It didn't work.", points: 3 },
+            'popup_addict': { name: 'Popup Addict', description: "Opened any popup 5 times within 2 minutes.", points: 7, type: 'counter', target: 5 },
         };
         
         // NEW: Oracle Messages
@@ -1539,6 +1541,11 @@
             "This is a social experiment to see who clicks buttons.",
             "I heard the contract is just a 'hello world' script.",
             "The team is one guy and his cat. The cat is the CEO."
+        ];
+        
+        // NEW: Paradoxical Stage Names
+        const stageNames = [
+            'Void 1', 'Void Again', 'ReVoid', 'Eternal Void', 'The Final Nothing', 'Return to Nothing', 'Void 1 (Seriously this time)', 'The Void Strikes Back'
         ];
 
         // Function to show toast notifications for better user feedback
@@ -1570,8 +1577,8 @@
         let provider, signer, userAddress;
         let isWalletConnected = false;
         let isTransactionPending = false; 
-        let approvedCurrencies = {}; // NEW: For tracking token approvals
-        let txHistory = []; // NEW: For transaction log
+        let approvedCurrencies = {}; // For tracking token approvals
+        let txHistory = []; // For transaction log
 
         // Helper to get numbers from localStorage safely
         function getStoredNumber(key, defaultValue) {
@@ -1592,14 +1599,14 @@
             return defaultValue;
         }
         
-        let currentKnotBalance = getStoredNumber('0xknothing_knotBalance', 0); 
-        let currentEthBalance = getStoredNumber('0xknothing_ethBalance_v2', -1);
-        let currentUsdtBalance = getStoredNumber('0xknothing_usdtBalance_v2', -1);
-        let currentCardBalance = getStoredNumber('0xknothing_cardBalance_v2', -1);
+        let currentKnotBalance = getStoredNumber('0xknothing_knotBalance_v3', 0); 
+        let currentEthBalance = getStoredNumber('0xknothing_ethBalance_v3', -1);
+        let currentUsdtBalance = getStoredNumber('0xknothing_usdtBalance_v3', -1);
+        let currentCardBalance = getStoredNumber('0xknothing_cardBalance_v3', -1);
 
-        let totalUsdRaised = getStoredNumber('0xknothing_usdRaised', 123456.78);
-        let totalTokensSold = getStoredNumber('0xknothing_tokensSold', 987654321);
-        let currentStage = getStoredNumber('0xknothing_currentStage', 1);
+        let totalUsdRaised = getStoredNumber('0xknothing_usdRaised_v3', 123456.78);
+        let totalTokensSold = getStoredNumber('0xknothing_tokensSold_v3', 987654321);
+        let currentStage = getStoredNumber('0xknothing_currentStage_v3', 1);
         let knotPrice = calculateKnotPrice(currentStage);
         
         // --- Achievements System ---
@@ -1609,11 +1616,11 @@
         function initializePlayerData() {
             let playerData;
             try {
-                playerData = JSON.parse(localStorage.getItem('0xknothing_playerData_v2')); // Use new key for new structure
+                playerData = JSON.parse(localStorage.getItem('0xknothing_playerData_v3')); // Use new key for new structure
                 if (!playerData || typeof playerData.pof === 'undefined') { 
                     throw new Error("Invalid player data");
                 }
-                // Ensure new achievements exist
+                // Ensure all achievements from the config exist in the player data
                 for (const id in allAchievements) {
                     if (!playerData.achievements[id]) {
                          playerData.achievements[id] = { unlocked: false, progress: 0 };
@@ -1629,7 +1636,7 @@
                     playerData.achievements[id] = { unlocked: false, progress: 0 };
                 }
             }
-            localStorage.setItem('0xknothing_playerData_v2', JSON.stringify(playerData));
+            localStorage.setItem('0xknothing_playerData_v3', JSON.stringify(playerData));
             return playerData;
         }
 
@@ -1637,9 +1644,22 @@
             if (userPlayerData && userPlayerData.achievements[id] && !userPlayerData.achievements[id].unlocked) {
                 userPlayerData.achievements[id].unlocked = true;
                 userPlayerData.pof += allAchievements[id].points;
-                localStorage.setItem('0xknothing_playerData_v2', JSON.stringify(userPlayerData));
+                localStorage.setItem('0xknothing_playerData_v3', JSON.stringify(userPlayerData));
                 showToast(`🏆 Achievement Unlocked: ${allAchievements[id].name}`, 'success');
                 updatePofDisplay();
+            }
+        }
+        
+        function incrementAchievementProgress(id) {
+            if (userPlayerData && userPlayerData.achievements[id] && !userPlayerData.achievements[id].unlocked) {
+                const achConfig = allAchievements[id];
+                if (achConfig.type === 'counter') {
+                    userPlayerData.achievements[id].progress++;
+                    if (userPlayerData.achievements[id].progress >= achConfig.target) {
+                        unlockAchievement(id);
+                    }
+                    localStorage.setItem('0xknothing_playerData_v3', JSON.stringify(userPlayerData));
+                }
             }
         }
 
@@ -1660,23 +1680,25 @@
 
 
         function calculateKnotPrice(stage) {
-            if (stage <= 10) return 0.00000001 * Math.pow(2, stage - 1);
-            if (stage <= 20) return 0.00000001 * Math.pow(2, 9) + (stage - 10) * 0.00000005; 
-            const basePrice = 0.00000001 * Math.pow(2, 9) + 10 * 0.00000005;
+            // This function creates a somewhat unpredictable price based on the stage number
+            if (stage <= 10) return 0.00000001 * Math.pow(1.8, stage - 1);
+            if (stage <= 20) return 0.00000001 * Math.pow(1.8, 9) + (stage - 10) * 0.0000005;
+            // After stage 20, it becomes chaotic
+            const basePrice = 0.00000001 * Math.pow(1.8, 9) + 10 * 0.0000005;
             const randomFactor = Math.random();
-            if (randomFactor < 0.3) return basePrice * (1 + Math.random() * 0.5);
-            if (randomFactor < 0.6) return basePrice * (0.5 + Math.random() * 0.5);
-            if (randomFactor < 0.8) return Math.random() * 0.0001;
-            return Infinity;
+            if (randomFactor < 0.3) return basePrice * (1 + Math.random() * 0.5); // Price pump
+            if (randomFactor < 0.6) return basePrice * (0.5 + Math.random() * 0.5); // Price dump
+            if (randomFactor < 0.8) return Math.random() * 0.0001; // Extreme volatility
+            return Infinity; // Rug pull
         }
 
         const memes = [
-             { id: 'nft404_1', collection: 'The Void Collection', number: '#4?4', price: '∞ 0xKNOTHING (Coming Never)', mintText: 'Mint Confusion', img: 'https://placehold.co/250x250/111111/e63946?text=4?4', votes: 0 },
-             { id: 'misspelled_∞', collection: 'Misspelled Dreams', number: '#∞', price: 'Your Soul (Sold Out)', mintText: 'Soul Not Found', img: 'https://placehold.co/250x250/111111/e63946?text=INFINTY', votes: 0 },
-             { id: 'oxknothing_0', collection: '0xKNOTHING Original', number: '#0000', price: '0.000 ETH (Not for sale)', mintText: 'Mint Nothing (Unavailable)', img: 'https://placehold.co/250x250/000000/1a1a1a?text=VOID', votes: 0 },
-             { id: 'nft404_2', collection: 'The Void Collection', number: '#404', price: 'Ξ ??? (Maybe)', mintText: 'Attempt Mint?', img: 'https://placehold.co/250x250/111111/e63946?text=404', votes: 0 },
-             { id: 'lost_cause', collection: 'Lost Cause Series', number: '#500', price: '1.000 ETH (Not For You)', mintText: 'Mint Disappointment', img: 'https://placehold.co/250x250/111111/e63946?text=NOPE', votes: 0 },
-             { id: 'digital_dust', collection: 'Digital Dust', number: '#999', price: 'FREE (But Costly)', mintText: 'Claim Your Dust', img: 'https://placehold.co/250x250/111111/e63946?text=DUST', votes: 0 }
+             { id: 'nft404_1', collection: 'The Void Collection', number: '#4?4', price: '∞ 0xKNOTHING (Coming Never)', mintText: 'Mint Confusion', img: 'https://placehold.co/250x250/111111/e63946?text=4?4', votes: getStoredNumber('meme_votes_nft404_1', 0) },
+             { id: 'misspelled_∞', collection: 'Misspelled Dreams', number: '#∞', price: 'Your Soul (Sold Out)', mintText: 'Soul Not Found', img: 'https://placehold.co/250x250/111111/e63946?text=INFINTY', votes: getStoredNumber('meme_votes_misspelled_∞', 0) },
+             { id: 'oxknothing_0', collection: '0xKNOTHING Original', number: '#0000', price: '0.000 ETH (Not for sale)', mintText: 'Mint Nothing (Unavailable)', img: 'https://placehold.co/250x250/000000/1a1a1a?text=VOID', votes: getStoredNumber('meme_votes_oxknothing_0', 0) },
+             { id: 'nft404_2', collection: 'The Void Collection', number: '#404', price: 'Ξ ??? (Maybe)', mintText: 'Attempt Mint?', img: 'https://placehold.co/250x250/111111/e63946?text=404', votes: getStoredNumber('meme_votes_nft404_2', 0) },
+             { id: 'lost_cause', collection: 'Lost Cause Series', number: '#500', price: '1.000 ETH (Not For You)', mintText: 'Mint Disappointment', img: 'https://placehold.co/250x250/111111/e63946?text=NOPE', votes: getStoredNumber('meme_votes_lost_cause', 0) },
+             { id: 'digital_dust', collection: 'Digital Dust', number: '#999', price: 'FREE (But Costly)', mintText: 'Claim Your Dust', img: 'https://placehold.co/250x250/111111/e63946?text=DUST', votes: getStoredNumber('meme_votes_digital_dust', 0) }
         ];
 
         let priceChart;
@@ -1721,14 +1743,12 @@
             document.getElementById('buyInputAmount').addEventListener('input', calculateReceiveAmount);
             document.getElementById('buyCurrencySelect').addEventListener('change', () => {
                 calculateReceiveAmount();
-                updateLpActionButton(); // NEW: Update button on currency change
+                updateLpActionButton(); // Update button on currency change
             });
             document.getElementById('maxAmountBtn').addEventListener('click', setMaxBuyAmount);
 
-            document.getElementById('howToBuyBtn').addEventListener('click', () => {
-                unlockAchievement('just_clicked');
-                toggleHowToBuySection();
-            });
+            document.getElementById('howToBuyBtn').addEventListener('click', toggleHowToBuySection);
+            
             document.getElementById('giveawayBtn').addEventListener('click', () => {
                 unlockAchievement('claimed_nothing');
                 showToast("🎉 Congratulations! You just won... nothing! As expected.", 'success');
@@ -1750,18 +1770,11 @@
                 renderTrophyRoom();
                 document.getElementById('trophyRoomPopup').style.display = 'flex';
             });
-            
-            document.getElementById('messageScroll').addEventListener('scroll', (event) => {
-                const { scrollHeight, scrollTop, clientHeight } = event.target;
-                if (scrollHeight - scrollTop - clientHeight < 1) { // Check if scrolled to the bottom
-                    unlockAchievement('void_whisperer');
-                }
-            });
 
             initializeChart();
             setInterval(updateChartData, 2000);
             
-            if (localStorage.getItem('0xknothing_isConnected') === 'true') {
+            if (localStorage.getItem('0xknothing_isConnected_v3') === 'true') {
                  connectWallet(true); // silent connect
             }
         });
@@ -1778,21 +1791,17 @@
             
             setTimeout(() => {
                 isWalletConnected = true;
-                localStorage.setItem('0xknothing_isConnected', 'true');
-                userAddress = localStorage.getItem('0xknothing_userAddress') || "0x" + [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-                localStorage.setItem('0xknothing_userAddress', userAddress);
+                localStorage.setItem('0xknothing_isConnected_v3', 'true');
+                userAddress = localStorage.getItem('0xknothing_userAddress_v3') || "0x" + [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+                localStorage.setItem('0xknothing_userAddress_v3', userAddress);
 
-                // ==================================================================
-                // ส่วนที่แก้ไข: สุ่มยอด Balance ใหม่ทุกครั้งที่เชื่อมต่อ
-                // ==================================================================
-                // ลบเงื่อนไข if เดิมออกไปเพื่อให้โค้ดส่วนนี้ทำงานทุกครั้งที่ connect
-                currentEthBalance = Math.random() * 2.0 + 0.05;      // สุ่ม ETH ระหว่าง 0.05 - 2.05
-                currentUsdtBalance = Math.random() * 5000 + 100;     // สุ่ม USDT ระหว่าง 100 - 5100
-                currentCardBalance = Math.random() * 10000 + 500;    // สุ่ม CARD ระหว่าง 500 - 10500
-                // ==================================================================
+                // Simulate new random balances only if they haven't been set before
+                if (currentEthBalance < 0) currentEthBalance = Math.random() * 2.0 + 0.05;
+                if (currentUsdtBalance < 0) currentUsdtBalance = Math.random() * 5000 + 100;
+                if (currentCardBalance < 0) currentCardBalance = Math.random() * 10000 + 500;
                 
-                approvedCurrencies = getStoredObject('0xknothing_approvedCurrencies', {});
-                txHistory = getStoredObject('0xknothing_txHistory', []);
+                approvedCurrencies = getStoredObject('0xknothing_approvedCurrencies_v3', {});
+                txHistory = getStoredObject('0xknothing_txHistory_v3', []);
 
                 updateWalletUI();
                 renderTxHistory();
@@ -1807,21 +1816,36 @@
                 
                 appendRandomMessage();
 
-            }, isSilent ? 0 : 1500); // ลดเวลาเชื่อมต่อลงเล็กน้อย
+            }, isSilent ? 0 : 1500);
         }
         
-        // NEW: Disconnect Wallet
         function disconnectWallet() {
             isWalletConnected = false;
             userAddress = undefined;
             approvedCurrencies = {};
             txHistory = [];
             
-            localStorage.removeItem('0xknothing_isConnected');
-            localStorage.removeItem('0xknothing_userAddress');
-            localStorage.removeItem('0xknothing_approvedCurrencies');
-            localStorage.removeItem('0xknothing_txHistory');
+            // Clear all relevant session data from local storage
+            localStorage.removeItem('0xknothing_isConnected_v3');
+            localStorage.removeItem('0xknothing_userAddress_v3');
+            localStorage.removeItem('0xknothing_approvedCurrencies_v3');
+            localStorage.removeItem('0xknothing_txHistory_v3');
+            localStorage.removeItem('0xknothing_knotBalance_v3');
+            localStorage.removeItem('0xknothing_ethBalance_v3');
+            localStorage.removeItem('0xknothing_usdtBalance_v3');
+            localStorage.removeItem('0xknothing_cardBalance_v3');
             
+            // Reset achievement data
+            localStorage.removeItem('0xknothing_playerData_v3');
+            userPlayerData = initializePlayerData(); // Re-initialize to a fresh state
+            
+            // Reset balances
+            currentKnotBalance = 0;
+            currentEthBalance = -1;
+            currentUsdtBalance = -1;
+            currentCardBalance = -1;
+            
+            // Update UI elements to reflect disconnected state
             const connectBtn = document.getElementById('connectWalletBtn');
             connectBtn.style.display = 'inline-block';
             connectBtn.disabled = false;
@@ -1832,9 +1856,10 @@
             
             const lpActionBtn = document.getElementById('lpActionBtn');
             lpActionBtn.textContent = 'CONNECT WALLET';
-            lpActionBtn.onclick = connectWallet;
+            lpActionBtn.onclick = () => connectWallet();
             lpActionBtn.classList.remove('approve-btn');
             
+            // Disable interactive elements
             document.getElementById('buyInputAmount').disabled = true;
             document.getElementById('buyCurrencySelect').disabled = true;
             document.getElementById('maxAmountBtn').disabled = true;
@@ -1859,11 +1884,11 @@
             
             document.getElementById("walletInfo").style.display = "block";
             
-            // บันทึกค่าที่สุ่มได้ลง LocalStorage เพื่อให้ดูเหมือนจริงเมื่อรีเฟรชหน้า
-            localStorage.setItem('0xknothing_knotBalance', currentKnotBalance);
-            localStorage.setItem('0xknothing_ethBalance_v2', currentEthBalance);
-            localStorage.setItem('0xknothing_usdtBalance_v2', currentUsdtBalance);
-            localStorage.setItem('0xknothing_cardBalance_v2', currentCardBalance);
+            // Persist simulated balances to localStorage to maintain state on refresh
+            localStorage.setItem('0xknothing_knotBalance_v3', currentKnotBalance);
+            localStorage.setItem('0xknothing_ethBalance_v3', currentEthBalance);
+            localStorage.setItem('0xknothing_usdtBalance_v3', currentUsdtBalance);
+            localStorage.setItem('0xknothing_cardBalance_v3', currentCardBalance);
 
 
             const burnBtn = document.getElementById('burnToVoidBtn');
@@ -1879,9 +1904,12 @@
         }
 
         function updateLPInterface() {
-            let nextStagePrice = knotPrice * (1 + 0.1 * Math.random());
-            document.getElementById("currentStage").textContent = `Void ${currentStage}`;
+            let stageName = stageNames[(currentStage - 1) % stageNames.length];
+            document.getElementById("currentStage").textContent = stageName;
+            document.getElementById("countdownStageName").textContent = `Time Until ${stageName} Resets`;
 
+            let nextStagePrice = knotPrice * (1 + 0.1 * Math.random());
+            
             if (knotPrice === Infinity || knotPrice <= 0) {
                 document.getElementById("nextStagePrice").textContent = `$∞ (Impossible)`;
                 document.getElementById("knottingPrice").textContent = `$∞`;
@@ -1937,6 +1965,7 @@
             isTransactionPending = isPending;
             const buttons = document.querySelectorAll('button');
             buttons.forEach(btn => {
+                // Don't disable popup close buttons
                 if (btn.id !== 'popupCancelBtn' && !btn.onclick?.toString().includes('hideTrophyRoom') && !btn.onclick?.toString().includes('hideExplorerPopup')) {
                     btn.disabled = isPending;
                 }
@@ -1959,7 +1988,7 @@
                 showToast("Connect wallet first or wait for the current transaction.", 'error');
                 return;
             }
-            unlockAchievement('mint_a_nothing');
+            
             const gasFee = 0.008 + Math.random() * 0.005;
             if (currentEthBalance < gasFee) {
                 showToast(`Insufficient ETH for gas! Need ~${gasFee.toFixed(4)} ETH.`, 'error');
@@ -1978,6 +2007,7 @@
                     return;
                 }
 
+                unlockAchievement('mint_a_nothing');
                 currentEthBalance -= gasFee;
                 const nftNames = ["Void Fragment", "Eternal Echo", "Quantum Blankness", "Unseen Horizon", "Zero Point Entity", "The Invisible Pixel"];
                 const randomNftName = nftNames[Math.floor(Math.random() * nftNames.length)];
@@ -2015,7 +2045,7 @@
         }
         
         function toggleVoidpaper() {
-            unlockAchievement('reading_nothing');
+            unlockAchievement('read_the_void');
             toggleSection(document.getElementById('voidpaperSection'));
         }
         function toggleHowToBuySection() { toggleSection(document.getElementById('howToBuySection')); }
@@ -2050,17 +2080,17 @@
         
         function voteMeme(memeId) {
             if (isTransactionPending) return;
-            unlockAchievement('voting_for_nonsense');
+            unlockAchievement('voted_in_void');
             const meme = memes.find(m => m.id === memeId);
             if (meme) {
                 meme.votes++;
+                localStorage.setItem(`meme_votes_${meme.id}`, meme.votes);
                 document.getElementById(`votes-${meme.id}`).textContent = `Votes: ${meme.votes}`;
                 showToast(`You voted for "${meme.collection} ${meme.number}". Your meaninglessness score increased.`, 'info');
             }
         }
 
         function mintMemeNft(memeId) { 
-            unlockAchievement('minting_in_vain');
             showToast("This feature also leads to nothing... Try minting from the main section.", 'info'); 
         }
 
@@ -2100,8 +2130,8 @@
             const now = Date.now();
             popupOpenTimestamps.push(now);
             popupOpenTimestamps = popupOpenTimestamps.filter(ts => now - ts < 120000); // Keep last 2 mins
-            if (popupOpenTimestamps.length >= 2) {
-                unlockAchievement('popup_addict');
+            if (popupOpenTimestamps.length >= allAchievements.popup_addict.target) {
+                incrementAchievementProgress('popup_addict');
             }
 
             const popupContent = document.getElementById('popupContent');
@@ -2217,7 +2247,7 @@
                 card.className = 'trophy-card ' + (data.unlocked ? 'unlocked' : 'locked');
 
                 let progressHTML = '';
-                if (ach.type === 'progress' && !data.unlocked) {
+                if (ach.type === 'counter' && !data.unlocked) {
                     const percent = Math.min(100, (data.progress / ach.target) * 100);
                     progressHTML = `<div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>`;
                 }
@@ -2244,6 +2274,8 @@
                     setPendingState(false);
                     return;
                 }
+                
+                unlockAchievement('first_buy');
 
                 switch(currencySpent) {
                     case 'ETH': currentEthBalance -= amountSpent; break;
@@ -2256,8 +2288,8 @@
                 const usdValue = amountSpent * SIMULATED_PRICES[currencySpent];
                 totalUsdRaised += usdValue;
                 totalTokensSold += receivedKnot;
-                localStorage.setItem('0xknothing_usdRaised', totalUsdRaised);
-                localStorage.setItem('0xknothing_tokensSold', totalTokensSold);
+                localStorage.setItem('0xknothing_usdRaised_v3', totalUsdRaised);
+                localStorage.setItem('0xknothing_tokensSold_v3', totalTokensSold);
 
                 updateWalletUI();
                 updateLPInterface();
@@ -2280,7 +2312,8 @@
                     setPendingState(false);
                     return;
                 }
-
+                
+                unlockAchievement('first_burn');
                 currentKnotBalance -= amountToBurn;
                 updateWalletUI();
                 showToast(`✔️ Successfully burned ${amountToBurn.toLocaleString()} 0xKNOTHING!`, 'success');
@@ -2311,13 +2344,18 @@
             endOfDay.setUTCHours(23, 59, 59, 999);
             let timeLeft = endOfDay.getTime() - now.getTime();
 
-            if (timeLeft <= 0) {
-                currentStage++;
-                localStorage.setItem('0xknothing_currentStage', currentStage);
-                knotPrice = calculateKnotPrice(currentStage);
-                updateLPInterface();
-                showToast(`Void transitioned to Void ${currentStage}! Embrace the new nothingness.`, 'info');
-                timeLeft += 24 * 60 * 60 * 1000;
+            if (timeLeft <= 1000) { // Check if we are at the turn of the day
+                // This block will run once when the day changes
+                if (!window.dayChanged) {
+                    currentStage++;
+                    localStorage.setItem('0xknothing_currentStage_v3', currentStage);
+                    knotPrice = calculateKnotPrice(currentStage);
+                    updateLPInterface();
+                    let stageName = stageNames[(currentStage - 1) % stageNames.length];
+                    showToast(`Void transitioned to ${stageName}! Embrace the new nothingness.`, 'info');
+                    window.dayChanged = true; 
+                    setTimeout(() => { window.dayChanged = false; }, 2000); // Reset flag after 2s
+                }
             }
             let h = Math.floor(timeLeft / (1000 * 60 * 60));
             let m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
@@ -2385,7 +2423,7 @@
             if (!isWalletConnected) {
                 lpActionBtn.textContent = 'CONNECT WALLET';
                 lpActionBtn.classList.remove('approve-btn');
-                lpActionBtn.onclick = connectWallet;
+                lpActionBtn.onclick = () => connectWallet();
                 return;
             }
             
@@ -2413,7 +2451,7 @@
                 }
                 
                 approvedCurrencies[currency] = true;
-                localStorage.setItem('0xknothing_approvedCurrencies', JSON.stringify(approvedCurrencies));
+                localStorage.setItem('0xknothing_approvedCurrencies_v3', JSON.stringify(approvedCurrencies));
                 showToast(`✔️ ${currency} approved for nothing. You may now proceed to buy.`, 'success');
                 updateLpActionButton();
             }, 3000 + Math.random() * 2000);
@@ -2428,7 +2466,7 @@
             };
             txHistory.unshift(newTx);
             if (txHistory.length > 50) txHistory.pop();
-            localStorage.setItem('0xknothing_txHistory', JSON.stringify(txHistory));
+            localStorage.setItem('0xknothing_txHistory_v3', JSON.stringify(txHistory));
             renderTxHistory();
         }
         
@@ -2467,6 +2505,16 @@
                     </div>
                 `;
             }).join('');
+        }
+        
+        function toggleDarkMode() {
+            unlockAchievement('dark_mode_connoisseur');
+            const btn = document.getElementById('darkModeToggle');
+            const modes = ["Darkmode", "Slightly Less Darkmode", "Void Mode", "Even Darker Mode", "Darkmode (For Real this time)"];
+            let currentModeIndex = modes.indexOf(btn.textContent);
+            let nextModeIndex = (currentModeIndex + 1) % modes.length;
+            btn.textContent = modes[nextModeIndex];
+            showToast("Theme updated. The void is now 0.01% more... void.", "info");
         }
 
     </script>
